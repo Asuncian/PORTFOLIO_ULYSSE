@@ -12,13 +12,13 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: 'Ulysse Goming Jobert | Développement web & automatisation',
-  description: 'Sites, formulaires et automatisations pour l\'hôtellerie, la restauration et les artisans. Des outils sobres, faits pour durer.',
-  keywords: 'développement web, automatisation, hôtellerie, restauration, artisans, React, Next.js, n8n',
+  description: 'Sites, automatisations et outils sur mesure. Du front jusqu\'à la mise en prod, pour des besoins concrets.',
+  keywords: 'développeur web, automatisation, Next.js, React, n8n, artisans, SaaS',
   authors: [{ name: 'Ulysse Goming Jobert' }],
   robots: { index: true, follow: true },
   openGraph: {
     title: 'Ulysse Goming Jobert | Développement web & automatisation',
-    description: 'Sites rapides et automatisations sur mesure pour l\'hôtellerie, la restauration et les artisans.',
+    description: 'Sites rapides, automatisations et outils sur mesure - du besoin terrain jusqu\'à la mise en ligne.',
     type: 'website',
   },
 }

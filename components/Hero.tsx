@@ -71,7 +71,7 @@ export default function Hero() {
       </h1>
 
       <p className="hero-sub h-sub">
-        Développeur web. J'aime construire des sites rapides et des automatisations qui tiennent, jusqu'à la mise en production.
+        Développeur web. Je construis des sites rapides et des automatisations qui tiennent la route, jusqu'à la mise en prod.
       </p>
 
       <div className="hero-actions">

@@ -59,7 +59,7 @@ export default function Services() {
         <p className="section-tag">Compétences</p>
         <h2 className="section-title">Ce que je <em>construis</em></h2>
         <p className="section-sub">
-          Les briques que je manipule au quotidien, du front jusqu'au déploiement.
+          Ce que je fais au quotidien, du site jusqu'au déploiement.
         </p>
       </div>
 

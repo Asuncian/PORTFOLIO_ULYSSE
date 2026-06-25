@@ -104,7 +104,7 @@ export default function Contact() {
           <p className="section-tag">Contact</p>
           <h2 className="section-title">On se <em>parle ?</em></h2>
           <p className="section-sub">
-            Une équipe à renforcer, un projet à lancer, ou simplement envie d'échanger ? Écrivez-moi, je réponds vite.
+            Un projet en tête, une équipe à renforcer, ou juste envie d'échanger ? Écrivez-moi, je réponds vite.
           </p>
         </div>
 
@@ -130,7 +130,7 @@ export default function Contact() {
 
         <p className="contact-status">
           <span className="contact-status-dot" aria-hidden="true" />
-          Ouvert à un poste à temps plein — j'aime quand mon expertise répond à un vrai besoin.
+          Ouvert à un poste à temps plein - j'aime quand mon expertise répond à un vrai besoin.
         </p>
 
         <div className="contact-form-block reveal-contact">

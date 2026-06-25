@@ -22,7 +22,7 @@ const projects: Project[] = [
     theme: 't-bloom',
     logoSrc: '/logo-bloom-yourself.png',
     logoStyle: { background: '#fff', padding: '6px' },
-    desc: 'Trois univers sur une seule vitrine - Academy, Agency et Institut Maison Bloom. Carte interactive, scroll immersif et identité visuelle travaillée pour une clientèle premium Côte d\'Azur.',
+    desc: 'Trois univers sur une seule vitrine : Academy, Agency et Institut Maison Bloom. Carte interactive, scroll soigné, identité premium pour la Côte d\'Azur.',
     url: 'bloomyourselfacademy.com',
     status: 'live',
   },
@@ -42,7 +42,7 @@ const projects: Project[] = [
     theme: 't-amber',
     logoSrc: '/logo-allodav.png',
     logoStyle: { background: '#0a0a0a' },
-    desc: 'Pour faire connaître un service local qui mérite mieux qu\'une page Facebook. Location de bennes dans le Var, avec animations GSAP et scroll Lenis.',
+    desc: 'Pour faire connaître un service local qui mérite mieux qu\'une page Facebook. Location de bennes dans le Var, avec un site fluide et soigné.',
     url: 'allodavservices83.fr',
     status: 'live',
   },
@@ -132,7 +132,7 @@ export default function Projects() {
         <p className="section-tag">Projets</p>
         <h2 className="section-title">Ce que j'ai <em>livré</em></h2>
         <p className="section-sub">
-          Tout est en ligne. Un CRM pour un club de basket, des sites artisans, une plateforme SaaS. Chacun déployé pour de vrai.
+          Ce ne sont pas des exercices de style : chaque projet répond à un besoin réel, pour une structure qui l'utilise au quotidien.
         </p>
       </div>
 
@@ -197,15 +197,10 @@ export default function Projects() {
       </div>
 
       <div className="proj-more reveal">
-        <span className="proj-more-glow" aria-hidden />
-        <p className="proj-more-eyebrow">Et au-delà</p>
         <p className="proj-more-text">
-          Ce n'est qu'un <em>aperçu</em> de ce que j'ai livré — d'autres sites, CRM et outils internes
-          tournent déjà en ligne, parfois en accès privé. Chaque mission part d'un besoin concret sur le terrain.
+          Ce n'est qu'un <em>aperçu</em>. D'autres sites et outils internes tournent déjà,
+          parfois en accès privé.
         </p>
-        <div className="proj-more-dots" aria-hidden>
-          <span /><span /><span />
-        </div>
       </div>
     </section>
   )

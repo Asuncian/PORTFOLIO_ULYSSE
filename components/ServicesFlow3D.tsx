@@ -60,10 +60,10 @@ export default function ServicesFlow3D({ hostRef }: { hostRef: RefObject<HTMLDiv
           float ends = smoothstep(0.0, 0.04, vUv.x) * smoothstep(0.0, 0.04, 1.0 - vUv.x);
           float cap = smoothstep(0.0, 0.035, dist);
           float trail = smoothstep(0.0, 0.22, dist);
-          float spark = sin(vUv.x * 95.0 + uTime * 2.8) * sin(vUv.y * 32.0 - uTime * 1.6);
-          spark = pow(max(0.0, spark), 5.5) * trail * cap;
-          col += vec3(0.82, 0.9, 1.0) * spark * 0.55;
-          float a = across * uAlpha * ends * cap + spark * 0.3;
+          float spark = sin(vUv.x * 72.0 + uTime * 1.4) * sin(vUv.y * 24.0 - uTime * 0.9);
+          spark = pow(max(0.0, spark), 6.0) * trail * cap;
+          col += vec3(0.82, 0.9, 1.0) * spark * 0.38;
+          float a = across * uAlpha * ends * cap + spark * 0.18;
           gl_FragColor = vec4(col, a);
         }
       `,
@@ -173,15 +173,15 @@ export default function ServicesFlow3D({ hostRef }: { hostRef: RefObject<HTMLDiv
     scene.add(headCore)
 
     const makeTrailTexture = () => {
-      const SIZE = 64
+      const SIZE = 96
       const c = document.createElement('canvas')
       c.width = c.height = SIZE
       const g = c.getContext('2d')!
       const cx = SIZE / 2
-      const grad = g.createRadialGradient(cx, cx, 0, cx, cx, cx)
-      grad.addColorStop(0, 'rgba(255,255,255,0.95)')
-      grad.addColorStop(0.2, 'rgba(200,225,255,0.7)')
-      grad.addColorStop(0.5, 'rgba(77,136,255,0.25)')
+      const grad = g.createRadialGradient(cx, cx, 0, cx, cx, cx * 0.85)
+      grad.addColorStop(0, 'rgba(255,255,255,0.75)')
+      grad.addColorStop(0.25, 'rgba(200,225,255,0.45)')
+      grad.addColorStop(0.55, 'rgba(77,136,255,0.15)')
       grad.addColorStop(1, 'rgba(22,80,240,0)')
       g.fillStyle = grad
       g.fillRect(0, 0, SIZE, SIZE)
@@ -192,7 +192,7 @@ export default function ServicesFlow3D({ hostRef }: { hostRef: RefObject<HTMLDiv
       return tex
     }
 
-    const TRAIL_COUNT = 28
+    const TRAIL_COUNT = 40
     type TrailSlot = { t: number; life: number; size: number; sprite: THREE.Sprite; mat: THREE.SpriteMaterial }
     const trailPool: TrailSlot[] = []
     const trailTex = makeTrailTexture()
@@ -268,12 +268,14 @@ export default function ServicesFlow3D({ hostRef }: { hostRef: RefObject<HTMLDiv
       onUpdate: self => { draw = self.progress },
     })
 
-    let raf = 0, onScreen = true, tabVisible = true, t = 0
-    const render = () => {
+    let raf = 0, onScreen = true, tabVisible = true, t = 0, lastFrame = 0
+    const render = (now: number) => {
       raf = requestAnimationFrame(render)
       if (!onScreen || !tabVisible) return
-      t += 0.05
-      shown += (draw - shown) * 0.12
+      const dt = lastFrame ? Math.min((now - lastFrame) / 1000, 0.05) : 0.016
+      lastFrame = now
+      t += dt * 0.65
+      shown += (draw - shown) * Math.min(0.07, dt * 4)
       const d = Math.min(Math.max(shown, 0), 1)
       coreMat.uniforms.uDraw.value = d
       glowMat.uniforms.uDraw.value = d
@@ -286,21 +288,21 @@ export default function ServicesFlow3D({ hostRef }: { hostRef: RefObject<HTMLDiv
         const p = curve.getPoint(d)
         head.position.set(p.x, p.y, 1)
         headCore.position.set(p.x, p.y, 1.1)
-        const pulse = 28 + Math.sin(t * 1.4) * 2.5
+        const pulse = 28 + Math.sin(t * 0.9) * 2
         head.scale.set(pulse, pulse, 1)
         headCore.scale.set(pulse * 0.38, pulse * 0.38, 1)
         const fade = Math.min(1, smoothstep(0, 0.06, d) * smoothstep(0, 0.06, 1 - d))
-        headMat.opacity = fade * (0.88 + Math.sin(t * 1.2) * 0.06)
-        headCoreMat.opacity = fade * (0.95 + Math.sin(t * 1.2 + 0.4) * 0.04)
+        headMat.opacity = fade * (0.88 + Math.sin(t * 0.85) * 0.05)
+        headCoreMat.opacity = fade * (0.95 + Math.sin(t * 0.85 + 0.4) * 0.03)
 
-        spawnAcc += 0.05
-        if (spawnAcc > 0.11) {
+        spawnAcc += dt
+        if (spawnAcc > 0.42) {
           spawnAcc = 0
           const slot = trailPool.find(s => s.life <= 0)
           if (slot) {
             slot.t = d
-            slot.life = 1
-            slot.size = 7 + Math.random() * 5
+            slot.life = 1.35
+            slot.size = 5 + Math.random() * 3.5
           }
         }
       } else {
@@ -313,8 +315,8 @@ export default function ServicesFlow3D({ hostRef }: { hostRef: RefObject<HTMLDiv
           slot.sprite.visible = false
           return
         }
-        slot.t -= 0.0028
-        slot.life -= 0.028
+        slot.t -= dt * 0.00055
+        slot.life -= dt * 0.22
         if (slot.life <= 0 || slot.t <= 0) {
           slot.sprite.visible = false
           return
@@ -322,13 +324,14 @@ export default function ServicesFlow3D({ hostRef }: { hostRef: RefObject<HTMLDiv
         const pt = curve.getPoint(slot.t)
         slot.sprite.visible = true
         slot.sprite.position.set(pt.x, pt.y, 0.6)
-        const s = slot.size * (0.5 + slot.life * 0.8)
+        const ease = slot.life * slot.life
+        const s = slot.size * (0.4 + ease * 0.9)
         slot.sprite.scale.set(s, s, 1)
-        slot.mat.opacity = slot.life * 0.65
+        slot.mat.opacity = ease * 0.42
       })
       renderer.render(scene, camera)
     }
-    render()
+    raf = requestAnimationFrame(render)
 
     const io = new IntersectionObserver(([e]) => { onScreen = e.isIntersecting }, { threshold: 0 })
     io.observe(host)
