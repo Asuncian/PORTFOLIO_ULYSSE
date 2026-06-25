@@ -1,0 +1,25 @@
+# Dépendances et build local
+node_modules
+.next
+out
+
+# Git et IDE
+.git
+.gitignore
+.cursor
+.vscode
+
+# Secrets — à configurer dans Dokploy (runtime)
+.env
+.env.*
+!.env.example
+
+# Artefacts / logs
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+
+# Docker (évite d'invalider le cache inutilement)
+Dockerfile
+.dockerignore
