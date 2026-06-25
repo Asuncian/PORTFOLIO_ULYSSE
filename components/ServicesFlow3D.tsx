@@ -60,21 +60,30 @@ export default function ServicesFlow3D({ hostRef }: { hostRef: RefObject<HTMLDiv
           float head = smoothstep(uDraw - 0.05, uDraw, vUv.x);
           col = mix(col, vec3(0.92, 0.96, 1.0), head);          // white-hot leading edge
           float across = 1.0 - smoothstep(0.0, 0.5, abs(vUv.y - 0.5));
-          float a = (across * 0.9 + head * 0.4) * uAlpha;
+          // soft fade at both extremities so the line eases in and out
+          float ends = smoothstep(0.0, 0.04, vUv.x) * smoothstep(0.0, 0.04, 1.0 - vUv.x);
+          float a = (across * 0.9 + head * 0.4) * uAlpha * ends;
           gl_FragColor = vec4(col, a);
         }
       `,
     })
 
+    const smoothstep = (e0: number, e1: number, x: number) => {
+      const t = Math.min(1, Math.max(0, (x - e0) / (e1 - e0)))
+      return t * t * (3 - 2 * t)
+    }
+
     // Flat ribbon along a curve: two rails offset by the in-plane normal.
+    // The width tapers to a point at both ends for a graceful, drawn feel.
     const makeRibbon = (c: THREE.CatmullRomCurve3, width: number, segs: number) => {
       const pos: number[] = [], uv: number[] = [], idx: number[] = []
-      const hw = width / 2
       for (let i = 0; i <= segs; i++) {
         const t = i / segs
         const p = c.getPoint(t)
         const tan = c.getTangent(t)
         const nx = -tan.y, ny = tan.x          // perpendicular, in xy-plane
+        const taper = smoothstep(0, 0.05, t) * smoothstep(0, 0.05, 1 - t)
+        const hw = (width / 2) * taper
         pos.push(p.x + nx * hw, p.y + ny * hw, 0)
         pos.push(p.x - nx * hw, p.y - ny * hw, 0)
         uv.push(t, 0); uv.push(t, 1)
@@ -179,12 +188,14 @@ export default function ServicesFlow3D({ hostRef }: { hostRef: RefObject<HTMLDiv
       coreMat.uniforms.uDraw.value = d
       glowMat.uniforms.uDraw.value = d
 
-      if (curve && d > 0.001 && d < 0.999) {
+      if (curve && d > 0.004 && d < 0.997) {
         head.visible = true
         const p = curve.getPoint(d)
         head.position.set(p.x, p.y, 1)
         const pulse = 24 + Math.sin(t) * 3
         head.scale.set(pulse, pulse, 1)
+        // fade the head in/out near the extremities
+        headMat.opacity = Math.min(1, smoothstep(0, 0.06, d) * smoothstep(0, 0.06, 1 - d) + Math.sin(t) * 0.05)
       } else {
         head.visible = false
       }
