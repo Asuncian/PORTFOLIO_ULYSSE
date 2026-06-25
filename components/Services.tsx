@@ -1,6 +1,9 @@
 'use client'
-import { useEffect, useRef } from 'react'
-import { gsap, ScrollTrigger } from '@/lib/gsap'
+import { useEffect, useRef, useState, lazy, Suspense } from 'react'
+import { gsap } from '@/lib/gsap'
+import { useCanRender3D } from './useCanRender3D'
+
+const ServicesFlow3D = lazy(() => import('./ServicesFlow3D'))
 
 const items = [
   { title: 'Automatisation des réservations', desc: 'Un calendrier unique, synchronisé entre Booking, le site et les demandes directes.' },
@@ -15,27 +18,40 @@ const items = [
 
 export default function Services() {
   const ref = useRef<HTMLDivElement>(null)
+  const flowRef = useRef<HTMLDivElement>(null)
   const fillRef = useRef<HTMLDivElement>(null)
+  const canRender = useCanRender3D()
+  const [mount3d, setMount3d] = useState(false)
+
+  useEffect(() => {
+    if (!canRender || !flowRef.current) return
+    const io = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setMount3d(true); io.disconnect() } },
+      { rootMargin: '400px' },
+    )
+    io.observe(flowRef.current)
+    return () => io.disconnect()
+  }, [canRender])
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // The thread draws itself as you scroll through the section
-      if (fillRef.current) {
-        gsap.fromTo(fillRef.current, { scaleY: 0 }, {
-          scaleY: 1, ease: 'none',
-          scrollTrigger: { trigger: ref.current, start: 'top 65%', end: 'bottom 75%', scrub: 0.5 },
-        })
-      }
-      // Each link of the thread snaps into place in turn
-      gsap.utils.toArray<HTMLElement>('.lever').forEach((el) => {
-        gsap.fromTo(el, { opacity: 0, x: -24 }, {
-          opacity: 1, x: 0, duration: .6, ease: 'power3.out',
-          scrollTrigger: { trigger: el, start: 'top 86%' },
+      gsap.utils.toArray<HTMLElement>('.flow-item').forEach((el) => {
+        const dir = el.classList.contains('flow-item--left') ? -36 : 36
+        gsap.fromTo(el, { opacity: 0, x: dir, y: 14 }, {
+          opacity: 1, x: 0, y: 0, duration: .7, ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 84%' },
         })
       })
+
+      if (!canRender && fillRef.current) {
+        gsap.fromTo(fillRef.current, { scaleY: 0 }, {
+          scaleY: 1, ease: 'none',
+          scrollTrigger: { trigger: ref.current, start: 'top 70%', end: 'bottom 80%', scrub: 0.5 },
+        })
+      }
     }, ref)
     return () => ctx.revert()
-  }, [])
+  }, [canRender])
 
   return (
     <section id="services">
@@ -47,19 +63,32 @@ export default function Services() {
         </p>
       </div>
 
-      <div className="levers" ref={ref}>
-        <div className="levers-line" aria-hidden>
-          <div className="levers-line-fill" ref={fillRef} />
+      <div className={`flow ${canRender ? 'flow--3d' : 'flow--flat'}`} ref={ref}>
+        <div className="flow-stage" ref={flowRef} aria-hidden>
+          {mount3d && (
+            <Suspense fallback={null}>
+              <ServicesFlow3D hostRef={flowRef} />
+            </Suspense>
+          )}
         </div>
-        {items.map((item, i) => (
-          <div key={item.title} className="lever">
-            <div className="lever-node"><span>{`0${i + 1}`}</span></div>
-            <div className="lever-body">
-              <h3>{item.title}</h3>
-              <p>{item.desc}</p>
-            </div>
+
+        {!canRender && (
+          <div className="flow-flat-line" aria-hidden>
+            <div className="flow-flat-fill" ref={fillRef} />
           </div>
-        ))}
+        )}
+
+        <ol className="flow-list">
+          {items.map((item, i) => (
+            <li key={item.title} className={`flow-item flow-item--${i % 2 ? 'left' : 'right'}`}>
+              <span className="flow-node" aria-hidden><i>{`0${i + 1}`}</i></span>
+              <div className="flow-card">
+                <h3>{item.title}</h3>
+                <p>{item.desc}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   )

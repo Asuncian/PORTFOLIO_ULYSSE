@@ -38,7 +38,7 @@ export default function Cursor() {
     }
     follow()
 
-    const targets = 'a, button, .fw-card, .pillar, .lever, .contact-chip, .method-card3d, input, select, textarea'
+    const targets = 'a, button, .fw-card, .pillar, .flow-card, .flow-node, .contact-chip, .method-card3d, input, select, textarea'
     const onOver = (e: MouseEvent) => {
       if ((e.target as Element)?.closest?.(targets)) ring.classList.add('hovered')
     }

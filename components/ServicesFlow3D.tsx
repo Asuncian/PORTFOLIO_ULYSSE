@@ -1,10 +1,7 @@
 'use client'
 import { useEffect, type RefObject } from 'react'
 import * as THREE from 'three'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-gsap.registerPlugin(ScrollTrigger)
+import { gsap, ScrollTrigger } from '@/lib/gsap'
 
 /**
  * A glowing line, rendered in WebGL, that threads through the service nodes —
@@ -57,8 +54,8 @@ export default function ServicesFlow3D({ hostRef }: { hostRef: RefObject<HTMLDiv
         void main() {
           if (vUv.x > uDraw) discard;
           vec3 col = mix(uColA, uColB, smoothstep(0.0, 1.0, vUv.x));
-          float head = smoothstep(uDraw - 0.05, uDraw, vUv.x);
-          col = mix(col, vec3(0.92, 0.96, 1.0), head);          // white-hot leading edge
+          float head = smoothstep(uDraw - 0.09, uDraw, vUv.x);
+          col = mix(col, vec3(0.95, 0.97, 1.0), head * 0.95);
           float across = 1.0 - smoothstep(0.0, 0.5, abs(vUv.y - 0.5));
           // soft fade at both extremities so the line eases in and out
           float ends = smoothstep(0.0, 0.04, vUv.x) * smoothstep(0.0, 0.04, 1.0 - vUv.x);
@@ -107,19 +104,47 @@ export default function ServicesFlow3D({ hostRef }: { hostRef: RefObject<HTMLDiv
       depthWrite: false, blending: THREE.AdditiveBlending,
     })
 
-    // Glowing head sprite (radial gradient on a canvas texture)
-    const hc = document.createElement('canvas'); hc.width = hc.height = 128
+    // Glowing head sprite — hi-res radial gradient, soft round falloff
+    const SIZE = 256
+    const hc = document.createElement('canvas')
+    hc.width = hc.height = SIZE
     const hg = hc.getContext('2d')!
-    const grad = hg.createRadialGradient(64, 64, 0, 64, 64, 64)
-    grad.addColorStop(0, 'rgba(232,242,255,1)')
-    grad.addColorStop(0.25, 'rgba(120,170,255,0.85)')
+    const cx = SIZE / 2
+    const grad = hg.createRadialGradient(cx, cx, 0, cx, cx, cx)
+    grad.addColorStop(0, 'rgba(255,255,255,1)')
+    grad.addColorStop(0.12, 'rgba(232,242,255,0.98)')
+    grad.addColorStop(0.28, 'rgba(147,197,253,0.72)')
+    grad.addColorStop(0.52, 'rgba(77,136,255,0.28)')
+    grad.addColorStop(0.78, 'rgba(22,80,240,0.08)')
     grad.addColorStop(1, 'rgba(22,80,240,0)')
-    hg.fillStyle = grad; hg.fillRect(0, 0, 128, 128)
+    hg.fillStyle = grad
+    hg.fillRect(0, 0, SIZE, SIZE)
     const headTex = new THREE.CanvasTexture(hc)
-    const headMat = new THREE.SpriteMaterial({ map: headTex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending })
+    headTex.minFilter = THREE.LinearFilter
+    headTex.magFilter = THREE.LinearFilter
+    headTex.generateMipmaps = false
+    const headMat = new THREE.SpriteMaterial({
+      map: headTex,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      opacity: 0.95,
+    })
     const head = new THREE.Sprite(headMat)
     head.visible = false
     scene.add(head)
+
+    const headCoreTex = headTex.clone()
+    const headCoreMat = new THREE.SpriteMaterial({
+      map: headCoreTex,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      opacity: 0.85,
+    })
+    const headCore = new THREE.Sprite(headCoreMat)
+    headCore.visible = false
+    scene.add(headCore)
 
     let curve: THREE.CatmullRomCurve3 | null = null
     let coreMesh: THREE.Mesh | null = null
@@ -190,14 +215,19 @@ export default function ServicesFlow3D({ hostRef }: { hostRef: RefObject<HTMLDiv
 
       if (curve && d > 0.004 && d < 0.997) {
         head.visible = true
+        headCore.visible = true
         const p = curve.getPoint(d)
         head.position.set(p.x, p.y, 1)
-        const pulse = 24 + Math.sin(t) * 3
+        headCore.position.set(p.x, p.y, 1.1)
+        const pulse = 28 + Math.sin(t * 1.2) * 2.5
         head.scale.set(pulse, pulse, 1)
-        // fade the head in/out near the extremities
-        headMat.opacity = Math.min(1, smoothstep(0, 0.06, d) * smoothstep(0, 0.06, 1 - d) + Math.sin(t) * 0.05)
+        headCore.scale.set(pulse * 0.42, pulse * 0.42, 1)
+        const fade = Math.min(1, smoothstep(0, 0.06, d) * smoothstep(0, 0.06, 1 - d))
+        headMat.opacity = fade * (0.88 + Math.sin(t * 1.2) * 0.06)
+        headCoreMat.opacity = fade * (0.95 + Math.sin(t * 1.2 + 0.4) * 0.04)
       } else {
         head.visible = false
+        headCore.visible = false
       }
       renderer.render(scene, camera)
     }
@@ -224,7 +254,8 @@ export default function ServicesFlow3D({ hostRef }: { hostRef: RefObject<HTMLDiv
       window.removeEventListener('resize', onResize)
       disposeMeshes()
       coreMat.dispose(); glowMat.dispose(); trackMat.dispose()
-      headTex.dispose(); headMat.dispose()
+      headTex.dispose(); headCoreTex.dispose()
+      headMat.dispose(); headCoreMat.dispose()
       renderer.dispose()
       canvas.remove()
     }

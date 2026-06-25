@@ -132,6 +132,13 @@ export default function Contact() {
           </span>
         </div>
 
+        <div className="contact-form-block reveal">
+          <div className="contact-form-header">
+            <p className="contact-form-tag">Écrivez-moi</p>
+            <h3 className="contact-form-title">Un message, une idée de projet</h3>
+            <p className="contact-form-sub">Je lis tout et je réponds sous 24 h.</p>
+          </div>
+
         <form ref={formRef} className="contact-form" onSubmit={onSubmit} noValidate>
           <div className="ff-hp" aria-hidden="true">
             <label htmlFor="website">Site web</label>
@@ -206,6 +213,7 @@ export default function Contact() {
             )}
           </div>
         </form>
+        </div>
 
       </div>
     </section>
