@@ -57,6 +57,38 @@ export function buildBackgroundMotifs(
     g.add(new THREE.Line(geo, edge))
   }
 
+  /** Contour lisse (face avant + arrière) pour silhouettes lisibles */
+  const addShapeSilhouette = (
+    g: THREE.Group,
+    shape: THREE.Shape,
+    depth: number,
+    edge: THREE.LineBasicMaterial,
+    pos = new THREE.Vector3(),
+    rot = new THREE.Euler(),
+    samples = 80,
+  ) => {
+    const pts = shape.getPoints(samples)
+    const shell = new THREE.Group()
+    shell.position.copy(pos)
+    shell.rotation.copy(rot)
+    const zFront = depth * 0.5
+    const zBack = -depth * 0.5
+    const ring = (z: number) => {
+      const ringPts = pts.map(p => new THREE.Vector3(p.x, p.y, z))
+      ringPts.push(ringPts[0].clone())
+      addLine(shell, ringPts, edge)
+    }
+    ring(zFront)
+    ring(zBack)
+    for (let i = 0; i < pts.length; i += 6) {
+      addLine(shell, [
+        new THREE.Vector3(pts[i].x, pts[i].y, zFront),
+        new THREE.Vector3(pts[i].x, pts[i].y, zBack),
+      ], edge)
+    }
+    g.add(shell)
+  }
+
   const addMotif = (
     g: THREE.Group,
     x: number, y: number, z: number,
@@ -103,31 +135,22 @@ export function buildBackgroundMotifs(
     storage.rotation.y = Math.sin(t * 0.035) * 0.06
   })
 
-  // Sécurité — bouclier + cadenas
+  // Sécurité — bouclier affiné + cadenas
   const security = new THREE.Group()
   const secE = createEdgeMat(PALETTES.security)
   const shieldShape = new THREE.Shape()
-  shieldShape.moveTo(0, 11)
-  shieldShape.bezierCurveTo(9, 10, 11, 6, 11, 1.5)
-  shieldShape.lineTo(11, -2.5)
-  shieldShape.bezierCurveTo(11, -8, 6, -11, 0, -12)
-  shieldShape.bezierCurveTo(-6, -11, -11, -8, -11, -2.5)
-  shieldShape.lineTo(-11, 1.5)
-  shieldShape.bezierCurveTo(-11, 6, -9, 10, 0, 11)
-  const shieldGeo = new THREE.ExtrudeGeometry(shieldShape, {
-    depth: 2,
-    bevelEnabled: true,
-    bevelThickness: 0.22,
-    bevelSize: 0.18,
-    bevelSegments: 3,
-    curveSegments: 28,
-  })
-  shieldGeo.center()
-  addWire(security, shieldGeo, secE, new THREE.Vector3(0, 0.5, -1))
-  addWire(security, new THREE.TorusGeometry(2.5, 0.28, 10, 28, Math.PI), secE, new THREE.Vector3(0, 2.8, 1.6))
+  shieldShape.moveTo(0, 11.5)
+  shieldShape.bezierCurveTo(5.5, 11.2, 10.5, 8.2, 11.2, 3.5)
+  shieldShape.bezierCurveTo(11.6, 0.8, 11.4, -1.8, 11, -4.2)
+  shieldShape.bezierCurveTo(10.2, -8.5, 5.8, -11.2, 0, -12)
+  shieldShape.bezierCurveTo(-5.8, -11.2, -10.2, -8.5, -11, -4.2)
+  shieldShape.bezierCurveTo(-11.4, -1.8, -11.6, 0.8, -11.2, 3.5)
+  shieldShape.bezierCurveTo(-10.5, 8.2, -5.5, 11.2, 0, 11.5)
+  addShapeSilhouette(security, shieldShape, 2.2, secE, new THREE.Vector3(0, 0.5, -1))
+  addWire(security, new THREE.TorusGeometry(2.5, 0.26, 12, 36, Math.PI), secE, new THREE.Vector3(0, 2.8, 1.6))
   addWire(security, new THREE.BoxGeometry(5, 5.2, 1.5), secE, new THREE.Vector3(0, -0.5, 1.5))
   addWire(
-    security, new THREE.CylinderGeometry(0.45, 0.45, 0.3, 10), secE,
+    security, new THREE.CylinderGeometry(0.45, 0.45, 0.3, 12), secE,
     new THREE.Vector3(0, -1.1, 2.2), new THREE.Euler(Math.PI / 2, 0, 0),
   )
   addMotif(security, 74, 26, -58, 58, (t) => {

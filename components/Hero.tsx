@@ -65,9 +65,9 @@ export default function Hero() {
       <div className="hero-orb" ref={orbRef} aria-hidden="true" />
 
       <h1 className="hero-title" ref={titleRef}>
-        <span className="line"><span className="h-word word">Sites.</span></span>
-        <span className="line"><span className="h-word word accent">Automatisations.</span></span>
-        <span className="line"><span className="h-word word dim">Résultats.</span></span>
+        <span className="line"><span className="h-word word hero-name-first">Ulysse</span></span>
+        <span className="line"><span className="h-word word accent hero-name-last">Goming-Jobert</span></span>
+        <span className="line"><span className="h-word word dim hero-name-role">Développeur web &amp; automatisation</span></span>
       </h1>
 
       <p className="hero-sub h-sub">

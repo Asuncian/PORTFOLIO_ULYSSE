@@ -9,7 +9,6 @@ interface Project {
   type: string
   theme: string
   logoSrc: string
-  logoBare?: boolean
   desc: string
   url: string | null
   status: ProjectStatus
@@ -39,7 +38,6 @@ const projects: Project[] = [
     type: 'Site vitrine',
     theme: 't-amber',
     logoSrc: '/logo-allodav.png',
-    logoBare: true,
     desc: 'Vitrine pour Allodav Services, location de bennes dans le Var. Présentation claire, devis simple, bonne visibilité locale.',
     url: 'allodavservices83.fr',
     status: 'live',
@@ -181,7 +179,7 @@ export default function Projects() {
                   alt=""
                   width={220}
                   height={220}
-                  className={`strip-logo-img${proj.logoBare ? ' strip-logo-img--bare' : ''}`}
+                  className="strip-logo-img"
                 />
               </div>
             </div>
