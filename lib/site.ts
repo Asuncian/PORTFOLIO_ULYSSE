@@ -16,9 +16,9 @@ export const SITE_GEO_REGION = 'FR-OCC'
 export const GOOGLE_SITE_VERIFICATION =
   process.env.GOOGLE_SITE_VERIFICATION ?? 'MJONZxuhd88OQG_R1_aVo0JI_PVnTH6ncVRITkIBxSU'
 
-/** Titre principal (balise & Open Graph). */
+/** Titre principal (balise & Open Graph). Nom en premier : portfolio pro, pas offre freelance. */
 export const SITE_TITLE =
-  'Sites web & automatisation pour PME | Ulysse Goming-Jobert'
+  'Ulysse Goming-Jobert | Développeur web & automatisation'
 
 /** Meta description (~155 car.) : développeur web, Occitanie, sans positionnement freelance. */
 export const SITE_DESCRIPTION =
