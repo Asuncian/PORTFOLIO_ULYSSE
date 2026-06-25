@@ -1,46 +1,160 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 const links = [
-  { href: '#pour-qui', label: 'Terrain',     id: 'pour-qui' },
+  { href: '#pour-qui', label: 'Terrain', id: 'pour-qui' },
   { href: '#services', label: 'Compétences', id: 'services' },
-  { href: '#projets',  label: 'Projets',     id: 'projets'  },
-  { href: '#methode',  label: 'Méthode',     id: 'methode'  },
-]
+  { href: '#projets', label: 'Projets', id: 'projets' },
+  { href: '#methode', label: 'Méthode', id: 'methode' },
+] as const
+
+const SECTION_IDS = links.map(l => l.id)
+
+function NavIcon({ id }: { id: (typeof links)[number]['id'] }) {
+  const props = { width: 14, height: 14, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.8, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const }
+  switch (id) {
+    case 'pour-qui':
+      return (
+        <svg {...props}>
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 3v18M3 12h18" />
+        </svg>
+      )
+    case 'services':
+      return (
+        <svg {...props}>
+          <path d="M4 7h16M4 12h10M4 17h14" />
+          <circle cx="19" cy="12" r="2" />
+        </svg>
+      )
+    case 'projets':
+      return (
+        <svg {...props}>
+          <rect x="3" y="5" width="18" height="14" rx="2" />
+          <path d="M8 10h8M8 14h5" />
+        </svg>
+      )
+    case 'methode':
+      return (
+        <svg {...props}>
+          <path d="M5 12h4l2-4 4 8 2-4h2" />
+        </svg>
+      )
+  }
+}
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false)
-  const [active,   setActive]   = useState('')
+  const [active, setActive] = useState('')
+  const clickedRef = useRef<string | null>(null)
+  const clickTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const pickActiveSection = useCallback(() => {
+    if (clickedRef.current) return
+
+    const viewportMid = window.scrollY + window.innerHeight * 0.35
+    let bestId = ''
+    let bestDist = Infinity
+
+    for (const id of SECTION_IDS) {
+      const el = document.getElementById(id)
+      if (!el) continue
+      const rect = el.getBoundingClientRect()
+      const top = rect.top + window.scrollY
+      const bottom = top + rect.height
+      if (viewportMid >= top && viewportMid <= bottom) {
+        setActive(id)
+        return
+      }
+      const dist = Math.min(Math.abs(viewportMid - top), Math.abs(viewportMid - bottom))
+      if (dist < bestDist) {
+        bestDist = dist
+        bestId = id
+      }
+    }
+
+    if (window.scrollY < 120) {
+      setActive('')
+      return
+    }
+    if (bestId) setActive(bestId)
+  }, [])
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 55)
-    window.addEventListener('scroll', onScroll, { passive: true })
+    const onScroll = () => {
+      setScrolled(window.scrollY > 55)
+      pickActiveSection()
+    }
 
+    window.addEventListener('scroll', onScroll, { passive: true })
+    pickActiveSection()
+
+    const ratios = new Map<string, number>()
     const obs = new IntersectionObserver(
-      entries => entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id) }),
-      { threshold: 0.25, rootMargin: '-5% 0px -65% 0px' }
+      entries => {
+        if (clickedRef.current) return
+        entries.forEach(e => ratios.set(e.target.id, e.intersectionRatio))
+        let best = ''
+        let bestR = 0
+        ratios.forEach((r, id) => {
+          if (r > bestR) { bestR = r; best = id }
+        })
+        if (best && bestR >= 0.12) setActive(best)
+      },
+      { threshold: [0, 0.08, 0.15, 0.25, 0.4, 0.55, 0.7], rootMargin: '-12% 0px -50% 0px' },
     )
-    links.forEach(l => { const el = document.getElementById(l.id); if (el) obs.observe(el) })
-    return () => { window.removeEventListener('scroll', onScroll); obs.disconnect() }
-  }, [])
+
+    SECTION_IDS.forEach(id => {
+      const el = document.getElementById(id)
+      if (el) obs.observe(el)
+    })
+
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      obs.disconnect()
+      if (clickTimerRef.current) clearTimeout(clickTimerRef.current)
+    }
+  }, [pickActiveSection])
+
+  const onLinkClick = (id: string) => {
+    setActive(id)
+    clickedRef.current = id
+    if (clickTimerRef.current) clearTimeout(clickTimerRef.current)
+    clickTimerRef.current = setTimeout(() => {
+      clickedRef.current = null
+      pickActiveSection()
+    }, 900)
+  }
 
   return (
     <nav id="main-nav" className={scrolled ? 'scrolled' : ''}>
-      <a href="#hero" className="nav-logo">
+      <a href="#hero" className="nav-logo" onClick={() => setActive('')}>
         <span className="nav-logo-text">Ulysse</span><span className="nav-dot">.</span>
       </a>
 
-      <ul className="nav-links">
-        {links.map(l => (
-          <li key={l.href}>
-            <a href={l.href} className={`nav-link${active === l.id ? ' nav-active' : ''}`}>
-              {l.label}
-            </a>
-          </li>
-        ))}
-      </ul>
+      <div className="nav-track">
+        <ul className="nav-links">
+          {links.map(l => (
+            <li key={l.href}>
+              <a
+                href={l.href}
+                className={`nav-link${active === l.id ? ' nav-active' : ''}`}
+                onClick={() => onLinkClick(l.id)}
+                aria-current={active === l.id ? 'page' : undefined}
+              >
+                <span className="nav-link-icon" aria-hidden><NavIcon id={l.id} /></span>
+                <span className="nav-link-label">{l.label}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
 
-      <a href="#contact" className="nav-cta">
+      <a
+        href="#contact"
+        className={`nav-cta${active === 'contact' ? ' nav-cta-active' : ''}`}
+        onClick={() => onLinkClick('contact')}
+      >
         <span>Me contacter</span>
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
           <path d="M5 12h14M12 5l7 7-7 7"/>

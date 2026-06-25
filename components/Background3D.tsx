@@ -175,116 +175,144 @@ export default function Background3D() {
       motifs.push({ g, base: new THREE.Vector3(x, y, z), parallax, tick })
     }
 
-    // Stockage : cylindres empilés + disques (base de données / fichiers)
+    // Stockage : baie serveur avec unités et disques
     const storage = new THREE.Group()
-    const stMat = wireMat(0.13, 0x38bdf8)
-    const stDim = wireMat(0.07, 0x60a5fa)
-    for (let i = 0; i < 3; i++) {
-      const cyl = new THREE.CylinderGeometry(4.2 - i * 0.3, 4.2 - i * 0.3, 3.2, 20, 1, true)
-      const edges = new THREE.EdgesGeometry(cyl)
-      cyl.dispose()
-      geos.push(edges)
-      const layer = new THREE.LineSegments(edges, i === 0 ? stMat : stDim)
-      layer.position.y = i * 3.6 - 3.6
-      storage.add(layer)
-      const ring = new THREE.Line(
-        wireLine(
-          Array.from({ length: 25 }, (_, j) => {
-            const a = (j / 24) * Math.PI * 2
-            const r = 4.8 - i * 0.25
-            return [Math.cos(a) * r, i * 3.6 - 1.8, Math.sin(a) * r]
-          }).flat(),
-        ),
-        wireMat(0.05),
+    const stMain = wireMat(0.14, 0x38bdf8)
+    const stDim = wireMat(0.08, 0x60a5fa)
+    storage.add(new THREE.LineSegments(wireBox(16, 18, 9), stMain))
+    for (let i = 0; i < 4; i++) {
+      const y = 6 - i * 3.8
+      const unit = new THREE.LineSegments(wireBox(13.5, 2.8, 7.2), stDim)
+      unit.position.y = y
+      storage.add(unit)
+      storage.add(new THREE.Line(wireLine([-5, y, 3.65, 5, y, 3.65]), wireMat(0.1, 0x6ee7b7)))
+      storage.add(new THREE.Line(wireLine([-5, y - 0.5, 3.65, 3, y - 0.5, 3.65]), wireMat(0.06)))
+      const led = new THREE.Points(
+        wireLine([-6, y, 3.7, -6, y, 3.7]),
+        new THREE.PointsMaterial({ color: 0x6ee7b7, size: 2.8, transparent: true, opacity: 0.8, sizeAttenuation: true }),
       )
-      storage.add(ring)
+      mats.push(led.material as THREE.Material)
+      storage.add(led)
     }
-    addMotif(storage, -68, 22, -58, 62, (t) => {
-      storage.rotation.y = t * 0.06
-      storage.rotation.x = Math.sin(t * 0.35) * 0.04
+    addMotif(storage, -70, 20, -55, 62, (t) => {
+      storage.rotation.y = t * 0.05
     })
 
-    // Sécurité : bouclier + cadenas
+    // Sécurité : cadenas sur bouclier
     const security = new THREE.Group()
-    const secMat = wireMat(0.15, 0x93c5fd)
-    const shieldPts = [0, 9, 0, 7, 7, 0, 7, 0, 0, 0, -7, 0, -7, 0, 0, -7, 7, 0, 0, 9, 0]
-    security.add(new THREE.Line(wireLine(shieldPts), secMat))
-    security.add(new THREE.Line(wireLine([-3.5, 2, 0.2, 3.5, 2, 0.2, 3.5, -1, 0.2, -3.5, -1, 0.2, -3.5, 2, 0.2]), wireMat(0.11)))
-    security.add(new THREE.Line(wireLine([0, -1, 0.2, 0, -4.5, 0.2]), wireMat(0.09)))
-    const lockArc = new THREE.EllipseCurve(0, 1.5, 2.2, 2.2, Math.PI, 0, false, 0)
-    const lockGeo = new THREE.BufferGeometry().setFromPoints(lockArc.getPoints(24).map(p => new THREE.Vector3(p.x, p.y, 0.2)))
-    geos.push(lockGeo)
-    security.add(new THREE.Line(lockGeo, wireMat(0.1)))
-    addMotif(security, 72, 28, -62, 58, (t) => {
-      security.rotation.y = -t * 0.05
-      security.rotation.z = Math.sin(t * 0.3) * 0.03
+    const secMain = wireMat(0.16, 0x93c5fd)
+    const shield = [0, 10, 0, 8, 8, 0, 8, 1, 0, 0, -8, 0, -8, 1, 0, -8, 8, 0, 0, 10, 0]
+    security.add(new THREE.Line(wireLine(shield), wireMat(0.09, 0x4d88ff)))
+    const shackle = new THREE.TorusGeometry(2.8, 0.18, 8, 20, Math.PI)
+    const shackleEdges = new THREE.EdgesGeometry(shackle)
+    shackle.dispose()
+    geos.push(shackleEdges)
+    const shackleLine = new THREE.LineSegments(shackleEdges, secMain)
+    shackleLine.position.set(0, 3.2, 0.3)
+    security.add(shackleLine)
+    const lockBody = new THREE.LineSegments(wireBox(5.5, 5, 1.2), secMain)
+    lockBody.position.set(0, -0.5, 0.5)
+    security.add(lockBody)
+    security.add(new THREE.Line(wireLine([0, -1.2, 0.7, 0, -3.2, 0.7]), wireMat(0.1)))
+    const keyhole = new THREE.CircleGeometry(0.55, 12, 0, Math.PI)
+    const keyholeEdges = new THREE.EdgesGeometry(keyhole)
+    keyhole.dispose()
+    geos.push(keyholeEdges)
+    const kh = new THREE.LineSegments(keyholeEdges, wireMat(0.12))
+    kh.position.set(0, -1.5, 0.75)
+    security.add(kh)
+    addMotif(security, 74, 26, -58, 58, (t) => {
+      security.rotation.y = -t * 0.04
     })
 
-    // Sites web : navigateur détaillé
+    // Sites web : fenêtre navigateur lisible
     const web = new THREE.Group()
-    const wMat = wireMat(0.14)
-    web.add(new THREE.LineSegments(wireBox(28, 18, 1.2), wMat))
-    web.add(new THREE.Line(wireLine([-14, 7, 0.65, 14, 7, 0.65]), wireMat(0.09)))
-    for (let row = 0; row < 3; row++) {
-      const y = 2 - row * 4
-      const w = 12 - row * 2
-      web.add(new THREE.Line(wireLine([-10, y, 0.7, -10 + w, y, 0.7]), wireMat(0.06 + row * 0.01)))
-    }
-    for (let col = 0; col < 3; col++) {
-      for (let row = 0; row < 2; row++) {
-        const x = -6 + col * 6
-        const y = -4 + row * 3
-        web.add(new THREE.LineSegments(wireBox(4.5, 2.2, 0.1), wireMat(0.05)))
-        web.children[web.children.length - 1].position.set(x, y, 0.75)
-      }
-    }
-    addMotif(web, 58, -6, -26, 48, (t) => {
-      web.rotation.y = t * 0.08
-      web.rotation.x = Math.sin(t * 0.45) * 0.05
+    const wMain = wireMat(0.15, 0x4d88ff)
+    web.add(new THREE.LineSegments(wireBox(30, 20, 1.4), wMain))
+    web.add(new THREE.Line(wireLine([-15, 8, 0.75, 15, 8, 0.75]), wireMat(0.1)))
+    ;[[-11, 8.5], [-8, 8.5], [-5, 8.5]].forEach(([x, y], i) => {
+      const colors = [0xf87171, 0xfbbf24, 0x4ade80]
+      const dot = new THREE.Points(
+        wireLine([x, y, 0.8, x, y, 0.8]),
+        new THREE.PointsMaterial({ color: colors[i], size: 2.2, sizeAttenuation: true }),
+      )
+      mats.push(dot.material as THREE.Material)
+      web.add(dot)
+    })
+    const addrBar = new THREE.LineSegments(wireBox(18, 2.2, 0.2), wireMat(0.08))
+    addrBar.position.set(2, 8.5, 0.85)
+    web.add(addrBar)
+    const content = new THREE.LineSegments(wireBox(24, 10, 0.15), wireMat(0.07))
+    content.position.set(0, -1, 0.8)
+    web.add(content)
+    ;[[-8, 2], [-8, -1], [-8, -4]].forEach(([x, y], i) => {
+      web.add(new THREE.Line(wireLine([x, y, 0.85, x + 14 - i * 3, y, 0.85]), wireMat(0.06 + i * 0.01)))
+    })
+    addMotif(web, 60, -4, -24, 48, (t) => {
+      web.rotation.y = t * 0.06
     })
 
-    // Automatisation : boucle de nœuds reliés
+    // Automatisation : engrenages + flux de nœuds
     const auto = new THREE.Group()
-    const aMat = wireMat(0.14, 0x818cf8)
-    const nodePos = [[-7, 7, 0], [7, 7, 0], [7, -7, 0], [-7, -7, 0]]
-    nodePos.forEach(([x, y, z]) => {
-      auto.add(new THREE.LineSegments(wireBox(4, 4, 1), aMat))
-      auto.children[auto.children.length - 1].position.set(x, y, z)
+    const aMain = wireMat(0.14, 0x818cf8)
+    const gear = (r: number, teeth: number, y: number, x: number, z: number) => {
+      const g = new THREE.CylinderGeometry(r, r, 0.6, teeth, 1)
+      const e = new THREE.EdgesGeometry(g)
+      g.dispose()
+      geos.push(e)
+      const mesh = new THREE.LineSegments(e, aMain)
+      mesh.position.set(x, y, z)
+      mesh.rotation.x = Math.PI / 2
+      auto.add(mesh)
+    }
+    gear(3.2, 10, 0, -2.5, 0)
+    gear(2.2, 8, 0, 3.5, 0.4)
+    const nodes = [[-9, 5, 0], [9, 5, 0], [9, -5, 0], [-9, -5, 0]]
+    nodes.forEach(([x, y, z]) => {
+      const node = new THREE.LineSegments(wireBox(3.5, 3.5, 0.8), wireMat(0.11, 0xa78bfa))
+      node.position.set(x, y, z)
+      auto.add(node)
     })
-    const loopPts = nodePos.map(([x, y, z]) => new THREE.Vector3(x, y, z))
-    loopPts.push(loopPts[0].clone())
-    auto.add(new THREE.Line(wireCurve(loopPts, 64), wireMat(0.1)))
-    auto.add(new THREE.Line(wireLine([5, 7, 0.5, 8, 9, 0.5, 6.5, 6, 0.5]), wireMat(0.08)))
-    const pulseMat = new THREE.PointsMaterial({ color: 0xa78bfa, size: 2.5, transparent: true, opacity: 0.75, sizeAttenuation: true })
+    auto.add(new THREE.Line(wireCurve(
+      nodes.map(([x, y, z]) => new THREE.Vector3(x, y, z)).concat([new THREE.Vector3(nodes[0][0], nodes[0][1], nodes[0][2])]),
+      80,
+    ), wireMat(0.1)))
+    ;[[5, 5, 0.5, 8, 7, 0.5], [-5, -5, 0.5, -8, -7, 0.5]].forEach(pts => {
+      auto.add(new THREE.Line(wireLine(pts), wireMat(0.08)))
+    })
+    const pulseMat = new THREE.PointsMaterial({ color: 0xc4b5fd, size: 2.8, transparent: true, opacity: 0.85, sizeAttenuation: true })
     mats.push(pulseMat)
     const pulse = new THREE.Points(wireLine([0, 0, 0, 0, 0, 0]), pulseMat)
     auto.add(pulse)
-    addMotif(auto, -62, -14, -34, 52, (t) => {
-      auto.rotation.z = t * 0.04
-      pulse.position.set(Math.cos(t * 1.2) * 7, Math.sin(t * 1.2) * 7, 0.6)
+    addMotif(auto, -64, -12, -32, 52, (t) => {
+      auto.children[0].rotation.z = t * 0.12
+      auto.children[1].rotation.z = -t * 0.16
+      pulse.position.set(Math.cos(t * 0.9) * 9, Math.sin(t * 0.9) * 5, 0.8)
     })
 
-    // Performance : jauges + barres montantes
+    // Performance : jauge vitesse + courbe montante
     const perf = new THREE.Group()
-    const pMat = wireMat(0.15, 0x6ee7b7)
-    const barHeights = [4, 7, 10, 13, 16]
-    barHeights.forEach((h, i) => {
-      const bar = new THREE.LineSegments(wireBox(3.2, h, 1.2), i === 4 ? pMat : wireMat(0.08 + i * 0.015, 0x4d88ff))
-      bar.position.set(-8 + i * 4, h / 2 - 8, 0)
+    const pMain = wireMat(0.16, 0x6ee7b7)
+    const gauge = new THREE.TorusGeometry(10, 0.14, 4, 48, Math.PI * 1.1)
+    const gaugeE = new THREE.EdgesGeometry(gauge)
+    gauge.dispose()
+    geos.push(gaugeE)
+    const gaugeLine = new THREE.LineSegments(gaugeE, wireMat(0.11))
+    gaugeLine.rotation.z = Math.PI * 1.05
+    gaugeLine.position.set(0, 2, 0)
+    perf.add(gaugeLine)
+    const needle = new THREE.Line(wireLine([0, 2, 0.2, 7, 9, 0.2]), pMain)
+    perf.add(needle)
+    const bars = [3.5, 6, 8.5, 11, 13.5]
+    bars.forEach((h, i) => {
+      const bar = new THREE.LineSegments(wireBox(2.8, h, 1), i === 4 ? pMain : wireMat(0.08 + i * 0.012, 0x4d88ff))
+      bar.position.set(-8 + i * 4, h / 2 - 9, 0)
       perf.add(bar)
     })
-    const gaugeGeo = new THREE.TorusGeometry(9, 0.12, 4, 48, Math.PI * 1.35)
-    const gaugeEdges = new THREE.EdgesGeometry(gaugeGeo)
-    gaugeGeo.dispose()
-    geos.push(gaugeEdges)
-    const gauge = new THREE.LineSegments(gaugeEdges, wireMat(0.1))
-    gauge.rotation.z = Math.PI * 0.85
-    gauge.position.set(0, 6, 0)
-    perf.add(gauge)
-    perf.add(new THREE.Line(wireLine([0, 6, 0.2, 5, 11, 0.2]), pMat))
-    addMotif(perf, 6, -38, -48, 40, (t) => {
-      perf.rotation.y = t * 0.07
-      gauge.rotation.z = Math.PI * 0.85 + Math.sin(t * 0.8) * 0.15
+    perf.add(new THREE.Line(wireLine([-8, -9, 0.2, 8, 5, 0.2]), wireMat(0.09, 0x38bdf8)))
+    addMotif(perf, 8, -36, -46, 40, (t) => {
+      perf.rotation.y = t * 0.05
+      needle.rotation.z = Math.sin(t * 0.7) * 0.25
     })
 
     // ═══════════════════════════════════════════════════

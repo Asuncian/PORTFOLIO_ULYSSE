@@ -41,8 +41,8 @@ export default function ForWho() {
 
       <div className="for-who-grid reveal-grid">
         {targets.map(({ icon, title, desc }) => (
-          <div key={title} className="fw-card">
-            <div className="fw-icon">
+          <div key={title} className={`fw-card fw-card--${icon}`}>
+            <div className={`fw-icon fw-icon--${icon}`}>
               <ForWhoIcon3D variant={icon} />
             </div>
             <h3>{title}</h3>
