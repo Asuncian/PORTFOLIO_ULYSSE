@@ -133,7 +133,7 @@ export default function Contact() {
           Disponible pour en discuter. Je lis tout et je réponds sous 24 h.
         </p>
 
-        <div className="contact-form-block reveal-contact">
+        <div className="contact-form-block reveal-contact-form">
           <div className="contact-form-header">
             <p className="contact-form-tag">Écrivez-moi</p>
             <h3 className="contact-form-title">Parlez-moi de votre projet</h3>

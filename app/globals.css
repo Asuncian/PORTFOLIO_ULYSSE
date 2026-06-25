@@ -1294,8 +1294,10 @@ section { position: relative; z-index: 4; }
     0 28px 64px -32px rgba(22,80,240,.5),
     0 12px 32px -16px rgba(0,0,0,.45);
   transform-style: preserve-3d;
+}
+.reveal-contact-form {
   opacity: 0;
-  transform: perspective(900px) rotateX(6deg) translateY(28px);
+  will-change: opacity, transform;
 }
 .contact-form-block::before {
   content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
@@ -1418,14 +1420,14 @@ footer {
 .reveal-grid > * { will-change: opacity, transform; }
 .reveal-contact {
   opacity: 0;
-  transform: perspective(900px) rotateX(4deg) translateY(18px);
+  transform: translateY(14px);
   will-change: opacity, transform;
 }
 .section-header.reveal-contact {
-  transform: translateY(18px);
+  transform: translateY(14px);
 }
 @media (prefers-reduced-motion: reduce) {
-  .reveal, .reveal-grid > *, .reveal-contact { opacity: 1; transform: none; will-change: auto; }
+  .reveal, .reveal-grid > *, .reveal-contact, .reveal-contact-form { opacity: 1; transform: none; will-change: auto; }
 }
 @media (pointer: coarse) {
   body { cursor: auto; }
