@@ -37,10 +37,14 @@ export default function Cursor() {
     // including nodes GSAP injects later.
     const targets = 'a, button, .fw-card, .pillar, .lever, .contact-chip, .method-card3d, input, select, textarea'
     const onOver = (e: MouseEvent) => {
-      if ((e.target as Element)?.closest?.(targets)) ring.classList.add('hovered')
+      if ((e.target as Element)?.closest?.(targets)) {
+        ring.classList.add('hovered'); dot.classList.add('hovered')
+      }
     }
     const onOut = (e: MouseEvent) => {
-      if ((e.target as Element)?.closest?.(targets)) ring.classList.remove('hovered')
+      if ((e.target as Element)?.closest?.(targets)) {
+        ring.classList.remove('hovered'); dot.classList.remove('hovered')
+      }
     }
     document.addEventListener('mouseover', onOver, { passive: true })
     document.addEventListener('mouseout', onOut, { passive: true })
