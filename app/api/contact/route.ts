@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { parseContactBody, CONTACT_LIMITS } from '@/lib/contact'
 import { buildContactNotificationEmail } from '@/lib/contact-email'
-import { getFromAddress, getToAddress, getTransporter, formatEmailAddress } from '@/lib/mail'
+import { getFromAddress, getToAddress, getTransporter, formatEmailAddress, resetTransporter } from '@/lib/mail'
 import { getClientIp } from '@/lib/request'
 import { rateLimit } from '@/lib/rate-limit'
 
@@ -86,11 +86,22 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ ok: true })
   } catch (err) {
-    const e = err as Error & { code?: string; response?: string; command?: string }
+    const e = err as Error & { code?: string; response?: string; responseCode?: number; command?: string }
     console.error('Contact API error:', e?.message ?? String(err))
     if (e?.code) console.error('Contact API error code:', e.code)
+    if (e?.responseCode) console.error('Contact API SMTP responseCode:', e.responseCode)
     if (e?.response) console.error('Contact API error response:', e.response)
 
-    return NextResponse.json({ error: "Erreur lors de l'envoi." }, { status: 500 })
+    resetTransporter()
+
+    const smtpHint =
+      process.env.CONTACT_DEBUG === 'true' && e?.response
+        ? ` (${String(e.response).slice(0, 120)})`
+        : ''
+
+    return NextResponse.json(
+      { error: `Erreur lors de l'envoi.${smtpHint}` },
+      { status: 500 },
+    )
   }
 }

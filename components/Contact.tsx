@@ -100,7 +100,7 @@ export default function Contact() {
     <section id="contact">
       <div className="contact-wrap">
 
-        <div className="section-header reveal-contact" style={{ marginBottom: '3rem' }}>
+        <div className="section-header" style={{ marginBottom: '3rem' }}>
           <p className="section-tag">Contact</p>
           <h2 className="section-title">On se <em>parle ?</em></h2>
           <p className="section-sub">
@@ -130,10 +130,11 @@ export default function Contact() {
 
         <p className="contact-status">
           <span className="contact-status-dot" aria-hidden="true" />
-          Disponible pour en discuter. Je lis tout et je réponds sous 24 h.
+          <span className="contact-status-full">Disponible pour en discuter. Je lis tout et je réponds sous 24 h.</span>
+          <span className="contact-status-short">Disponible — réponse sous 24 h.</span>
         </p>
 
-        <div className="contact-form-block reveal-contact-form">
+        <div className="contact-form-block">
           <div className="contact-form-header">
             <p className="contact-form-tag">Écrivez-moi</p>
             <h3 className="contact-form-title">Parlez-moi de votre projet</h3>

@@ -53,11 +53,15 @@ function buildTransporter(): Transporter | null {
 
   if (isGmail) {
     return nodemailer.createTransport({
-      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false,
       auth: { user, pass },
+      requireTLS: true,
+      tls: { minVersion: 'TLSv1.2', rejectUnauthorized: true },
       connectionTimeout: 15000,
       greetingTimeout: 10000,
-      socketTimeout: 15000,
+      socketTimeout: 20000,
       pool: false,
     } as nodemailer.TransportOptions)
   }
@@ -83,6 +87,11 @@ export function getTransporter(): Transporter | null {
   }
   cachedTransporter = buildTransporter()
   return cachedTransporter
+}
+
+/** Réinitialise le transport SMTP après une erreur d'envoi. */
+export function resetTransporter(): void {
+  cachedTransporter = undefined
 }
 
 export function getFromAddress(): ParsedEmail | null {
