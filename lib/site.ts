@@ -4,6 +4,9 @@ export const SITE_URL =
 
 export const SITE_NAME = 'Ulysse Goming-Jobert'
 
+/** Appellation affichée (hero, titre d'onglet, identité). */
+export const SITE_ROLE = 'Développeur IA & Automatisation'
+
 export const SITE_EMAIL = 'gomingjobertulysse@gmail.com'
 export const SITE_PHONE = '+33645003007'
 export const SITE_PHONE_DISPLAY = '06 45 00 30 07'
@@ -12,31 +15,24 @@ export const SITE_LINKEDIN = 'https://linkedin.com/in/ulysse-goming-jobert-25625
 export const SITE_REGION = 'Occitanie'
 export const SITE_GEO_REGION = 'FR-OCC'
 
-/** Rôle affiché (hero, SEO, JSON-LD). */
-export const SITE_ROLE = 'Développeur IA & Automatisation'
-
 /** Google Search Console : balise meta de vérification du domaine. */
 export const GOOGLE_SITE_VERIFICATION =
   process.env.GOOGLE_SITE_VERIFICATION ?? 'MJONZxuhd88OQG_R1_aVo0JI_PVnTH6ncVRITkIBxSU'
 
 /** Titre principal (balise & Open Graph). Nom en premier : portfolio pro, pas offre freelance. */
-export const SITE_TITLE = `Ulysse Goming-Jobert | ${SITE_ROLE}`
+export const SITE_TITLE =
+  'Ulysse Goming-Jobert | Développeur web & automatisation'
 
-/** Meta description (~155 car.) : IA, automatisation, Occitanie. */
+/** Meta description (~155 car.) : développeur web, Occitanie, sans positionnement freelance. */
 export const SITE_DESCRIPTION =
-  'PME, artisans et services : sites vitrines, automatisations IA et outils sur mesure. Développeur IA et automatisation en Occitanie, du premier échange à la mise en ligne.'
+  'PME, artisans et services : sites vitrines, automatisations et outils sur mesure. Développeur web et automatisation en Occitanie, du premier échange à la mise en ligne.'
 
 /** Termes prestations, stack et géolocalisation. */
 export const SEO_SERVICE_KEYWORDS = [
   SITE_NAME,
-  'développeur IA',
-  'développeur IA & automatisation',
-  'développeur IA Occitanie',
-  'automatisation IA',
-  'intégration IA',
-  'workflows IA',
   'développeur web',
   'développeur web Occitanie',
+  'développeur web & automatisation',
   'création site web',
   'création site internet',
   'création site web PME',

@@ -71,10 +71,10 @@ export default function Hero() {
         <span className="line"><span className="h-word word hero-name-last">Goming-Jobert</span></span>
       </h1>
 
-      <p className="hero-role h-role">{SITE_ROLE}</p>
+      <p className="hero-role h-role">Développeur web &amp; automatisation</p>
 
       <p className="hero-sub h-sub">
-        Sites, automatisations et intégrations IA pour des besoins concrets. Du premier échange jusqu&apos;à la mise en ligne.
+        Je développe des sites et des automatisations pour des besoins concrets. Du premier échange jusqu&apos;à la mise en ligne.
       </p>
 
       <div className="hero-actions">
