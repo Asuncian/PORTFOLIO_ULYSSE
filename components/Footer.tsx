@@ -1,8 +1,10 @@
+import BrandName from '@/components/BrandName'
+
 export default function Footer() {
   return (
     <footer>
       <div className="footer-logo">
-        Ulysse<span>.</span>
+        <BrandName variant="footer" />
       </div>
       <div className="footer-links">
         <a href="#pour-qui">Terrain</a>
@@ -10,7 +12,7 @@ export default function Footer() {
         <a href="#methode">Méthode</a>
         <a href="#contact">Contact</a>
       </div>
-      <p className="footer-copy">© {new Date().getFullYear()} Ulysse Goming Jobert</p>
+      <p className="footer-copy">© {new Date().getFullYear()} Ulysse Goming-Jobert</p>
     </footer>
   )
 }

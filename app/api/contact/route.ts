@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { parseContactBody } from '@/lib/contact'
+import { parseContactBody, CONTACT_LIMITS } from '@/lib/contact'
 import { buildContactNotificationEmail } from '@/lib/contact-email'
 import { getFromAddress, getToAddress, getTransporter, formatEmailAddress } from '@/lib/mail'
 import { getClientIp } from '@/lib/request'
@@ -29,7 +29,11 @@ export async function POST(req: NextRequest) {
 
   let body: unknown
   try {
-    body = await req.json()
+    const raw = await req.text()
+    if (raw.length > CONTACT_LIMITS.bodyMaxBytes) {
+      return NextResponse.json({ error: 'Requête trop volumineuse.' }, { status: 413 })
+    }
+    body = JSON.parse(raw)
   } catch {
     return NextResponse.json({ error: 'Corps de requête invalide.' }, { status: 400 })
   }

@@ -1,5 +1,6 @@
 'use client'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import BrandName from '@/components/BrandName'
 
 const links = [
   { href: '#pour-qui', label: 'Terrain', id: 'pour-qui' },
@@ -111,7 +112,7 @@ export default function Nav() {
     <>
       <nav id="main-nav" className={scrolled ? 'scrolled' : ''}>
         <a href="#hero" className="nav-logo" onClick={() => onLinkClick('hero')}>
-          <span className="nav-logo-text">Ulysse</span><span className="nav-dot">.</span>
+          <BrandName variant="nav" />
         </a>
 
         <ul className="nav-links">

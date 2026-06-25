@@ -6,6 +6,7 @@ export const CONTACT_LIMITS = {
   emailMax: 254,
   messageMin: 10,
   messageMax: 5000,
+  bodyMaxBytes: 8_192,
 } as const
 
 export type ContactFields = {

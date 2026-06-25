@@ -11,13 +11,13 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Ulysse Goming Jobert | Développement web & automatisation',
+  title: 'Ulysse Goming-Jobert | Développement web & automatisation',
   description: 'Sites, automatisations et outils sur mesure. Du besoin terrain jusqu\'à la mise en ligne.',
   keywords: 'développeur web, automatisation, Next.js, React, n8n, artisans, SaaS',
-  authors: [{ name: 'Ulysse Goming Jobert' }],
+  authors: [{ name: 'Ulysse Goming-Jobert' }],
   robots: { index: true, follow: true },
   openGraph: {
-    title: 'Ulysse Goming Jobert | Développement web & automatisation',
+    title: 'Ulysse Goming-Jobert | Développement web & automatisation',
     description: 'Sites rapides, automatisations et outils sur mesure. Du premier échange jusqu\'à la mise en ligne.',
     type: 'website',
   },
