@@ -1,5 +1,8 @@
 'use client'
 
+import { CONTACT_LIMITS } from '@/lib/contact'
+import { FormEvent, useRef, useState } from 'react'
+
 function PhoneIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -35,20 +38,76 @@ function SendIcon() {
   )
 }
 
+type FormStatus = 'idle' | 'sending' | 'sent' | 'error'
+
+const ERROR_FALLBACK = "L'envoi a échoué. Vous pouvez aussi m'écrire directement par email."
+const ERROR_UNAVAILABLE = 'Le formulaire est temporairement indisponible. Écrivez-moi directement par email.'
+
 export default function Contact() {
+  const formRef = useRef<HTMLFormElement>(null)
+  const [status, setStatus] = useState<FormStatus>('idle')
+  const [errorMsg, setErrorMsg] = useState('')
+
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (status === 'sending') return
+
+    const form = formRef.current
+    if (!form) return
+
+    const data = new FormData(form)
+    const name = String(data.get('name') ?? '').trim()
+    const email = String(data.get('email') ?? '').trim()
+    const message = String(data.get('message') ?? '').trim()
+    const website = String(data.get('website') ?? '').trim()
+
+    if (website) return
+
+    setStatus('sending')
+    setErrorMsg('')
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, message, website }),
+      })
+
+      const payload = await res.json().catch(() => ({})) as { error?: string }
+
+      if (!res.ok) {
+        setStatus('error')
+        const fallback = res.status === 503 ? ERROR_UNAVAILABLE : ERROR_FALLBACK
+        setErrorMsg(typeof payload.error === 'string' ? payload.error : fallback)
+        return
+      }
+
+      setStatus('sent')
+      form.reset()
+    } catch {
+      setStatus('error')
+      setErrorMsg('Connexion impossible. Réessayez ou contactez-moi par email.')
+    }
+  }
+
+  const resetForm = () => {
+    setStatus('idle')
+    setErrorMsg('')
+    formRef.current?.reset()
+  }
+
   return (
     <section id="contact">
       <div className="contact-wrap">
 
         <div className="section-header reveal" style={{ marginBottom: '3rem' }}>
           <p className="section-tag">Contact</p>
-          <h2 className="section-title">On en <em>discute ?</em></h2>
+          <h2 className="section-title">On se <em>parle ?</em></h2>
           <p className="section-sub">
-            Une alternance, un projet à concrétiser, ou simplement l'envie d'échanger sur ce que vous voyez ici — écrivez-moi, je réponds vite.
+            Une proposition d'alternance, une question, ou juste l'envie d'échanger ? Écrivez-moi, je réponds vite.
           </p>
         </div>
 
-        {/* Chips de contact */}
         <div className="contact-chips">
           <a href="tel:0645003007" className="contact-chip">
             <PhoneIcon />
@@ -73,28 +132,79 @@ export default function Contact() {
           </span>
         </div>
 
-        {/* Formulaire en carte, champs remplis à labels flottants */}
-        <form className="contact-form" onSubmit={e => e.preventDefault()}>
-          <div className="cf-grid">
-            <div className="ff">
-              <input id="nom" type="text" placeholder=" " required />
-              <label htmlFor="nom">Votre nom</label>
-            </div>
-            <div className="ff">
-              <input id="email" type="email" placeholder=" " required />
-              <label htmlFor="email">Votre email</label>
-            </div>
+        <form ref={formRef} className="contact-form" onSubmit={onSubmit} noValidate>
+          <div className="ff-hp" aria-hidden="true">
+            <label htmlFor="website">Site web</label>
+            <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+          </div>
+
+          <div className="ff">
+            <input
+              id="nom"
+              name="name"
+              type="text"
+              placeholder=" "
+              required
+              minLength={CONTACT_LIMITS.nameMin}
+              maxLength={CONTACT_LIMITS.nameMax}
+              autoComplete="name"
+              disabled={status === 'sending'}
+            />
+            <label htmlFor="nom">Votre nom</label>
+            <span className="ff-line" aria-hidden />
+          </div>
+
+          <div className="ff">
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder=" "
+              required
+              maxLength={CONTACT_LIMITS.emailMax}
+              autoComplete="email"
+              inputMode="email"
+              disabled={status === 'sending'}
+            />
+            <label htmlFor="email">Votre email</label>
+            <span className="ff-line" aria-hidden />
           </div>
 
           <div className="ff ff-area">
-            <textarea id="message" rows={4} placeholder=" " required />
+            <textarea
+              id="message"
+              name="message"
+              rows={4}
+              placeholder=" "
+              required
+              minLength={CONTACT_LIMITS.messageMin}
+              maxLength={CONTACT_LIMITS.messageMax}
+              disabled={status === 'sending'}
+            />
             <label htmlFor="message">Votre message</label>
+            <span className="ff-line" aria-hidden />
           </div>
 
-          <button type="submit" className="form-submit">
-            Envoyer le message
-            <SendIcon />
-          </button>
+          {status === 'error' && (
+            <p className="form-feedback form-feedback-error" role="alert">{errorMsg}</p>
+          )}
+          {status === 'sent' && (
+            <p className="form-feedback form-feedback-ok" role="status">
+              Message envoyé. Je vous réponds dès que possible.
+            </p>
+          )}
+
+          <div className="form-actions">
+            <button type="submit" className="form-submit" disabled={status === 'sending' || status === 'sent'}>
+              {status === 'sending' ? 'Envoi en cours' : 'Envoyer'}
+              <SendIcon />
+            </button>
+            {status === 'sent' && (
+              <button type="button" className="form-reset" onClick={resetForm}>
+                Envoyer un autre message
+              </button>
+            )}
+          </div>
         </form>
 
       </div>

@@ -1,14 +1,11 @@
 'use client'
 import { useEffect, useRef } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-gsap.registerPlugin(ScrollTrigger)
+import { gsap, ScrollTrigger } from '@/lib/gsap'
 
 const STATS = [
   { value: 100, suffix: '%',    label: 'Projets livrés en production' },
   { value: 15,  suffix: '+',    label: 'Technologies maîtrisées' },
-  { value: 2,   suffix: '+ ans', label: "D'expérience terrain" },
+  { value: 2,   suffix: ' ans+', label: "D'expérience terrain" },
   { value: 24,  suffix: 'h',    label: 'Pour vous répondre' },
 ]
 

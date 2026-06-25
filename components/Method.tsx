@@ -28,7 +28,7 @@ export default function Method() {
     const scene = sceneRef.current
     if (!stage || !scene) return
 
-    // Parallax tilt only where it makes sense — skip on touch / reduced-motion
+    // Parallax tilt only where it makes sense - skip on touch / reduced-motion
     const coarse = window.matchMedia('(pointer: coarse)').matches
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (coarse || reduced) return

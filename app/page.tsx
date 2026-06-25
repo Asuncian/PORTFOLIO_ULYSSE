@@ -11,7 +11,7 @@ import Method     from '@/components/Method'
 import Contact    from '@/components/Contact'
 import Footer     from '@/components/Footer'
 
-// Three.js loads only after browser idle — avoids blocking first paint
+// Three.js loads only after browser idle - avoids blocking first paint
 const DeferredBackground = dynamic(() => import('@/components/DeferredBackground'), { ssr: false })
 const Cursor             = dynamic(() => import('@/components/Cursor'),          { ssr: false })
 const ScrollAnimator     = dynamic(() => import('@/components/ScrollAnimator'),  { ssr: false })

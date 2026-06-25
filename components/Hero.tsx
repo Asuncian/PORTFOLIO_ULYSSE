@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useRef } from 'react'
-import gsap from 'gsap'
+import { gsap } from '@/lib/gsap'
 
 export default function Hero() {
   const ref = useRef<HTMLElement>(null)
@@ -25,7 +25,7 @@ export default function Hero() {
     return () => ctx.revert()
   }, [])
 
-  // Pointer parallax + 3D tilt — depth layers move at different rates.
+  // Pointer parallax + 3D tilt - depth layers move at different rates.
   // Skipped on touch / reduced-motion; one rAF, transforms only.
   useEffect(() => {
     const coarse = window.matchMedia('(pointer: coarse)').matches

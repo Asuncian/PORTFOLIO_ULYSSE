@@ -1,9 +1,6 @@
 'use client'
 import { useEffect, useRef } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-gsap.registerPlugin(ScrollTrigger)
+import { gsap, ScrollTrigger } from '@/lib/gsap'
 
 export default function QuoteBand() {
   const ref = useRef<HTMLElement>(null)

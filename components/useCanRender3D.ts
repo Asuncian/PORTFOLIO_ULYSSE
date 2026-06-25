@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 /**
  * Decides whether heavy WebGL scenes are worth rendering on this device.
  * Returns false for: reduced-motion users, small/mobile screens, low core
- * counts and devices that report little memory — so the main thread stays
+ * counts and devices that report little memory - so the main thread stays
  * free for first paint and interaction on the machines that need it most.
  */
 export function useCanRender3D(): boolean {

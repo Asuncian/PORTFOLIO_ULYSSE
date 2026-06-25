@@ -120,28 +120,28 @@ function WrenchIcon() {
 const targets = [
   {
     Icon: HotelIcon,
-    title: 'Hôtellerie',
-    desc: "J'ai appris à fluidifier la circulation des infos entre les équipes, pour qu'elles ne se perdent plus au changement de service.",
+    title: 'Hôtels',
+    desc: "Moins de tensions entre les équipes, et les infos qui ne se perdent plus au changement de service.",
   },
   {
     Icon: RestaurantIcon,
-    title: 'Restauration',
-    desc: "Réservations, rappels, suivi en salle : j'ai construit des outils qui allègent les soirs de coup de feu.",
+    title: 'Restaurants',
+    desc: "Réservations, rappels, service en salle : moins d'appels à passer et moins d'oublis le soir du coup de feu.",
   },
   {
     Icon: HouseIcon,
     title: "Maisons d'hôtes",
-    desc: "Confirmations automatiques et suivi des séjours, pour remplacer le tableur aux formules cassées.",
+    desc: "Confirmations automatiques, suivi des séjours. Plus besoin du tableur avec ses formules cassées.",
   },
   {
     Icon: CalendarIcon,
     title: 'Hébergements indépendants',
-    desc: 'Un seul calendrier qui réunit toutes les plateformes, sans avoir à se connecter partout.',
+    desc: 'Un seul calendrier pour tout voir, toutes plateformes confondues. Sans se connecter partout.',
   },
   {
     Icon: WrenchIcon,
-    title: 'Artisanat',
-    desc: 'Des sites propres et des outils simples pour des paysagistes, élagueurs et entreprises du BTP.',
+    title: 'Artisans',
+    desc: 'Un site propre et des outils simples pour les paysagistes, élagage, BTP. On part de ce que vous avez.',
   },
 ]
 
@@ -149,10 +149,10 @@ export default function ForWho() {
   return (
     <section id="pour-qui">
       <div className="section-header reveal">
-        <p className="section-tag">Terrain</p>
-        <h2 className="section-title">Là où j'ai mis les <em>mains</em></h2>
+        <p className="section-tag">Secteurs</p>
+        <h2 className="section-title">J'ai déjà <em>construit pour eux</em></h2>
         <p className="section-sub">
-          Des métiers concrets, appris au contact des gens. J'y ai pris le goût des outils simples, qu'on comprend du premier coup.
+          Des métiers de terrain que je connais bien. J'y construis des outils simples, pensés pour le quotidien.
         </p>
       </div>
 

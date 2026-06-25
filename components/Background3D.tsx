@@ -12,7 +12,7 @@ export default function Background3D() {
     const renderer = new THREE.WebGLRenderer({
       canvas, antialias: true, alpha: true, powerPreference: 'high-performance',
     })
-    // Capping DPR is the single biggest GPU win on retina/4K — 1.5 looks crisp
+    // Capping DPR is the single biggest GPU win on retina/4K - 1.5 looks crisp
     renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5))
     renderer.setSize(innerWidth, innerHeight)
     renderer.setClearColor(0x000000, 0)
@@ -22,7 +22,7 @@ export default function Background3D() {
     camera.position.set(0, 0, 100)
 
     // ═══════════════════════════════════════════════════
-    //  1 · STAR FIELD  —  shader twinkling + cross spike
+    //  1 · STAR FIELD  -  shader twinkling + cross spike
     // ═══════════════════════════════════════════════════
     const N_STARS   = 2000
     const sPos      = new Float32Array(N_STARS * 3)
@@ -111,7 +111,7 @@ export default function Background3D() {
     scene.add(starField)
 
     // ═══════════════════════════════════════════════════
-    //  2 · NEBULA  —  large soft blobs, deep-blue glow
+    //  2 · NEBULA  -  large soft blobs, deep-blue glow
     // ═══════════════════════════════════════════════════
     const N_NEB   = 140
     const nebPos  = new Float32Array(N_NEB * 3)
@@ -157,7 +157,7 @@ export default function Background3D() {
     scene.add(new THREE.LineSegments(lineGeo, lineMat))
 
     // ═══════════════════════════════════════════════════
-    //  4 · HERO ICOSAHEDRON  —  wireframe, electric blue
+    //  4 · HERO ICOSAHEDRON  -  wireframe, electric blue
     // ═══════════════════════════════════════════════════
     const icoGeo = new THREE.IcosahedronGeometry(24, 1)
     const icoMat = new THREE.MeshBasicMaterial({
@@ -169,7 +169,7 @@ export default function Background3D() {
     scene.add(ico)
 
     // ═══════════════════════════════════════════════════
-    //  5 · GLOWING TORUS  —  animated shader
+    //  5 · GLOWING TORUS  -  animated shader
     // ═══════════════════════════════════════════════════
     const torusGeo = new THREE.TorusGeometry(16, 0.3, 8, 100)
     const torusMat = new THREE.ShaderMaterial({
@@ -200,7 +200,7 @@ export default function Background3D() {
     scene.add(torus)
 
     // ═══════════════════════════════════════════════════
-    //  6 · OCTAHEDRON  —  floating accent
+    //  6 · OCTAHEDRON  -  floating accent
     // ═══════════════════════════════════════════════════
     const octaGeo = new THREE.OctahedronGeometry(8, 0)
     const octaMat = new THREE.MeshBasicMaterial({
@@ -233,7 +233,7 @@ export default function Background3D() {
     }
     window.addEventListener('mousemove', onMouse, { passive: true })
 
-    // Cache layout-dependent values — reading them every frame forces a
+    // Cache layout-dependent values - reading them every frame forces a
     // synchronous reflow. Refresh only on scroll/resize (both passive).
     let scrollProgress = 0
     let docRange = Math.max(document.body.scrollHeight - innerHeight, 1)
@@ -263,7 +263,7 @@ export default function Background3D() {
       ring.rotation.z  = time * 0.035
       octa.position.y  = 22 + Math.sin(time * 0.65) * 3.5
 
-      // Scroll parallax (uses cached progress — no per-frame layout reads)
+      // Scroll parallax (uses cached progress - no per-frame layout reads)
       const sp = scrollProgress
       starField.position.y  = -sp * 140
       ico.position.y        =  8  - sp * 70

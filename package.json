@@ -4,18 +4,21 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:fresh": "node -e \"try{require('fs').rmSync('.next',{recursive:true,force:true})}catch(e){}\" && next dev",
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
+    "gsap": "^3.12.5",
     "next": "14.2.5",
+    "nodemailer": "^9.0.1",
     "react": "^18",
     "react-dom": "^18",
-    "three": "^0.164.1",
-    "gsap": "^3.12.5"
+    "three": "^0.164.1"
   },
   "devDependencies": {
     "@types/node": "^20",
+    "@types/nodemailer": "^8.0.1",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/three": "^0.164.0",

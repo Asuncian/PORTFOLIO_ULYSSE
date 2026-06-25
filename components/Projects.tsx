@@ -1,10 +1,7 @@
 'use client'
 import { useEffect, useRef } from 'react'
 import Image from 'next/image'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-gsap.registerPlugin(ScrollTrigger)
+import { gsap } from '@/lib/gsap'
 
 type ProjectStatus = 'live' | 'private' | 'beta'
 interface Project {
@@ -75,6 +72,8 @@ export default function Projects() {
   const showcaseRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    const cleanups: Array<() => void> = []
+
     const ctx = gsap.context(() => {
       const strips = showcaseRef.current?.querySelectorAll<HTMLElement>('.proj-strip')
       if (!strips) return
@@ -105,16 +104,26 @@ export default function Projects() {
         const onMove  = (e: MouseEvent) => tilt(e.clientX, e.clientY, strip.getBoundingClientRect())
         const onTouch = (e: TouchEvent) => {
           const t = e.touches[0]
-          tilt(t.clientX, t.clientY, strip.getBoundingClientRect())
+          if (t) tilt(t.clientX, t.clientY, strip.getBoundingClientRect())
         }
         strip.addEventListener('mousemove', onMove)
         strip.addEventListener('mouseleave', reset)
         strip.addEventListener('touchmove',  onTouch, { passive: true })
         strip.addEventListener('touchend',   reset)
+
+        cleanups.push(() => {
+          strip.removeEventListener('mousemove', onMove)
+          strip.removeEventListener('mouseleave', reset)
+          strip.removeEventListener('touchmove', onTouch)
+          strip.removeEventListener('touchend', reset)
+        })
       })
     }, showcaseRef)
 
-    return () => ctx.revert()
+    return () => {
+      cleanups.forEach((fn) => fn())
+      ctx.revert()
+    }
   }, [])
 
   return (
@@ -133,7 +142,7 @@ export default function Projects() {
             <div className="strip-bg-glow" aria-hidden />
             <div className="strip-shine"   aria-hidden />
 
-            {/* Soft marine waves — layered, slow, themed by --accent */}
+            {/* Soft marine waves - layered, slow, themed by --accent */}
             <div className="strip-waves" aria-hidden>
               <svg className="wave wave-1" viewBox="0 0 1440 220" preserveAspectRatio="none">
                 <path d="M0,128 C240,200 480,40 720,96 C960,152 1200,72 1440,120 L1440,220 L0,220 Z" />

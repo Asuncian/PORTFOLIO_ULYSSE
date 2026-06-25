@@ -37,7 +37,7 @@ const nextConfig = {
             key: 'Strict-Transport-Security',
             value: 'max-age=63072000; includeSubDomains; preload',
           },
-          // Content-Security-Policy — blocks injected/foreign code from executing.
+          // Content-Security-Policy - blocks injected/foreign code from executing.
           // 'unsafe-inline' is required by Next.js' hydration bootstrap and by
           // styled inline styles; no 'unsafe-eval' is needed (GSAP/Three don't eval).
           {

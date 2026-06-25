@@ -1,11 +1,19 @@
 'use client'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export default function Cursor() {
   const dotRef  = useRef<HTMLDivElement>(null)
   const ringRef = useRef<HTMLDivElement>(null)
+  const [hidden, setHidden] = useState(false)
 
   useEffect(() => {
+    const coarse = window.matchMedia('(pointer: coarse)').matches
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (coarse || reduced) {
+      setHidden(true)
+      return
+    }
+
     const dot  = dotRef.current
     const ring = ringRef.current
     if (!dot || !ring) return
@@ -14,12 +22,10 @@ export default function Cursor() {
 
     const onMove = (e: MouseEvent) => {
       cx = e.clientX; cy = e.clientY; moved = true
-      // GPU composite: transform instead of left/top
       dot.style.transform = `translate3d(${cx}px, ${cy}px, 0) translate(-50%, -50%)`
     }
     window.addEventListener('mousemove', onMove, { passive: true })
 
-    // Single rAF loop; idle when the pointer hasn't moved to save the GPU
     let raf: number
     const follow = () => {
       if (moved) {
@@ -32,19 +38,12 @@ export default function Cursor() {
     }
     follow()
 
-    // Event delegation — zero per-element listeners, no MutationObserver.
-    // mouseover/mouseout bubble, so one pair of handlers covers the whole page,
-    // including nodes GSAP injects later.
-    const targets = 'a, button, .fw-card, .pillar, .flow-card, .contact-chip, .method-card3d, input, select, textarea'
+    const targets = 'a, button, .fw-card, .pillar, .lever, .contact-chip, .method-card3d, input, select, textarea'
     const onOver = (e: MouseEvent) => {
-      if ((e.target as Element)?.closest?.(targets)) {
-        ring.classList.add('hovered'); dot.classList.add('hovered')
-      }
+      if ((e.target as Element)?.closest?.(targets)) ring.classList.add('hovered')
     }
     const onOut = (e: MouseEvent) => {
-      if ((e.target as Element)?.closest?.(targets)) {
-        ring.classList.remove('hovered'); dot.classList.remove('hovered')
-      }
+      if ((e.target as Element)?.closest?.(targets)) ring.classList.remove('hovered')
     }
     document.addEventListener('mouseover', onOver, { passive: true })
     document.addEventListener('mouseout', onOut, { passive: true })
@@ -56,6 +55,8 @@ export default function Cursor() {
       document.removeEventListener('mouseout', onOut)
     }
   }, [])
+
+  if (hidden) return null
 
   return (
     <>

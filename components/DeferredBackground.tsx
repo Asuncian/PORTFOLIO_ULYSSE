@@ -24,7 +24,7 @@ export default function DeferredBackground() {
     }
   }, [canRender])
 
-  // Lightweight CSS fallback aurora — instant, GPU-cheap, shown on devices
+  // Lightweight CSS fallback aurora - instant, GPU-cheap, shown on devices
   // where the WebGL field is skipped (mobile / reduced-motion / low-power).
   if (!canRender) return <div className="bg-fallback" aria-hidden />
   if (!ready) return <div className="bg-fallback" aria-hidden />

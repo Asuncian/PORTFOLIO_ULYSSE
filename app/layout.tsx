@@ -11,13 +11,13 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Ulysse Goming Jobert — Développement web & automatisation',
-  description: 'Sites, formulaires, chatbots et automatisations pour l\'hôtellerie, la restauration et les artisans. Des systèmes sobres et fiables.',
+  title: 'Ulysse Goming Jobert | Développement web & automatisation',
+  description: 'Sites, formulaires et automatisations pour l\'hôtellerie, la restauration et les artisans. Des outils sobres, faits pour durer.',
   keywords: 'développement web, automatisation, hôtellerie, restauration, artisans, React, Next.js, n8n',
   authors: [{ name: 'Ulysse Goming Jobert' }],
   robots: { index: true, follow: true },
   openGraph: {
-    title: 'Ulysse Goming Jobert — Développement web & automatisation',
+    title: 'Ulysse Goming Jobert | Développement web & automatisation',
     description: 'Sites rapides et automatisations sur mesure pour l\'hôtellerie, la restauration et les artisans.',
     type: 'website',
   },
@@ -31,7 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     // the serif default (Times New Roman).
     <html lang="fr" className={inter.variable}>
       <head>
-        {/* next/font self-hosts Inter at build time — no Google Fonts requests,
+        {/* next/font self-hosts Inter at build time - no Google Fonts requests,
             so no preconnect needed. */}
         <meta name="theme-color" content="#010108" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />

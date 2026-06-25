@@ -57,7 +57,7 @@ const cols = [
       'Workflows n8n ou Make sur mesure',
       'Emails automatiques - confirmations, rappels, relances',
       'Synchronisation réservations et suivi clients',
-      'Chatbots pour les questions courantes et la prise de RDV',
+      'Réponses automatiques aux questions courantes et prise de RDV',
     ],
   },
   {

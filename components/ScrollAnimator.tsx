@@ -1,12 +1,18 @@
 'use client'
 import { useEffect } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-gsap.registerPlugin(ScrollTrigger)
+import { gsap } from '@/lib/gsap'
 
 export default function ScrollAnimator() {
   useEffect(() => {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reduced) {
+      document.querySelectorAll<HTMLElement>('.reveal, .reveal-grid > *').forEach((el) => {
+        el.style.opacity = '1'
+        el.style.transform = 'none'
+      })
+      return
+    }
+
     const ctx = gsap.context(() => {
       gsap.utils.toArray<HTMLElement>('.reveal').forEach((el) => {
         gsap.to(el, {
@@ -21,7 +27,6 @@ export default function ScrollAnimator() {
         })
       })
 
-      // Staggered grid reveals
       gsap.utils.toArray<HTMLElement>('.reveal-grid').forEach((grid) => {
         const children = grid.children
         gsap.fromTo(
@@ -37,7 +42,7 @@ export default function ScrollAnimator() {
               trigger: grid,
               start: 'top 82%',
             },
-          }
+          },
         )
       })
     })
