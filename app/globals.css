@@ -1410,9 +1410,20 @@ footer {
   position: relative; z-index: 4; background: var(--bg);
 }
 .footer-logo { font-size: .95rem; font-weight: 700; color: var(--text); }
-.footer-links { display: flex; gap: 2rem; }
-.footer-links a { font-size: .76rem; color: var(--text-faint); text-decoration: none; transition: color .2s; }
-.footer-links a:hover { color: var(--blue-bright); }
+.footer-contacts {
+  display: flex; align-items: center; gap: 1.6rem;
+  flex-wrap: wrap; justify-content: center;
+}
+.footer-contact {
+  display: inline-flex; align-items: center; gap: .42rem;
+  font-size: .76rem; text-decoration: none; line-height: 1.2;
+  transition: opacity .2s, transform .2s;
+}
+.footer-contact:hover { opacity: .88; transform: translateY(-1px); }
+.footer-contact svg { flex-shrink: 0; }
+.footer-contact--mail { color: #f87171; }
+.footer-contact--tel { color: #4ade80; }
+.footer-contact--linkedin { color: #0a66c2; }
 .footer-copy { font-size: .73rem; color: var(--text-faint); }
 
 /* ──────────────────────── REVEAL ──────────────────────── */
@@ -1434,7 +1445,7 @@ footer {
   .cursor-dot, .cursor-ring, .cursor-halo { display: none !important; }
   .ff input, .ff textarea { cursor: text; }
   .proj-strip { cursor: auto; }
-  .btn-primary, .btn-ghost, .nav-cta, .contact-form .form-submit { cursor: pointer; }
+  .btn-primary, .btn-ghost, .nav-cta, .contact-form .form-submit, .footer-contact { cursor: pointer; }
 }
 
 /* ──────────────────────── RESPONSIVE ──────────────────────── */
@@ -1671,7 +1682,8 @@ footer {
   footer {
     padding: 1.65rem 1rem calc(1.65rem + env(safe-area-inset-bottom, 0px));
   }
-  .footer-links { flex-wrap: wrap; justify-content: center; overflow: visible; }
+  .footer-contacts { flex-wrap: wrap; justify-content: center; gap: .85rem 1.25rem; }
+  .footer-contact { font-size: .72rem; }
   .footer-copy { white-space: normal; }
 
   .proj-strip:hover { transform: none; }
