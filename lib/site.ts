@@ -18,18 +18,23 @@ export const GOOGLE_SITE_VERIFICATION =
 
 /** Titre principal (balise & Open Graph). Nom en premier : portfolio pro, pas offre freelance. */
 export const SITE_TITLE =
-  'Ulysse Goming-Jobert | Développeur web & automatisation'
+  'Ulysse Goming-Jobert | Développeur IA & automatisation'
 
-/** Meta description (~155 car.) : développeur web, Occitanie, sans positionnement freelance. */
+/** Meta description (~155 car.) : développeur IA, Occitanie. */
 export const SITE_DESCRIPTION =
-  'PME, artisans et services : sites vitrines, automatisations et outils sur mesure. Développeur web et automatisation en Occitanie, du premier échange à la mise en ligne.'
+  'PME, artisans et services : sites vitrines, automatisations IA et outils sur mesure. Développeur IA et automatisation en Occitanie, du premier échange à la mise en ligne.'
 
 /** Termes prestations, stack et géolocalisation. */
 export const SEO_SERVICE_KEYWORDS = [
   SITE_NAME,
+  'développeur IA',
+  'développeur IA Occitanie',
+  'développeur IA & automatisation',
   'développeur web',
   'développeur web Occitanie',
   'développeur web & automatisation',
+  'intégration IA',
+  'automatisation IA',
   'création site web',
   'création site internet',
   'création site web PME',

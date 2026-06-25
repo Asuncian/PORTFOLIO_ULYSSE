@@ -45,12 +45,14 @@ const schema = {
       '@id': personId,
       name: SITE_NAME,
       url: SITE_URL,
-      jobTitle: 'Développeur web & automatisation',
+      jobTitle: 'Développeur IA & automatisation',
       email: SITE_EMAIL,
       telephone: SITE_PHONE,
       sameAs: [SITE_LINKEDIN],
       knowsAbout: [
         'Développement web',
+        'Intelligence artificielle',
+        'Automatisation IA',
         'Sites vitrines pour artisans et PME',
         'Référencement local',
         'Génération de leads pour artisans',
@@ -71,7 +73,7 @@ const schema = {
     {
       '@type': 'ProfessionalService',
       '@id': businessId,
-      name: `${SITE_NAME} | Développement web & automatisation`,
+      name: `${SITE_NAME} | Développeur IA & automatisation`,
       url: SITE_URL,
       description: SITE_DESCRIPTION,
       email: SITE_EMAIL,
@@ -85,7 +87,7 @@ const schema = {
       serviceType: SITE_SERVICES.map((s) => s.name),
       hasOfferCatalog: {
         '@type': 'OfferCatalog',
-        name: 'Services web & automatisation pour artisans et PME',
+        name: 'Services IA, web & automatisation pour artisans et PME',
         itemListElement: SITE_SERVICES.map((service, i) => ({
           '@type': 'Offer',
           position: i + 1,
