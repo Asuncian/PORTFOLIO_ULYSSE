@@ -130,7 +130,7 @@ export default function Contact() {
 
         <p className="contact-status">
           <span className="contact-status-dot" aria-hidden="true" />
-          Ouvert à un poste à temps plein - j'aime quand mon expertise répond à un vrai besoin.
+          Disponible à temps plein pour mettre mon expertise au service de vos projets.
         </p>
 
         <div className="contact-form-block reveal-contact">

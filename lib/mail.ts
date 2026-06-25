@@ -23,7 +23,8 @@ export function parseEmailAddress(raw: string): ParsedEmail | null {
 }
 
 export function formatEmailAddress({ name, email }: ParsedEmail): string {
-  if (name) return `"${name.replace(/"/g, '')}" <${email}>`
+  const safeName = name?.replace(/[\r\n"<>]/g, '').trim()
+  if (safeName) return `"${safeName}" <${email}>`
   return email
 }
 

@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
   openGraph: {
     title: 'Ulysse Goming Jobert | Développement web & automatisation',
-    description: 'Sites rapides, automatisations et outils sur mesure - du besoin terrain jusqu\'à la mise en ligne.',
+    description: 'Sites rapides, automatisations et outils sur mesure, du besoin terrain jusqu\'à la mise en ligne.',
     type: 'website',
   },
 }

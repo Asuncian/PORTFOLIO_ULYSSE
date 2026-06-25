@@ -1065,8 +1065,11 @@ section { position: relative; z-index: 4; }
 .contact-status {
   display: flex; align-items: center; justify-content: center; gap: .55rem;
   margin: 0 auto 2.8rem;
-  max-width: 520px;
-  font-size: .8rem; color: rgba(200,216,240,.5); line-height: 1.5;
+  max-width: 100%;
+  padding: 0 1rem;
+  font-size: .78rem; color: rgba(200,216,240,.52); line-height: 1.4;
+  letter-spacing: .015em;
+  white-space: nowrap;
   pointer-events: none; user-select: none;
 }
 .contact-status-dot {
@@ -1263,6 +1266,7 @@ footer {
 
   /* Contact */
   .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+  .contact-status { white-space: normal; font-size: .76rem; }
 
   /* Footer */
   footer { flex-direction: column; gap: 1.2rem; text-align: center; }

@@ -55,7 +55,7 @@ const cols = [
     title: 'Automatisation',
     items: [
       'Workflows n8n ou Make sur mesure',
-      'Emails automatiques - confirmations, rappels, relances',
+      'Emails automatiques : confirmations, rappels, relances',
       'Synchronisation réservations et suivi clients',
       'Réponses automatiques aux questions courantes et prise de RDV',
     ],

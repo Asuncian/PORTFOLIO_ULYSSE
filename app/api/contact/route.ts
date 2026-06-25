@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { parseContactBody } from '@/lib/contact'
-import { getFromAddress, getToAddress, getTransporter, formatEmailAddress, singleLine } from '@/lib/mail'
+import { buildContactNotificationEmail } from '@/lib/contact-email'
+import { getFromAddress, getToAddress, getTransporter, formatEmailAddress } from '@/lib/mail'
 import { getClientIp } from '@/lib/request'
 import { rateLimit } from '@/lib/rate-limit'
-import { escapeHtml } from '@/lib/sanitize'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -57,9 +57,9 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  const from = getFromAddress()
+  const smtpFrom = getFromAddress()
   const to = getToAddress()
-  if (!from || !to) {
+  if (!smtpFrom || !to) {
     console.error('Contact API: DEFAULT_FROM_EMAIL / EMAIL_HOST_USER manquant ou invalide')
     return NextResponse.json(
       { error: 'Configuration email manquante. Réessayez plus tard.' },
@@ -67,30 +67,19 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  const text = [
-    `Nom : ${name}`,
-    `Email : ${email}`,
-    '',
-    'Message :',
-    message,
-  ].join('\n')
-
-  const html = [
-    '<p><strong>Nom :</strong> ' + escapeHtml(name) + '</p>',
-    '<p><strong>Email :</strong> ' + escapeHtml(email) + '</p>',
-    '<p><strong>Message :</strong></p><pre>' + escapeHtml(message) + '</pre>',
-  ].join('\n')
-
-  const subject = singleLine(`[Portfolio] ${name}`)
+  const submitter = formatEmailAddress({ name, email })
+  const { subject, text, html } = buildContactNotificationEmail({ name, email, message })
 
   try {
     await transporter.sendMail({
-      from: formatEmailAddress({
-        name: from.name ?? 'Portfolio Ulysse',
-        email: from.email,
-      }),
+      from: submitter,
       to: formatEmailAddress(to),
-      replyTo: email,
+      replyTo: submitter,
+      sender: formatEmailAddress(smtpFrom),
+      envelope: {
+        from: smtpFrom.email,
+        to: to.email,
+      },
       subject,
       text,
       html,
@@ -99,11 +88,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true })
   } catch (err) {
     const e = err as Error & { code?: string; response?: string; command?: string }
-    const detail = e?.message ?? String(err)
-    console.error('Contact API error:', detail)
+    console.error('Contact API error:', e?.message ?? String(err))
     if (e?.code) console.error('Contact API error code:', e.code)
     if (e?.response) console.error('Contact API error response:', e.response)
-    if (e?.command) console.error('Contact API error command:', e.command)
 
     return NextResponse.json({ error: "Erreur lors de l'envoi." }, { status: 500 })
   }

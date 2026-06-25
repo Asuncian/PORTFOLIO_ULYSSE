@@ -39,6 +39,9 @@ export function parseContactBody(body: Record<string, unknown>): ParseResult {
   if (cleanName.length < CONTACT_LIMITS.nameMin) {
     return { ok: false, error: 'Nom trop court.', status: 400 }
   }
+  if (/[\r\n]/.test(cleanName) || /[\r\n]/.test(cleanEmail)) {
+    return { ok: false, error: 'Requête invalide.', status: 400 }
+  }
   if (!isValidEmail(cleanEmail)) {
     return { ok: false, error: 'Adresse email invalide.', status: 400 }
   }

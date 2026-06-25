@@ -52,7 +52,7 @@ const projects: Project[] = [
     theme: 't-violet',
     logoSrc: '/logo-cvnova.png',
     logoStyle: { background: '#faf5ff', padding: '4px' },
-    desc: 'Ton prochain entretien commence par un bon CV. Templates soignés, export PDF et abonnement premium - sans se prendre la tête avec Word.',
+    desc: 'Ton prochain entretien commence par un bon CV. Templates soignés, export PDF et abonnement premium, sans se prendre la tête avec Word.',
     url: 'cvnova.fr',
     status: 'live',
   },
