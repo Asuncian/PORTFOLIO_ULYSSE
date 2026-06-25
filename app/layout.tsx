@@ -25,14 +25,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr">
+    // The font CSS variable must live on <html> so that `--font` (declared in
+    // :root) can resolve `var(--font-inter)`. On <body> it stayed out of :root's
+    // scope, `--font` collapsed to an invalid value and the page fell back to
+    // the serif default (Times New Roman).
+    <html lang="fr" className={inter.variable}>
       <head>
         {/* next/font self-hosts Inter at build time — no Google Fonts requests,
             so no preconnect needed. */}
         <meta name="theme-color" content="#010108" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body className={inter.variable}>{children}</body>
+      <body>{children}</body>
     </html>
   )
 }

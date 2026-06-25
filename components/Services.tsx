@@ -18,14 +18,17 @@ const items = [
 
 export default function Services() {
   const ref = useRef<HTMLDivElement>(null)
-  const fillRef = useRef<HTMLDivElement>(null)
+  const fillRef = useRef<SVGPathElement>(null)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // The thread draws itself as you scroll through the section
+      // The wavy thread draws itself as you scroll through the section, by
+      // sweeping a stroke-dashoffset from the full path length down to 0.
       if (fillRef.current) {
-        gsap.fromTo(fillRef.current, { scaleY: 0 }, {
-          scaleY: 1, ease: 'none',
+        const len = fillRef.current.getTotalLength()
+        gsap.set(fillRef.current, { strokeDasharray: len, strokeDashoffset: len })
+        gsap.to(fillRef.current, {
+          strokeDashoffset: 0, ease: 'none',
           scrollTrigger: { trigger: ref.current, start: 'top 65%', end: 'bottom 75%', scrub: 0.5 },
         })
       }
@@ -51,9 +54,33 @@ export default function Services() {
       </div>
 
       <div className="levers" ref={ref}>
-        <div className="levers-line" aria-hidden>
-          <div className="levers-line-fill" ref={fillRef} />
-        </div>
+        {/* Wavy connector thread — a sinuous SVG path drawn on scroll instead
+            of a flat vertical bar. The track is the faint full path, the fill
+            is the same path masked by a stroke-dashoffset reveal. */}
+        <svg
+          className="levers-thread"
+          viewBox="0 0 50 1000"
+          preserveAspectRatio="none"
+          fill="none"
+          aria-hidden
+        >
+          <defs>
+            <linearGradient id="leversGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#4d88ff" />
+              <stop offset="60%" stopColor="#1650f0" />
+              <stop offset="100%" stopColor="#0a2eb8" />
+            </linearGradient>
+          </defs>
+          <path
+            className="levers-thread-track"
+            d="M25 0 C 5 80, 5 120, 25 200 S 45 320, 25 400 S 5 520, 25 600 S 45 720, 25 800 S 5 920, 25 1000"
+          />
+          <path
+            ref={fillRef}
+            className="levers-thread-fill"
+            d="M25 0 C 5 80, 5 120, 25 200 S 45 320, 25 400 S 5 520, 25 600 S 45 720, 25 800 S 5 920, 25 1000"
+          />
+        </svg>
         {items.map((item, i) => (
           <div key={item.title} className="lever">
             <div className="lever-node"><span>{`0${i + 1}`}</span></div>
