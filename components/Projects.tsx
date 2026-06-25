@@ -195,6 +195,18 @@ export default function Projects() {
           </div>
         ))}
       </div>
+
+      <div className="proj-more reveal">
+        <span className="proj-more-glow" aria-hidden />
+        <p className="proj-more-eyebrow">Et au-delà</p>
+        <p className="proj-more-text">
+          Ce n'est qu'un <em>aperçu</em> de ce que j'ai livré — d'autres sites, CRM et outils internes
+          tournent déjà en ligne, parfois en accès privé. Chaque mission part d'un besoin concret sur le terrain.
+        </p>
+        <div className="proj-more-dots" aria-hidden>
+          <span /><span /><span />
+        </div>
+      </div>
     </section>
   )
 }

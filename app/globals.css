@@ -872,6 +872,51 @@ section { position: relative; z-index: 4; }
 .t-sport .proj-link   { color: #fdba74; }
 .t-sport .proj-private-note { color: rgba(251,146,60,.50); }
 
+/* Bandeau « autres projets » sous le showcase */
+.proj-more {
+  position: relative; max-width: 680px; margin: 3.5rem auto 0;
+  padding: 2.2rem 2.4rem 2rem; text-align: center;
+  border-radius: 22px; overflow: hidden;
+  border: 1px solid rgba(77,136,255,.14);
+  background:
+    radial-gradient(120% 100% at 50% 0%, rgba(22,80,240,.1) 0%, transparent 58%),
+    linear-gradient(165deg, rgba(8,12,30,.72) 0%, rgba(3,4,14,.88) 100%);
+  box-shadow: 0 20px 60px -28px rgba(0,0,0,.65), 0 0 0 1px rgba(255,255,255,.03) inset;
+}
+.proj-more-glow {
+  position: absolute; inset: -40% -20% auto; height: 120%;
+  background: radial-gradient(ellipse at 50% 0%, rgba(77,136,255,.18) 0%, transparent 65%);
+  pointer-events: none;
+}
+.proj-more-eyebrow {
+  position: relative; z-index: 1;
+  font-size: .68rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase;
+  color: rgba(147,197,253,.65); margin-bottom: .85rem;
+}
+.proj-more-text {
+  position: relative; z-index: 1;
+  font-size: .95rem; line-height: 1.85; color: rgba(200,216,240,.52);
+  margin: 0;
+}
+.proj-more-text em {
+  font-style: normal;
+  background: linear-gradient(90deg, #93c5fd, #4d88ff, #bcd6ff);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+}
+.proj-more-dots {
+  position: relative; z-index: 1;
+  display: flex; justify-content: center; gap: .45rem; margin-top: 1.35rem;
+}
+.proj-more-dots span {
+  width: 4px; height: 4px; border-radius: 50%;
+  background: rgba(77,136,255,.45);
+  box-shadow: 0 0 8px rgba(77,136,255,.35);
+}
+.proj-more-dots span:nth-child(2) { opacity: .65; transform: scale(.85); }
+.proj-more-dots span:nth-child(3) { opacity: .35; transform: scale(.7); }
+
 /* ──────────────────────── QUOTE BAND ──────────────────────── */
 #quote-band {
   padding: 9rem 2rem; text-align: center;
