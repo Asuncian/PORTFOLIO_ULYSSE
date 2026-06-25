@@ -119,26 +119,60 @@ export default function TechCarousel3D() {
     buildRing(RING_A, 0.62, 0)
     buildRing(RING_B, -0.62, Math.PI / RING_B.length)
 
-    // Scintillements d'ambiance
-    const starCount = 90
+    // Scintillements — chaque étoile pulse à son rythme, halo doux
+    const starCount = 110
     const starPos = new Float32Array(starCount * 3)
     const starPhase = new Float32Array(starCount)
+    const starSize = new Float32Array(starCount)
+    const starSpeed = new Float32Array(starCount)
     for (let i = 0; i < starCount; i++) {
-      starPos[i * 3] = (Math.random() - 0.5) * 22
-      starPos[i * 3 + 1] = (Math.random() - 0.5) * 10
-      starPos[i * 3 + 2] = (Math.random() - 0.5) * 14 - 4
+      const r = 8 + Math.random() * 7
+      const a = Math.random() * Math.PI * 2
+      starPos[i * 3] = Math.cos(a) * r
+      starPos[i * 3 + 1] = (Math.random() - 0.5) * 7.5
+      starPos[i * 3 + 2] = Math.sin(a) * r * 0.55 - 3
       starPhase[i] = Math.random() * Math.PI * 2
+      starSize[i] = 0.028 + Math.random() * 0.055
+      starSpeed[i] = 0.5 + Math.random() * 1.6
     }
     const starGeo = new THREE.BufferGeometry()
     starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3))
-    const starMat = new THREE.PointsMaterial({
-      color: 0xbcd6ff,
-      size: 0.06,
+    starGeo.setAttribute('aPhase', new THREE.BufferAttribute(starPhase, 1))
+    starGeo.setAttribute('aSize', new THREE.BufferAttribute(starSize, 1))
+    starGeo.setAttribute('aSpeed', new THREE.BufferAttribute(starSpeed, 1))
+
+    const starMat = new THREE.ShaderMaterial({
       transparent: true,
-      opacity: 0.55,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
-      sizeAttenuation: true,
+      uniforms: { uTime: { value: 0 } },
+      vertexShader: `
+        attribute float aPhase;
+        attribute float aSize;
+        attribute float aSpeed;
+        uniform float uTime;
+        varying float vTwinkle;
+        void main() {
+          vTwinkle = 0.25 + 0.75 * pow(0.5 + 0.5 * sin(uTime * aSpeed + aPhase), 2.0);
+          vec4 mv = modelViewMatrix * vec4(position, 1.0);
+          float scale = 280.0 / max(-mv.z, 1.0);
+          gl_PointSize = aSize * scale * (0.75 + vTwinkle * 0.35);
+          gl_Position = projectionMatrix * mv;
+        }
+      `,
+      fragmentShader: `
+        varying float vTwinkle;
+        void main() {
+          vec2 uv = gl_PointCoord - 0.5;
+          float d = length(uv);
+          float core = smoothstep(0.42, 0.0, d);
+          float halo = smoothstep(0.5, 0.08, d) * 0.4;
+          float alpha = (core * 0.95 + halo) * vTwinkle;
+          if (alpha < 0.02) discard;
+          vec3 col = mix(vec3(0.45, 0.62, 0.95), vec3(0.94, 0.97, 1.0), core);
+          gl_FragColor = vec4(col, alpha * 0.8);
+        }
+      `,
     })
     const stars = new THREE.Points(starGeo, starMat)
     scene.add(stars)
@@ -171,9 +205,8 @@ export default function TechCarousel3D() {
       animId = requestAnimationFrame(render)
       if (isPaused()) return
       t += 0.016
-
-      starMat.opacity = 0.42 + Math.sin(t * 1.8) * 0.08
-      stars.rotation.y = wheel.rotation.y * 0.15
+      starMat.uniforms.uTime.value = t
+      stars.rotation.y = wheel.rotation.y * 0.12
 
       if (!dragging) {
         wheel.rotation.y += vel

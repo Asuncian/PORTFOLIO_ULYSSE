@@ -16,13 +16,13 @@ export const TECH_RING_A: TechItem[] = [
 export const TECH_RING_B: TechItem[] = [
   { label: 'Supabase', color: '#3ecf8e' },
   { label: 'Stripe', color: '#a78bfa' },
-  { label: 'Resend', color: '#e2e8f0' },
-  { label: 'Twilio', color: '#f87171' },
+  { label: 'Three.js', color: '#ffffff' },
+  { label: 'Dokploy', color: '#818cf8' },
   { label: 'Tailwind CSS', color: '#38bdf8' },
   { label: 'GSAP', color: '#6ee7b7' },
   { label: 'Lenis', color: '#93c5fd' },
-  { label: 'shadcn/ui', color: '#e2e8f0' },
-  { label: 'TanStack Query', color: '#fcd34d' },
+  { label: 'VPS', color: '#67e8f9' },
+  { label: 'Infomaniak', color: '#0098ff' },
   { label: 'Leaflet', color: '#86efac' },
 ]
 
@@ -36,9 +36,13 @@ export const MARQUEE_ACCENTS: Record<string, string> = {
   Vite: 'mq-a-violet',
   Supabase: 'mq-a-emerald',
   Stripe: 'mq-a-violet',
+  'Three.js': 'mq-a-blue',
+  Dokploy: 'mq-a-violet',
   GSAP: 'mq-a-emerald',
   'Tailwind CSS': 'mq-a-cyan',
   Neon: 'mq-a-emerald',
   NestJS: 'mq-a-red',
   Hono: 'mq-a-amber',
+  VPS: 'mq-a-cyan',
+  Infomaniak: 'mq-a-blue',
 }

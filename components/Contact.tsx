@@ -126,11 +126,12 @@ export default function Contact() {
             <LinkedInIcon />
             LinkedIn
           </a>
-          <span className="contact-chip contact-chip-avail">
-            <span className="avail-dot" aria-hidden="true" />
-            Disponible en alternance
-          </span>
         </div>
+
+        <p className="contact-status">
+          <span className="contact-status-dot" aria-hidden="true" />
+          Je cherche une entreprise pour mon alternance.
+        </p>
 
         <div className="contact-form-block reveal-contact">
           <div className="contact-form-header">
