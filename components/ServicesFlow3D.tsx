@@ -37,6 +37,7 @@ export default function ServicesFlow3D({ hostRef }: { hostRef: RefObject<HTMLDiv
       uniforms: {
         uDraw:  { value: 0 },
         uAlpha: { value: alpha },
+        uTime:  { value: 0 },
         uColA:  { value: new THREE.Color(0x0a2eb8) },
         uColB:  { value: new THREE.Color(0x4d88ff) },
       },
@@ -48,7 +49,7 @@ export default function ServicesFlow3D({ hostRef }: { hostRef: RefObject<HTMLDiv
         }
       `,
       fragmentShader: `
-        uniform float uDraw, uAlpha;
+        uniform float uDraw, uAlpha, uTime;
         uniform vec3  uColA, uColB;
         varying vec2  vUv;
         void main() {
@@ -58,7 +59,11 @@ export default function ServicesFlow3D({ hostRef }: { hostRef: RefObject<HTMLDiv
           float across = 1.0 - smoothstep(0.0, 0.5, abs(vUv.y - 0.5));
           float ends = smoothstep(0.0, 0.04, vUv.x) * smoothstep(0.0, 0.04, 1.0 - vUv.x);
           float cap = smoothstep(0.0, 0.035, dist);
-          float a = across * uAlpha * ends * cap;
+          float trail = smoothstep(0.0, 0.22, dist);
+          float spark = sin(vUv.x * 95.0 + uTime * 2.8) * sin(vUv.y * 32.0 - uTime * 1.6);
+          spark = pow(max(0.0, spark), 5.5) * trail * cap;
+          col += vec3(0.82, 0.9, 1.0) * spark * 0.55;
+          float a = across * uAlpha * ends * cap + spark * 0.3;
           gl_FragColor = vec4(col, a);
         }
       `,
@@ -167,6 +172,45 @@ export default function ServicesFlow3D({ hostRef }: { hostRef: RefObject<HTMLDiv
     headCore.visible = false
     scene.add(headCore)
 
+    const makeTrailTexture = () => {
+      const SIZE = 64
+      const c = document.createElement('canvas')
+      c.width = c.height = SIZE
+      const g = c.getContext('2d')!
+      const cx = SIZE / 2
+      const grad = g.createRadialGradient(cx, cx, 0, cx, cx, cx)
+      grad.addColorStop(0, 'rgba(255,255,255,0.95)')
+      grad.addColorStop(0.2, 'rgba(200,225,255,0.7)')
+      grad.addColorStop(0.5, 'rgba(77,136,255,0.25)')
+      grad.addColorStop(1, 'rgba(22,80,240,0)')
+      g.fillStyle = grad
+      g.fillRect(0, 0, SIZE, SIZE)
+      const tex = new THREE.CanvasTexture(c)
+      tex.minFilter = THREE.LinearFilter
+      tex.magFilter = THREE.LinearFilter
+      tex.generateMipmaps = false
+      return tex
+    }
+
+    const TRAIL_COUNT = 28
+    type TrailSlot = { t: number; life: number; size: number; sprite: THREE.Sprite; mat: THREE.SpriteMaterial }
+    const trailPool: TrailSlot[] = []
+    const trailTex = makeTrailTexture()
+    for (let i = 0; i < TRAIL_COUNT; i++) {
+      const mat = new THREE.SpriteMaterial({
+        map: trailTex,
+        transparent: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+        opacity: 0,
+      })
+      const sp = new THREE.Sprite(mat)
+      sp.visible = false
+      scene.add(sp)
+      trailPool.push({ t: 0, life: 0, size: 0, sprite: sp, mat })
+    }
+    let spawnAcc = 0
+
     let curve: THREE.CatmullRomCurve3 | null = null
     let coreMesh: THREE.Mesh | null = null
     let glowMesh: THREE.Mesh | null = null
@@ -233,6 +277,8 @@ export default function ServicesFlow3D({ hostRef }: { hostRef: RefObject<HTMLDiv
       const d = Math.min(Math.max(shown, 0), 1)
       coreMat.uniforms.uDraw.value = d
       glowMat.uniforms.uDraw.value = d
+      coreMat.uniforms.uTime.value = t
+      glowMat.uniforms.uTime.value = t
 
       if (curve && d > 0.004 && d < 0.997) {
         head.visible = true
@@ -240,16 +286,46 @@ export default function ServicesFlow3D({ hostRef }: { hostRef: RefObject<HTMLDiv
         const p = curve.getPoint(d)
         head.position.set(p.x, p.y, 1)
         headCore.position.set(p.x, p.y, 1.1)
-        const pulse = 22 + Math.sin(t * 1.4) * 2
+        const pulse = 28 + Math.sin(t * 1.4) * 2.5
         head.scale.set(pulse, pulse, 1)
-        headCore.scale.set(pulse * 0.35, pulse * 0.35, 1)
+        headCore.scale.set(pulse * 0.38, pulse * 0.38, 1)
         const fade = Math.min(1, smoothstep(0, 0.06, d) * smoothstep(0, 0.06, 1 - d))
         headMat.opacity = fade * (0.88 + Math.sin(t * 1.2) * 0.06)
         headCoreMat.opacity = fade * (0.95 + Math.sin(t * 1.2 + 0.4) * 0.04)
+
+        spawnAcc += 0.05
+        if (spawnAcc > 0.11) {
+          spawnAcc = 0
+          const slot = trailPool.find(s => s.life <= 0)
+          if (slot) {
+            slot.t = d
+            slot.life = 1
+            slot.size = 7 + Math.random() * 5
+          }
+        }
       } else {
         head.visible = false
         headCore.visible = false
       }
+
+      trailPool.forEach(slot => {
+        if (slot.life <= 0 || !curve) {
+          slot.sprite.visible = false
+          return
+        }
+        slot.t -= 0.0028
+        slot.life -= 0.028
+        if (slot.life <= 0 || slot.t <= 0) {
+          slot.sprite.visible = false
+          return
+        }
+        const pt = curve.getPoint(slot.t)
+        slot.sprite.visible = true
+        slot.sprite.position.set(pt.x, pt.y, 0.6)
+        const s = slot.size * (0.5 + slot.life * 0.8)
+        slot.sprite.scale.set(s, s, 1)
+        slot.mat.opacity = slot.life * 0.65
+      })
       renderer.render(scene, camera)
     }
     render()
@@ -277,6 +353,8 @@ export default function ServicesFlow3D({ hostRef }: { hostRef: RefObject<HTMLDiv
       coreMat.dispose(); glowMat.dispose(); trackMat.dispose()
       headTex.dispose(); headCoreTex.dispose()
       headMat.dispose(); headCoreMat.dispose()
+      trailTex.dispose()
+      trailPool.forEach(s => s.mat.dispose())
       renderer.dispose()
       canvas.remove()
     }

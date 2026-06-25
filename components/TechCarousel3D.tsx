@@ -119,63 +119,105 @@ export default function TechCarousel3D() {
     buildRing(RING_A, 0.62, 0)
     buildRing(RING_B, -0.62, Math.PI / RING_B.length)
 
-    // Scintillements — chaque étoile pulse à son rythme, halo doux
-    const starCount = 110
-    const starPos = new Float32Array(starCount * 3)
-    const starPhase = new Float32Array(starCount)
-    const starSize = new Float32Array(starCount)
-    const starSpeed = new Float32Array(starCount)
-    for (let i = 0; i < starCount; i++) {
-      const r = 8 + Math.random() * 7
-      const a = Math.random() * Math.PI * 2
-      starPos[i * 3] = Math.cos(a) * r
-      starPos[i * 3 + 1] = (Math.random() - 0.5) * 7.5
-      starPos[i * 3 + 2] = Math.sin(a) * r * 0.55 - 3
-      starPhase[i] = Math.random() * Math.PI * 2
-      starSize[i] = 0.028 + Math.random() * 0.055
-      starSpeed[i] = 0.5 + Math.random() * 1.6
+    // Scintillements — halos doux + éclats croisés, deux couches de profondeur
+    const makeStarLayer = (count: number, spread: { rMin: number; rMax: number; y: number; z: number }) => {
+      const pos = new Float32Array(count * 3)
+      const phase = new Float32Array(count)
+      const size = new Float32Array(count)
+      const speed = new Float32Array(count)
+      const tint = new Float32Array(count)
+      for (let i = 0; i < count; i++) {
+        const r = spread.rMin + Math.random() * (spread.rMax - spread.rMin)
+        const a = Math.random() * Math.PI * 2
+        pos[i * 3] = Math.cos(a) * r
+        pos[i * 3 + 1] = (Math.random() - 0.5) * spread.y
+        pos[i * 3 + 2] = Math.sin(a) * r * 0.55 + spread.z
+        phase[i] = Math.random() * Math.PI * 2
+        size[i] = 0.02 + Math.random() * 0.048
+        speed[i] = 0.35 + Math.random() * 1.1
+        tint[i] = Math.random()
+      }
+      const geo = new THREE.BufferGeometry()
+      geo.setAttribute('position', new THREE.BufferAttribute(pos, 3))
+      geo.setAttribute('aPhase', new THREE.BufferAttribute(phase, 1))
+      geo.setAttribute('aSize', new THREE.BufferAttribute(size, 1))
+      geo.setAttribute('aSpeed', new THREE.BufferAttribute(speed, 1))
+      geo.setAttribute('aTint', new THREE.BufferAttribute(tint, 1))
+      return geo
     }
-    const starGeo = new THREE.BufferGeometry()
-    starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3))
-    starGeo.setAttribute('aPhase', new THREE.BufferAttribute(starPhase, 1))
-    starGeo.setAttribute('aSize', new THREE.BufferAttribute(starSize, 1))
-    starGeo.setAttribute('aSpeed', new THREE.BufferAttribute(starSpeed, 1))
 
-    const starMat = new THREE.ShaderMaterial({
-      transparent: true,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending,
+    const starGeo = makeStarLayer(72, { rMin: 7.5, rMax: 14, y: 6.5, z: -3 })
+    const dustGeo = makeStarLayer(48, { rMin: 5, rMax: 10, y: 4, z: -1.5 })
+
+    const starShader = {
       uniforms: { uTime: { value: 0 } },
       vertexShader: `
         attribute float aPhase;
         attribute float aSize;
         attribute float aSpeed;
+        attribute float aTint;
         uniform float uTime;
         varying float vTwinkle;
+        varying float vTint;
         void main() {
-          vTwinkle = 0.25 + 0.75 * pow(0.5 + 0.5 * sin(uTime * aSpeed + aPhase), 2.0);
+          float wave = sin(uTime * aSpeed + aPhase);
+          float wave2 = sin(uTime * aSpeed * 1.7 + aPhase * 2.1);
+          vTwinkle = 0.18 + 0.82 * pow(0.5 + 0.5 * wave, 3.0) * (0.55 + 0.45 * (0.5 + 0.5 * wave2));
+          vTint = aTint;
           vec4 mv = modelViewMatrix * vec4(position, 1.0);
-          float scale = 280.0 / max(-mv.z, 1.0);
-          gl_PointSize = aSize * scale * (0.75 + vTwinkle * 0.35);
+          float scale = 300.0 / max(-mv.z, 1.0);
+          gl_PointSize = aSize * scale * (0.65 + vTwinkle * 0.5);
           gl_Position = projectionMatrix * mv;
         }
       `,
       fragmentShader: `
         varying float vTwinkle;
+        varying float vTint;
         void main() {
           vec2 uv = gl_PointCoord - 0.5;
           float d = length(uv);
-          float core = smoothstep(0.42, 0.0, d);
-          float halo = smoothstep(0.5, 0.08, d) * 0.4;
-          float alpha = (core * 0.95 + halo) * vTwinkle;
-          if (alpha < 0.02) discard;
-          vec3 col = mix(vec3(0.45, 0.62, 0.95), vec3(0.94, 0.97, 1.0), core);
-          gl_FragColor = vec4(col, alpha * 0.8);
+          float core = smoothstep(0.38, 0.0, d);
+          float halo = smoothstep(0.55, 0.1, d) * 0.32;
+          float cross = exp(-abs(uv.x) * 22.0) * exp(-abs(uv.y) * 22.0) * 0.55;
+          float alpha = (core * 0.9 + halo + cross * vTwinkle) * vTwinkle;
+          if (alpha < 0.015) discard;
+          vec3 cool = vec3(0.42, 0.58, 0.92);
+          vec3 warm = vec3(0.88, 0.94, 1.0);
+          vec3 col = mix(cool, warm, vTint * 0.6 + core * 0.4);
+          gl_FragColor = vec4(col, alpha * 0.72);
+        }
+      `,
+    }
+
+    const starMat = new THREE.ShaderMaterial({
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      ...starShader,
+    })
+    const dustMat = new THREE.ShaderMaterial({
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      uniforms: { uTime: { value: 0 } },
+      vertexShader: starShader.vertexShader,
+      fragmentShader: `
+        varying float vTwinkle;
+        varying float vTint;
+        void main() {
+          vec2 uv = gl_PointCoord - 0.5;
+          float d = length(uv);
+          float core = smoothstep(0.45, 0.0, d);
+          float alpha = core * vTwinkle * 0.55;
+          if (alpha < 0.01) discard;
+          gl_FragColor = vec4(vec3(0.55, 0.72, 0.98), alpha);
         }
       `,
     })
+
     const stars = new THREE.Points(starGeo, starMat)
-    scene.add(stars)
+    const dust = new THREE.Points(dustGeo, dustMat)
+    scene.add(stars, dust)
 
     // ── interaction: drag to spin with inertia ──
     let vel = 0.0016          // idle auto-spin
@@ -206,7 +248,9 @@ export default function TechCarousel3D() {
       if (isPaused()) return
       t += 0.016
       starMat.uniforms.uTime.value = t
+      dustMat.uniforms.uTime.value = t
       stars.rotation.y = wheel.rotation.y * 0.12
+      dust.rotation.y = wheel.rotation.y * 0.08
 
       if (!dragging) {
         wheel.rotation.y += vel
@@ -254,7 +298,9 @@ export default function TechCarousel3D() {
       window.removeEventListener('pointerup', onUp)
       geo.dispose()
       starGeo.dispose()
+      dustGeo.dispose()
       starMat.dispose()
+      dustMat.dispose()
       planes.forEach(m => m.material.dispose())
       textures.forEach(t => t.dispose())
       renderer.dispose()
