@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 export default function Cursor() {
   const dotRef  = useRef<HTMLDivElement>(null)
   const ringRef = useRef<HTMLDivElement>(null)
+  const haloRef = useRef<HTMLDivElement>(null)
   const [hidden, setHidden] = useState(false)
 
   useEffect(() => {
@@ -16,9 +17,10 @@ export default function Cursor() {
 
     const dot  = dotRef.current
     const ring = ringRef.current
-    if (!dot || !ring) return
+    const halo = haloRef.current
+    if (!dot || !ring || !halo) return
 
-    let cx = 0, cy = 0, rx = 0, ry = 0, moved = false
+    let cx = 0, cy = 0, rx = 0, ry = 0, hx = 0, hy = 0, moved = false
 
     const onMove = (e: MouseEvent) => {
       cx = e.clientX; cy = e.clientY; moved = true
@@ -29,9 +31,12 @@ export default function Cursor() {
     let raf: number
     const follow = () => {
       if (moved) {
-        rx += (cx - rx) * 0.1
-        ry += (cy - ry) * 0.1
+        rx += (cx - rx) * 0.11
+        ry += (cy - ry) * 0.11
+        hx += (cx - hx) * 0.06
+        hy += (cy - hy) * 0.06
         ring.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`
+        halo.style.transform = `translate3d(${hx}px, ${hy}px, 0) translate(-50%, -50%)`
         if (Math.abs(cx - rx) < 0.1 && Math.abs(cy - ry) < 0.1) moved = false
       }
       raf = requestAnimationFrame(follow)
@@ -60,6 +65,7 @@ export default function Cursor() {
 
   return (
     <>
+      <div ref={haloRef} className="cursor-halo" />
       <div ref={dotRef}  className="cursor-dot"  />
       <div ref={ringRef} className="cursor-ring" />
     </>

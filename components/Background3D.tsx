@@ -131,97 +131,108 @@ export default function Background3D() {
     scene.add(new THREE.Points(nebGeo, nebMat))
 
     // ═══════════════════════════════════════════════════
-    //  3 · CONSTELLATION LINES
+    //  3 · OBJETS MÉTIER  —  wireframes dev, ambiance spatiale
     // ═══════════════════════════════════════════════════
-    const linePts: number[] = []
-    for (let i = 0; i < 90; i++) {
-      const si = Math.floor(Math.random() * N_STARS)
-      const sx = sPos[si*3], sy = sPos[si*3+1], sz = sPos[si*3+2]
-      let best = -1, bestD = Infinity
-      for (let t = 0; t < 30; t++) {
-        const sj = Math.floor(Math.random() * N_STARS)
-        if (sj === si) continue
-        const dx = sPos[sj*3]-sx, dy = sPos[sj*3+1]-sy, dz = sPos[sj*3+2]-sz
-        const dist = Math.sqrt(dx*dx + dy*dy + dz*dz)
-        if (dist < 60 && dist < bestD) { bestD = dist; best = sj }
-      }
-      if (best < 0) continue
-      linePts.push(sx, sy, sz, sPos[best*3], sPos[best*3+1], sPos[best*3+2])
+    const geos: THREE.BufferGeometry[] = []
+    const mats: THREE.Material[] = []
+    const wireMat = (opacity: number, color = 0x4d88ff) => {
+      const mat = new THREE.LineBasicMaterial({
+        color, transparent: true, opacity,
+        blending: THREE.AdditiveBlending,
+      })
+      mats.push(mat)
+      return mat
     }
-    const lineGeo = new THREE.BufferGeometry()
-    lineGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(linePts), 3))
-    const lineMat = new THREE.LineBasicMaterial({
-      color: 0x1650f0, transparent: true, opacity: 0.055,
-      blending: THREE.AdditiveBlending,
-    })
-    scene.add(new THREE.LineSegments(lineGeo, lineMat))
+    const wireBox = (w: number, h: number, d: number) => {
+      const box = new THREE.BoxGeometry(w, h, d)
+      const edges = new THREE.EdgesGeometry(box)
+      box.dispose()
+      geos.push(edges)
+      return edges
+    }
+    const wireLine = (pts: number[]) => {
+      const geo = new THREE.BufferGeometry()
+      geo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(pts), 3))
+      geos.push(geo)
+      return geo
+    }
 
-    // ═══════════════════════════════════════════════════
-    //  4 · HERO ICOSAHEDRON  -  wireframe, electric blue
-    // ═══════════════════════════════════════════════════
-    const icoGeo = new THREE.IcosahedronGeometry(24, 1)
-    const icoMat = new THREE.MeshBasicMaterial({
-      color: 0x1650f0, wireframe: true,
-      transparent: true, opacity: 0.085,
+    // Fenêtre navigateur (UI / front)
+    const browser = new THREE.Group()
+    const bMat = wireMat(0.14)
+    browser.add(new THREE.LineSegments(wireBox(32, 20, 1.4), bMat))
+    browser.add(new THREE.Line(wireLine([-16, 8, 0.75, 16, 8, 0.75]), wireMat(0.09)))
+    ;[[-10, 2, 0.8, 8, 2, 0.8], [-10, -2, 0.8, 12, -2, 0.8], [-10, -6, 0.8, 6, -6, 0.8]].forEach(pts => {
+      browser.add(new THREE.Line(wireLine(pts), wireMat(0.07)))
     })
-    const ico = new THREE.Mesh(icoGeo, icoMat)
-    ico.position.set(42, 8, -35)
-    scene.add(ico)
+    browser.position.set(42, 8, -35)
+    scene.add(browser)
 
-    // ═══════════════════════════════════════════════════
-    //  5 · GLOWING TORUS  -  animated shader
-    // ═══════════════════════════════════════════════════
-    const torusGeo = new THREE.TorusGeometry(16, 0.3, 8, 100)
-    const torusMat = new THREE.ShaderMaterial({
-      uniforms: { uTime: { value: 0.0 } },
-      vertexShader: `
-        varying vec3 vWorldPos;
-        void main() {
-          vWorldPos = position;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: `
-        uniform float uTime;
-        varying vec3 vWorldPos;
-        void main() {
-          float a = atan(vWorldPos.y, vWorldPos.x);
-          float t = sin(a * 4.0 + uTime * 1.6) * 0.5 + 0.5;
-          vec3 col = mix(vec3(0.06, 0.20, 0.88), vec3(0.30, 0.62, 1.0), t);
-          gl_FragColor = vec4(col, 0.55 * t + 0.06);
-        }
-      `,
-      transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
-      side: THREE.DoubleSide,
-    })
-    const torus = new THREE.Mesh(torusGeo, torusMat)
-    torus.position.set(-36, -10, -25)
-    torus.rotation.x = 0.9
-    scene.add(torus)
+    // Pile serveur (VPS / infra)
+    const servers = new THREE.Group()
+    const sMat = wireMat(0.12, 0x3b82f6)
+    for (let i = 0; i < 3; i++) {
+      const layer = new THREE.LineSegments(wireBox(18, 3.8, 11), sMat)
+      layer.position.y = i * 4.6 - 4.6
+      servers.add(layer)
+      const ledMat = new THREE.PointsMaterial({ color: 0x6ee7b7, size: 2.2, transparent: true, opacity: 0.7, sizeAttenuation: true })
+      mats.push(ledMat)
+      const led = new THREE.Points(wireLine([-7.5, 0, 5.6, -7.5, 0, 5.6]), ledMat)
+      led.position.copy(layer.position)
+      servers.add(led)
+    }
+    servers.position.set(-36, -10, -25)
+    scene.add(servers)
 
-    // ═══════════════════════════════════════════════════
-    //  6 · OCTAHEDRON  -  floating accent
-    // ═══════════════════════════════════════════════════
-    const octaGeo = new THREE.OctahedronGeometry(8, 0)
-    const octaMat = new THREE.MeshBasicMaterial({
-      color: 0x4d88ff, wireframe: true,
-      transparent: true, opacity: 0.16,
-    })
-    const octa = new THREE.Mesh(octaGeo, octaMat)
-    octa.position.set(-45, 22, -28)
-    scene.add(octa)
+    // Balises code </>
+    const brackets = new THREE.Group()
+    const bktMat = wireMat(0.16, 0x60a5fa)
+    const leftBracket = [
+      4, 6, 0,  -2, 0, 0,  4, -6, 0,
+    ]
+    const rightBracket = [
+      -4, 6, 0,  2, 0, 0,  -4, -6, 0,
+    ]
+    const slash = [-1.5, 5, 0,  1.5, -5, 0]
+    brackets.add(new THREE.Line(wireLine(leftBracket), bktMat))
+    brackets.add(new THREE.Line(wireLine(rightBracket), bktMat))
+    brackets.add(new THREE.Line(wireLine(slash), wireMat(0.1)))
+    brackets.position.set(-45, 22, -28)
+    brackets.scale.set(1.4, 1.4, 1.4)
+    scene.add(brackets)
 
-    // ═══════════════════════════════════════════════════
-    //  7 · LARGE AMBIENT RING
-    // ═══════════════════════════════════════════════════
-    const ringGeo = new THREE.TorusGeometry(55, 0.15, 4, 200)
-    const ringMat = new THREE.MeshBasicMaterial({
-      color: 0x1650f0, transparent: true, opacity: 0.03,
-    })
-    const ring = new THREE.Mesh(ringGeo, ringMat)
-    ring.rotation.x = 0.35
-    ring.position.z = -80
-    scene.add(ring)
+    // Déploiement — cube + orbite (Dokploy / mise en prod)
+    const deploy = new THREE.Group()
+    const cubeEdges = new THREE.LineSegments(wireBox(9, 9, 9), wireMat(0.17, 0x93c5fd))
+    deploy.add(cubeEdges)
+    const orbitGeo = new THREE.TorusGeometry(13, 0.14, 4, 72)
+    const orbitEdges = new THREE.EdgesGeometry(orbitGeo)
+    orbitGeo.dispose()
+    geos.push(orbitEdges)
+    const orbit = new THREE.LineSegments(orbitEdges, wireMat(0.11))
+    orbit.rotation.x = 1.1
+    deploy.add(orbit)
+    const orbit2Geo = new THREE.TorusGeometry(16, 0.08, 3, 48)
+    const orbit2Edges = new THREE.EdgesGeometry(orbit2Geo)
+    orbit2Geo.dispose()
+    geos.push(orbit2Edges)
+    const orbit2 = new THREE.LineSegments(orbit2Edges, wireMat(0.06))
+    orbit2.rotation.x = 0.4
+    orbit2.rotation.y = 0.8
+    deploy.add(orbit2)
+    deploy.position.set(14, -16, -32)
+    scene.add(deploy)
+
+    // Base de données — cylindre discret
+    const db = new THREE.Group()
+    const cylGeo = new THREE.CylinderGeometry(5, 5, 14, 16, 1, true)
+    const cylEdges = new THREE.EdgesGeometry(cylGeo)
+    cylGeo.dispose()
+    geos.push(cylEdges)
+    db.add(new THREE.LineSegments(cylEdges, wireMat(0.09, 0x38bdf8)))
+    db.position.set(28, -22, -40)
+    db.rotation.z = 0.25
+    scene.add(db)
 
     // ═══════════════════════════════════════════════════
     //  MOUSE  &  ANIMATION
@@ -252,22 +263,25 @@ export default function Background3D() {
       time += 0.004
 
       starMat.uniforms.uTime.value  = time
-      torusMat.uniforms.uTime.value = time
 
-      ico.rotation.y  = time * 0.10
-      ico.rotation.x  = time * 0.06
-      torus.rotation.z = time * 0.14
-      torus.rotation.y = Math.sin(time * 0.35) * 0.28
-      octa.rotation.y  = time * 0.18
-      octa.rotation.x  = time * 0.10
-      ring.rotation.z  = time * 0.035
-      octa.position.y  = 22 + Math.sin(time * 0.65) * 3.5
+      browser.rotation.y = time * 0.09
+      browser.rotation.x = Math.sin(time * 0.4) * 0.06
+      servers.rotation.y = -time * 0.07
+      brackets.rotation.y = time * 0.12
+      deploy.children[0].rotation.y = time * 0.14
+      deploy.children[0].rotation.x = time * 0.08
+      orbit.rotation.z = time * 0.18
+      orbit2.rotation.z = -time * 0.11
+      db.rotation.y = time * 0.05
 
-      // Scroll parallax (uses cached progress - no per-frame layout reads)
       const sp = scrollProgress
-      starField.position.y  = -sp * 140
-      ico.position.y        =  8  - sp * 70
-      torus.position.y      = -10 - sp * 45
+      const bracketY = 22 + Math.sin(time * 0.65) * 3
+      starField.position.y = -sp * 140
+      browser.position.y   = 8 - sp * 70
+      servers.position.y   = -10 - sp * 45
+      brackets.position.y  = bracketY - sp * 55
+      deploy.position.y    = -16 - sp * 35
+      db.position.y        = -22 - sp * 30
 
       // Camera parallax
       camera.position.x += (mx * 8  - camera.position.x) * 0.02
@@ -296,8 +310,8 @@ export default function Background3D() {
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', onResize)
       document.removeEventListener('visibilitychange', onVisibility)
-      ;[starGeo, nebGeo, lineGeo, icoGeo, torusGeo, octaGeo, ringGeo].forEach(g => g.dispose())
-      ;[starMat, nebMat, lineMat, icoMat, torusMat, octaMat, ringMat].forEach(m => m.dispose())
+      ;[starGeo, nebGeo, ...geos].forEach(g => g.dispose())
+      ;[starMat, nebMat, ...mats].forEach(m => m.dispose())
       renderer.dispose()
     }
   }, [])
