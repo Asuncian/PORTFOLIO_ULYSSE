@@ -1,6 +1,21 @@
 'use client'
 import { useEffect } from 'react'
-import { gsap } from '@/lib/gsap'
+import { gsap, ScrollTrigger } from '@/lib/gsap'
+
+const REVEAL_SELECTORS = '.reveal-contact, .reveal-contact-form'
+
+/** Affiche les blocs déjà visibles (hash #contact, scroll rapide, layout tardif). */
+function syncRevealsInView() {
+  ScrollTrigger.refresh()
+  document.querySelectorAll<HTMLElement>(REVEAL_SELECTORS).forEach((el) => {
+    const rect = el.getBoundingClientRect()
+    if (rect.top >= window.innerHeight || rect.bottom <= 0) return
+    gsap.set(el, { opacity: 1, y: 0, rotateX: 0, clearProps: 'transform' })
+    ScrollTrigger.getAll()
+      .filter((st) => st.trigger === el)
+      .forEach((st) => st.kill())
+  })
+}
 
 export default function ScrollAnimator() {
   useEffect(() => {
@@ -23,6 +38,8 @@ export default function ScrollAnimator() {
           scrollTrigger: {
             trigger: el,
             start: 'top 94%',
+            once: true,
+            invalidateOnRefresh: true,
           },
         })
       })
@@ -34,7 +51,9 @@ export default function ScrollAnimator() {
             opacity: 1, y: 0, duration: 0.75, ease: 'power3.out',
             scrollTrigger: {
               trigger: el,
-              start: 'top 90%',
+              start: 'top bottom',
+              once: true,
+              invalidateOnRefresh: true,
             },
           },
         )
@@ -47,7 +66,9 @@ export default function ScrollAnimator() {
             opacity: 1, y: 0, rotateX: 0, duration: 0.8, ease: 'power3.out',
             scrollTrigger: {
               trigger: el,
-              start: 'top 92%',
+              start: 'top bottom',
+              once: true,
+              invalidateOnRefresh: true,
             },
           },
         )
@@ -67,13 +88,35 @@ export default function ScrollAnimator() {
             scrollTrigger: {
               trigger: grid,
               start: 'top 92%',
+              once: true,
+              invalidateOnRefresh: true,
             },
           },
         )
       })
+
+      syncRevealsInView()
     })
 
-    return () => ctx.revert()
+    const onLoad = () => syncRevealsInView()
+    const onHash = () => window.setTimeout(syncRevealsInView, 350)
+    const t1 = window.setTimeout(syncRevealsInView, 300)
+    const t2 = window.setTimeout(syncRevealsInView, 900)
+    if (window.location.hash === '#contact') {
+      window.setTimeout(syncRevealsInView, 120)
+    }
+    window.addEventListener('load', onLoad)
+    window.addEventListener('resize', onLoad)
+    window.addEventListener('hashchange', onHash)
+
+    return () => {
+      window.removeEventListener('load', onLoad)
+      window.removeEventListener('resize', onLoad)
+      window.removeEventListener('hashchange', onHash)
+      window.clearTimeout(t1)
+      window.clearTimeout(t2)
+      ctx.revert()
+    }
   }, [])
 
   return null
