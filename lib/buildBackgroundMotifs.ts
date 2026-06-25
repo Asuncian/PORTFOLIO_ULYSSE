@@ -14,7 +14,7 @@ const PALETTES = {
   security: { edge: 0xbae6fd },
   web:      { edge: 0x93c5fd },
   auto:     { edge: 0xa5b4fc },
-  perf:     { edge: 0x67e8f9 },
+  perf:     { edge: 0xf1f5f9 },
 } satisfies Record<string, MP>
 
 const WIRE_OPACITY = 0.14
@@ -86,6 +86,24 @@ export function buildBackgroundMotifs(
         new THREE.Vector3(pts[i].x, pts[i].y, zBack),
       ], edge)
     }
+    g.add(shell)
+  }
+
+  const addFlatOutline = (
+    g: THREE.Group,
+    shape: THREE.Shape,
+    edge: THREE.LineBasicMaterial,
+    pos = new THREE.Vector3(),
+    rot = new THREE.Euler(),
+    samples = 64,
+  ) => {
+    const pts = shape.getPoints(samples)
+    const loop = pts.map(p => new THREE.Vector3(p.x, p.y, 0))
+    loop.push(loop[0].clone())
+    const shell = new THREE.Group()
+    shell.position.copy(pos)
+    shell.rotation.copy(rot)
+    addLine(shell, loop, edge)
     g.add(shell)
   }
 
@@ -196,7 +214,7 @@ export function buildBackgroundMotifs(
     gear.rotation.z = t * 0.1
   })
 
-  // Performance — éclair
+  // Performance — éclair (contour plat, blanc)
   const perf = new THREE.Group()
   const pE = createEdgeMat(PALETTES.perf)
   const bolt = new THREE.Shape()
@@ -207,15 +225,7 @@ export function buildBackgroundMotifs(
   bolt.lineTo(3.2, 0)
   bolt.lineTo(0.4, 0)
   bolt.lineTo(1.2, 12)
-  const boltGeo = new THREE.ExtrudeGeometry(bolt, {
-    depth: 2,
-    bevelEnabled: true,
-    bevelThickness: 0.16,
-    bevelSize: 0.14,
-    bevelSegments: 2,
-  })
-  boltGeo.center()
-  addWire(perf, boltGeo, pE)
+  addFlatOutline(perf, bolt, pE)
   addMotif(perf, 8, -36, -46, 40, (t) => {
     perf.rotation.y = 0.08 + Math.sin(t * 0.025) * 0.04
     perf.rotation.z = Math.sin(t * 0.04) * 0.03
