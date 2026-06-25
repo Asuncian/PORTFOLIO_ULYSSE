@@ -17,7 +17,7 @@ const PALETTES = {
   perf:     { edge: 0x67e8f9 },
 } satisfies Record<string, MP>
 
-const WIRE_OPACITY = 0.34
+const WIRE_OPACITY = 0.14
 
 export function buildBackgroundMotifs(
   scene: THREE.Scene,

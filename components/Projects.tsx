@@ -151,37 +151,38 @@ export default function Projects() {
               </svg>
             </div>
 
-            <div className="strip-logo-bg" aria-hidden>
-              <Image
-                src={proj.logoSrc}
-                alt=""
-                width={280}
-                height={280}
-                className={`strip-logo-bg-img${proj.logoBare ? ' strip-logo-bg-img--bare' : ''}`}
-              />
-            </div>
-
-            {/* Content */}
-            <div className="strip-content">
-              <div className="strip-meta">
-                <span className="proj-type">{proj.type}</span>
-                {proj.status === 'live'    && <span className="proj-status proj-status-live">Live</span>}
-                {proj.status === 'beta'    && <span className="proj-status proj-status-beta">Bêta</span>}
-                {proj.status === 'private' && <span className="proj-status proj-status-private">Privé</span>}
+            <div className="strip-layout">
+              <div className="strip-content">
+                <div className="strip-meta">
+                  <span className="proj-type">{proj.type}</span>
+                  {proj.status === 'live'    && <span className="proj-status proj-status-live">Live</span>}
+                  {proj.status === 'beta'    && <span className="proj-status proj-status-beta">Bêta</span>}
+                  {proj.status === 'private' && <span className="proj-status proj-status-private">Privé</span>}
+                </div>
+                <h3 className="strip-title">{proj.name}</h3>
+                <p className="strip-desc">{proj.desc}</p>
+                <div className="strip-footer">
+                  {proj.url ? (
+                    <a href={`https://${proj.url}`} target="_blank" rel="noopener noreferrer" className="proj-link">
+                      {proj.url}<span className="proj-link-arrow">↗</span>
+                    </a>
+                  ) : (
+                    <span className="proj-private-note">
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                      Accès protégé par login
+                    </span>
+                  )}
+                </div>
               </div>
-              <h3 className="strip-title">{proj.name}</h3>
-              <p className="strip-desc">{proj.desc}</p>
-              <div className="strip-footer">
-                {proj.url ? (
-                  <a href={`https://${proj.url}`} target="_blank" rel="noopener noreferrer" className="proj-link">
-                    {proj.url}<span className="proj-link-arrow">↗</span>
-                  </a>
-                ) : (
-                  <span className="proj-private-note">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-                    Accès protégé par login
-                  </span>
-                )}
+
+              <div className="strip-logo-side" aria-hidden>
+                <Image
+                  src={proj.logoSrc}
+                  alt=""
+                  width={220}
+                  height={220}
+                  className={`strip-logo-img${proj.logoBare ? ' strip-logo-img--bare' : ''}`}
+                />
               </div>
             </div>
           </div>
