@@ -3,10 +3,10 @@ import { useEffect, useRef } from 'react'
 import { gsap, ScrollTrigger } from '@/lib/gsap'
 
 const STATS = [
-  { value: 100, suffix: '%',    label: 'Projets livrés en production' },
-  { value: 15,  suffix: '+',    label: 'Technologies maîtrisées' },
-  { value: 2,   suffix: ' ans+', label: "D'expérience terrain" },
-  { value: 24,  suffix: 'h',    label: 'Pour vous répondre' },
+  { value: 100, suffix: '%',    label: 'Projets en prod' },
+  { value: 15,  suffix: '+',    label: 'Technologies' },
+  { value: 2,   suffix: ' ans+', label: 'Expérience terrain' },
+  { value: 24,  suffix: 'h',    label: 'Réponse sous 24h' },
 ]
 
 export default function Stats() {

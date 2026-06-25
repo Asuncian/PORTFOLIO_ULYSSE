@@ -66,7 +66,7 @@ export default function Hero() {
 
       <h1 className="hero-title" ref={titleRef}>
         <span className="line"><span className="h-word word">Sites.</span></span>
-        <span className="line"><span className="h-word word accent">Automati&shy;sations.</span></span>
+        <span className="line"><span className="h-word word accent">Automatisations.</span></span>
         <span className="line"><span className="h-word word dim">Résultats.</span></span>
       </h1>
 

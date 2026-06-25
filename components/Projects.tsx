@@ -9,7 +9,6 @@ interface Project {
   type: string
   theme: string
   logoSrc: string
-  logoStyle?: React.CSSProperties
   desc: string
   url: string | null
   status: ProjectStatus
@@ -21,7 +20,6 @@ const projects: Project[] = [
     type: 'Site vitrine luxe',
     theme: 't-bloom',
     logoSrc: '/logo-bloom-yourself.png',
-    logoStyle: { background: '#fff', padding: '6px' },
     desc: 'Trois univers sur une seule vitrine : Academy, Agency et Institut Maison Bloom. Carte interactive, scroll soigné, identité premium pour la Côte d\'Azur.',
     url: 'bloomyourselfacademy.com',
     status: 'live',
@@ -31,7 +29,6 @@ const projects: Project[] = [
     type: 'Site artisan',
     theme: 't-nature',
     logoSrc: '/logo-enzo-elagage.png',
-    logoStyle: { background: '#fff', padding: '4px' },
     desc: 'Un site qui montre le vrai travail de terrain. SEO local, pages géo générées et scroll fluide pour un artisan élagage en Provence.',
     url: 'enzo-elagage-var.fr',
     status: 'live',
@@ -41,7 +38,6 @@ const projects: Project[] = [
     type: 'Site vitrine',
     theme: 't-amber',
     logoSrc: '/logo-allodav.png',
-    logoStyle: { background: '#0a0a0a' },
     desc: 'Site vitrine pour Allodav Services, location de bennes dans le Var. Présentation claire, devis simple et présence locale renforcée.',
     url: 'allodavservices83.fr',
     status: 'live',
@@ -51,7 +47,6 @@ const projects: Project[] = [
     type: 'Plateforme SaaS',
     theme: 't-violet',
     logoSrc: '/logo-cvnova.png',
-    logoStyle: { background: '#faf5ff', padding: '4px' },
     desc: 'Templates soignés, export PDF et abonnement premium pour préparer un CV propre, sans prise de tête.',
     url: 'cvnova.fr',
     status: 'live',
@@ -61,7 +56,6 @@ const projects: Project[] = [
     type: 'Outil métier',
     theme: 't-sport',
     logoSrc: '/logo-htv-basket.png',
-    logoStyle: { background: '#fff', padding: '2px' },
     desc: 'Prospects, clients, facturation et relances pour Hyères Toulon Var Basket, centralisés dans un outil dédié.',
     url: null,
     status: 'private',
@@ -157,14 +151,26 @@ export default function Projects() {
 
             {/* Visual */}
             <div className="strip-visual">
-              <div className="strip-logo-frame" style={proj.logoStyle}>
+              <div className="strip-logo-watermark" aria-hidden>
                 <Image
                   src={proj.logoSrc}
-                  alt={proj.name}
-                  width={110}
-                  height={110}
-                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                  alt=""
+                  width={200}
+                  height={200}
+                  className="strip-logo-watermark-img"
                 />
+              </div>
+              <div className="strip-logo-stack">
+                <div className="strip-logo-halo" aria-hidden />
+                <div className="strip-logo-frame">
+                  <Image
+                    src={proj.logoSrc}
+                    alt={proj.name}
+                    width={120}
+                    height={120}
+                    className="strip-logo-img"
+                  />
+                </div>
               </div>
               <div className="strip-orb" aria-hidden />
             </div>
