@@ -1,6 +1,7 @@
 import {
   SITE_DESCRIPTION,
   SITE_EMAIL,
+  SITE_FAQ,
   SITE_LINKEDIN,
   SITE_NAME,
   SITE_PHONE,
@@ -13,6 +14,7 @@ import {
 const personId = `${SITE_URL}/#person`
 const websiteId = `${SITE_URL}/#website`
 const businessId = `${SITE_URL}/#business`
+const faqId = `${SITE_URL}/#faq`
 
 const schema = {
   '@context': 'https://schema.org',
@@ -49,9 +51,12 @@ const schema = {
       sameAs: [SITE_LINKEDIN],
       knowsAbout: [
         'Développement web',
-        'Sites vitrines pour PME',
+        'Sites vitrines pour artisans et PME',
+        'Référencement local',
+        'Génération de leads pour artisans',
         'Automatisation n8n',
         'CRM sur mesure',
+        'Formulaires de devis en ligne',
         'Next.js',
         'React',
         'SEO local',
@@ -80,7 +85,7 @@ const schema = {
       serviceType: SITE_SERVICES.map((s) => s.name),
       hasOfferCatalog: {
         '@type': 'OfferCatalog',
-        name: 'Services web & automatisation pour PME',
+        name: 'Services web & automatisation pour artisans et PME',
         itemListElement: SITE_SERVICES.map((service, i) => ({
           '@type': 'Offer',
           position: i + 1,
@@ -93,6 +98,21 @@ const schema = {
           },
         })),
       },
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': faqId,
+      url: `${SITE_URL}/#faq`,
+      inLanguage: 'fr-FR',
+      isPartOf: { '@id': websiteId },
+      mainEntity: SITE_FAQ.map(({ question, answer }) => ({
+        '@type': 'Question',
+        name: question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: answer,
+        },
+      })),
     },
   ],
 }

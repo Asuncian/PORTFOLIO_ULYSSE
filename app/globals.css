@@ -49,7 +49,7 @@ body {
 /* Defer rendering of below-fold sections until near viewport.
    #services is excluded - it drives a scroll-scrubbed thread that must stay
    measurable for ScrollTrigger. */
-#solutions, #methode, #contact, #quote-band {
+#solutions, #methode, #faq, #contact, #quote-band {
   content-visibility: auto;
   contain-intrinsic-size: 0 700px;
 }
@@ -1244,6 +1244,40 @@ section { position: relative; z-index: 4; }
   .method-num, .method-ghost, .method-card3d h3, .method-card3d p { transform: none; }
 }
 
+/* ──────────────────────── FAQ (SEO longue traîne) ──────────────────────── */
+#faq { padding: 8rem 2rem; }
+.faq-list {
+  max-width: 760px; margin: 0 auto;
+  display: flex; flex-direction: column; gap: .75rem;
+}
+.faq-item {
+  border: 1px solid var(--border); border-radius: 16px;
+  background: linear-gradient(165deg, rgba(12,18,40,.55) 0%, rgba(4,6,18,.72) 100%);
+  overflow: hidden;
+  transition: border-color .3s, box-shadow .3s;
+}
+.faq-item[open] {
+  border-color: rgba(77,136,255,.28);
+  box-shadow: 0 14px 40px -24px rgba(22,80,240,.35);
+}
+.faq-item summary {
+  cursor: pointer; list-style: none;
+  padding: 1.15rem 1.35rem;
+  font-size: .9rem; font-weight: 600; line-height: 1.45;
+  color: var(--text); letter-spacing: -.15px;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+  content: '+'; float: right; margin-left: 1rem;
+  color: var(--blue-bright); font-size: 1.1rem; font-weight: 400;
+  transition: transform .25s;
+}
+.faq-item[open] summary::after { content: '−'; }
+.faq-item p {
+  padding: 0 1.35rem 1.2rem;
+  font-size: .82rem; line-height: 1.72; color: var(--text-dim);
+}
+
 /* ──────────────────────── CONTACT ──────────────────────── */
 #contact { padding: 8rem 2rem; background: var(--bg-2); }
 .contact-wrap { max-width: 780px; margin: 0 auto; text-align: center; }
@@ -1506,7 +1540,7 @@ footer {
 
 @media (max-width: 1023px) and (min-width: 768px) {
   #main-nav { padding: 1rem 1.75rem; }
-  #pour-qui, #services, #solutions, #stats, #methode, #contact, #projets, #quote-band {
+  #pour-qui, #services, #solutions, #stats, #methode, #faq, #contact, #projets, #quote-band {
     padding: 5rem 1.75rem;
   }
   #hero { padding: 6.5rem 1.75rem 4rem; }
@@ -1655,7 +1689,7 @@ footer {
     max-width: 22rem; margin-inline: auto; padding: 0;
   }
 
-  #pour-qui, #services, #solutions, #stats, #methode, #contact, #projets, #quote-band {
+  #pour-qui, #services, #solutions, #stats, #methode, #faq, #contact, #projets, #quote-band {
     padding: 3rem max(1rem, env(safe-area-inset-right)) 3rem max(1rem, env(safe-area-inset-left));
   }
 

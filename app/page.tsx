@@ -8,6 +8,7 @@ import Solutions  from '@/components/Solutions'
 import Projects   from '@/components/Projects'
 import QuoteBand  from '@/components/QuoteBand'
 import Method     from '@/components/Method'
+import Faq        from '@/components/Faq'
 import Contact    from '@/components/Contact'
 import Footer     from '@/components/Footer'
 import ScrollAnimator from '@/components/ScrollAnimator'
@@ -40,6 +41,8 @@ export default function Home() {
         <QuoteBand />
         <div className="divider" />
         <Method />
+        <div className="divider" />
+        <Faq />
         <div className="divider" />
         <Contact />
       </main>
