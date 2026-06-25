@@ -4,18 +4,18 @@ import { useEffect, useRef } from 'react'
 const steps = [
   {
     num: '01',
-    title: 'Écoute',
-    desc: "On parle d'abord. Vous me racontez ce qui prend du temps, ce qui bloque, ce que vous voulez changer en priorité.",
+    title: 'Comprendre',
+    desc: "Je commence par cerner le besoin réel : ce qui prend du temps, ce qui bloque, ce qui compte vraiment.",
   },
   {
     num: '02',
-    title: 'Conception',
-    desc: "Je reviens avec une proposition concrète : quoi faire, dans quel ordre, et pourquoi. Sans jargon.",
+    title: 'Concevoir',
+    desc: "Je propose une direction claire — quoi faire, dans quel ordre, et pourquoi. Sans jargon inutile.",
   },
   {
     num: '03',
-    title: 'Mise en place',
-    desc: "Je construis et je déploie. Je vous montre comment ça marche, et je reste joignable pour les ajustements.",
+    title: 'Construire',
+    desc: "Je développe, je déploie, j'explique. Et je reste là pour les ajustements une fois en ligne.",
   },
 ]
 
@@ -68,8 +68,8 @@ export default function Method() {
     <section id="methode">
       <div className="section-header reveal">
         <p className="section-tag">Méthode</p>
-        <h2 className="section-title">En trois <em>étapes</em></h2>
-        <p className="section-sub">Ma façon de travailler, de la première discussion à la mise en ligne.</p>
+        <h2 className="section-title">Ma façon de <em>travailler</em></h2>
+        <p className="section-sub">De la première discussion à la mise en ligne, en trois temps simples.</p>
       </div>
 
       <div className="method-stage reveal" ref={stageRef}>

@@ -35,7 +35,7 @@ export default function Cursor() {
     // Event delegation — zero per-element listeners, no MutationObserver.
     // mouseover/mouseout bubble, so one pair of handlers covers the whole page,
     // including nodes GSAP injects later.
-    const targets = 'a, button, .fw-card, .pillar, .lever, .contact-chip, .method-card3d, input, select, textarea'
+    const targets = 'a, button, .fw-card, .pillar, .flow-card, .contact-chip, .method-card3d, input, select, textarea'
     const onOver = (e: MouseEvent) => {
       if ((e.target as Element)?.closest?.(targets)) {
         ring.classList.add('hovered'); dot.classList.add('hovered')

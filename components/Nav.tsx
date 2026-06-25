@@ -2,10 +2,10 @@
 import { useEffect, useState } from 'react'
 
 const links = [
-  { href: '#pour-qui', label: 'Pour qui',  id: 'pour-qui' },
-  { href: '#services', label: 'Services',  id: 'services' },
-  { href: '#projets',  label: 'Projets',   id: 'projets'  },
-  { href: '#methode',  label: 'Méthode',   id: 'methode'  },
+  { href: '#pour-qui', label: 'Terrain',     id: 'pour-qui' },
+  { href: '#services', label: 'Compétences', id: 'services' },
+  { href: '#projets',  label: 'Projets',     id: 'projets'  },
+  { href: '#methode',  label: 'Méthode',     id: 'methode'  },
 ]
 
 export default function Nav() {
