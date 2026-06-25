@@ -19,6 +19,7 @@ export default function Hero() {
           stagger: 0.18,
           ease: 'power4.out',
         })
+        .from('.h-role', { opacity: 0, y: 14, duration: .8, ease: 'power2.out' }, '-=0.55')
         .from('.h-sub', { opacity: 0, y: 18, duration: .9, ease: 'power2.out' }, '-=0.5')
         .from('.h-btn', { opacity: 0, y: 14, scale: .95, duration: .7, stagger: .12, ease: 'back.out(1.8)' }, '-=0.5')
     }, ref)
@@ -66,12 +67,13 @@ export default function Hero() {
 
       <h1 className="hero-title" ref={titleRef}>
         <span className="line"><span className="h-word word hero-name-first">Ulysse</span></span>
-        <span className="line"><span className="h-word word accent hero-name-last">Goming-Jobert</span></span>
-        <span className="line"><span className="h-word word dim hero-name-role">Développeur web &amp; automatisation</span></span>
+        <span className="line"><span className="h-word word hero-name-last">Goming-Jobert</span></span>
       </h1>
 
+      <p className="hero-role h-role">Développeur IA &amp; automatisation</p>
+
       <p className="hero-sub h-sub">
-        Je développe des sites et des automatisations pour des besoins concrets. Du premier échange jusqu'à la mise en ligne.
+        Je conçois des solutions IA, des sites et des automatisations pour des besoins concrets. Du premier échange jusqu&apos;à la mise en ligne.
       </p>
 
       <div className="hero-actions">

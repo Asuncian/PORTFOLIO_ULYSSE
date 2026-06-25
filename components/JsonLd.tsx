@@ -7,7 +7,7 @@ const schema = {
       '@type': 'Person',
       name: SITE_NAME,
       url: SITE_URL,
-      jobTitle: 'Développeur web & automatisation',
+      jobTitle: 'Développeur IA & automatisation',
       email: 'gomingjobertulysse@gmail.com',
       telephone: '+33645003007',
       sameAs: ['https://linkedin.com/in/ulysse-goming-jobert-256251254'],
