@@ -34,7 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* next/font self-hosts Inter at build time - no Google Fonts requests,
             so no preconnect needed. */}
         <meta name="theme-color" content="#010108" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
       </head>
       <body>{children}</body>
     </html>

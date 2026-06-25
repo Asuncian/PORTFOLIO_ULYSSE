@@ -10,9 +10,23 @@ const links = [
 
 const SECTION_IDS = links.map(l => l.id)
 
+const tabLinks = [
+  { href: '#hero', label: 'Accueil', id: 'hero' },
+  { href: '#pour-qui', label: 'Univers', id: 'pour-qui' },
+  { href: '#projets', label: 'Projets', id: 'projets' },
+  { href: '#contact', label: 'Contact', id: 'contact' },
+] as const
+
+const drawerLinks = [
+  { href: '#hero', label: 'Accueil', id: 'hero' },
+  ...links,
+  { href: '#contact', label: 'Contact', id: 'contact' },
+]
+
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [active, setActive] = useState('')
+  const [menuOpen, setMenuOpen] = useState(false)
   const clickedRef = useRef<string | null>(null)
   const clickTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -23,7 +37,8 @@ export default function Nav() {
     let bestId = ''
     let bestDist = Infinity
 
-    for (const id of SECTION_IDS) {
+    const ids = ['hero', ...SECTION_IDS, 'contact']
+    for (const id of ids) {
       const el = document.getElementById(id)
       if (!el) continue
       const rect = el.getBoundingClientRect()
@@ -41,7 +56,7 @@ export default function Nav() {
     }
 
     if (window.scrollY < 120) {
-      setActive('')
+      setActive('hero')
       return
     }
     if (bestId) setActive(bestId)
@@ -71,7 +86,7 @@ export default function Nav() {
       { threshold: [0, 0.08, 0.15, 0.25, 0.4, 0.55, 0.7], rootMargin: '-12% 0px -50% 0px' },
     )
 
-    SECTION_IDS.forEach(id => {
+    ;['hero', ...SECTION_IDS, 'contact'].forEach(id => {
       const el = document.getElementById(id)
       if (el) obs.observe(el)
     })
@@ -83,8 +98,14 @@ export default function Nav() {
     }
   }, [pickActiveSection])
 
+  useEffect(() => {
+    document.body.classList.toggle('nav-menu-open', menuOpen)
+    return () => { document.body.classList.remove('nav-menu-open') }
+  }, [menuOpen])
+
   const onLinkClick = (id: string) => {
     setActive(id)
+    setMenuOpen(false)
     clickedRef.current = id
     if (clickTimerRef.current) clearTimeout(clickTimerRef.current)
     clickTimerRef.current = setTimeout(() => {
@@ -94,38 +115,95 @@ export default function Nav() {
   }
 
   return (
-    <nav id="main-nav" className={scrolled ? 'scrolled' : ''}>
-      <a href="#hero" className="nav-logo" onClick={() => setActive('')}>
-        <span className="nav-logo-text">Ulysse</span><span className="nav-dot">.</span>
-      </a>
+    <>
+      <nav id="main-nav" className={scrolled ? 'scrolled' : ''}>
+        <a href="#hero" className="nav-logo" onClick={() => onLinkClick('hero')}>
+          <span className="nav-logo-text">Ulysse</span><span className="nav-dot">.</span>
+        </a>
 
-      <ul className="nav-links">
-        {links.map(l => (
-          <li key={l.href}>
-            <a
-              href={l.href}
-              className={`nav-link${active === l.id ? ' nav-active' : ''}`}
-              onClick={() => onLinkClick(l.id)}
-              aria-current={active === l.id ? 'page' : undefined}
-            >
-              {l.label}
-            </a>
-          </li>
-        ))}
-      </ul>
+        <ul className="nav-links">
+          {links.map(l => (
+            <li key={l.href}>
+              <a
+                href={l.href}
+                className={`nav-link${active === l.id ? ' nav-active' : ''}`}
+                onClick={() => onLinkClick(l.id)}
+                aria-current={active === l.id ? 'page' : undefined}
+              >
+                {l.label}
+              </a>
+            </li>
+          ))}
+        </ul>
 
-      <a
-        href="#contact"
-        className={`nav-cta${active === 'contact' ? ' nav-cta-active' : ''}`}
-        onClick={() => onLinkClick('contact')}
+        <div className="nav-actions">
+          <a
+            href="#contact"
+            className={`nav-cta${active === 'contact' ? ' nav-cta-active' : ''}`}
+            onClick={() => onLinkClick('contact')}
+          >
+            <span className="nav-cta-label">
+              Me contacter
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden>
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </span>
+          </a>
+
+          <button
+            type="button"
+            className={`nav-burger${menuOpen ? ' is-open' : ''}`}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-drawer"
+            aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+            onClick={() => setMenuOpen(v => !v)}
+          >
+            <span /><span /><span />
+          </button>
+        </div>
+      </nav>
+
+      <div
+        id="mobile-drawer"
+        className={`mobile-drawer${menuOpen ? ' is-open' : ''}`}
+        aria-hidden={!menuOpen}
       >
-        <span className="nav-cta-halo" aria-hidden />
-        <span className="nav-cta-sparkles" aria-hidden />
-        <span>Me contacter</span>
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-          <path d="M5 12h14M12 5l7 7-7 7"/>
-        </svg>
-      </a>
-    </nav>
+        <button
+          type="button"
+          className="mobile-drawer-backdrop"
+          aria-label="Fermer le menu"
+          onClick={() => setMenuOpen(false)}
+        />
+        <div className="mobile-drawer-panel">
+          <p className="mobile-drawer-title">Navigation</p>
+          <ul className="mobile-drawer-links">
+            {drawerLinks.map(l => (
+              <li key={l.href}>
+                <a
+                  href={l.href}
+                  className={active === l.id ? 'is-active' : ''}
+                  onClick={() => onLinkClick(l.id)}
+                >
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <nav className="mobile-tabbar" aria-label="Navigation principale">
+        {tabLinks.map(l => (
+          <a
+            key={l.href}
+            href={l.href}
+            className={`mobile-tab${active === l.id ? ' is-active' : ''}${l.id === 'contact' ? ' mobile-tab--cta' : ''}`}
+            onClick={() => onLinkClick(l.id)}
+          >
+            {l.label}
+          </a>
+        ))}
+      </nav>
+    </>
   )
 }
