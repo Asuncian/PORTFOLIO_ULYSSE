@@ -132,7 +132,7 @@ export default function Contact() {
           </span>
         </div>
 
-        <div className="contact-form-block reveal">
+        <div className="contact-form-block reveal-contact">
           <div className="contact-form-header">
             <p className="contact-form-tag">Écrivez-moi</p>
             <h3 className="contact-form-title">Un message, une idée de projet</h3>

@@ -6,7 +6,7 @@ export default function ScrollAnimator() {
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (reduced) {
-      document.querySelectorAll<HTMLElement>('.reveal, .reveal-grid > *').forEach((el) => {
+      document.querySelectorAll<HTMLElement>('.reveal, .reveal-grid > *, .reveal-contact').forEach((el) => {
         el.style.opacity = '1'
         el.style.transform = 'none'
       })
@@ -22,9 +22,19 @@ export default function ScrollAnimator() {
           ease: 'power3.out',
           scrollTrigger: {
             trigger: el,
-            start: 'top 84%',
+            start: 'top 94%',
           },
         })
+      })
+
+      gsap.utils.toArray<HTMLElement>('.reveal-contact').forEach((el) => {
+        gsap.fromTo(el,
+          { opacity: 0, y: 48, rotateX: 10, transformPerspective: 900 },
+          {
+            opacity: 1, y: 0, rotateX: 0, duration: 1.05, ease: 'power3.out',
+            scrollTrigger: { trigger: el, start: 'top 95%' },
+          },
+        )
       })
 
       gsap.utils.toArray<HTMLElement>('.reveal-grid').forEach((grid) => {
@@ -40,7 +50,7 @@ export default function ScrollAnimator() {
             ease: 'power2.out',
             scrollTrigger: {
               trigger: grid,
-              start: 'top 82%',
+              start: 'top 92%',
             },
           },
         )

@@ -9,15 +9,15 @@ export default function QuoteBand() {
     const ctx = gsap.context(() => {
       gsap.fromTo('.qb-quote', { opacity: 0, y: 40 }, {
         opacity: 1, y: 0, duration: 1.1, ease: 'power3.out',
-        scrollTrigger: { trigger: '.qb-quote', start: 'top 80%' }
+        scrollTrigger: { trigger: '.qb-quote', start: 'top 90%' }
       })
       gsap.fromTo('.qb-attr', { opacity: 0 }, {
         opacity: 1, duration: .8, delay: .3, ease: 'power2.out',
-        scrollTrigger: { trigger: '.qb-attr', start: 'top 82%' }
+        scrollTrigger: { trigger: '.qb-attr', start: 'top 92%' }
       })
       gsap.fromTo('.qb-cta', { opacity: 0, scale: .9 }, {
         opacity: 1, scale: 1, duration: .7, delay: .4, ease: 'back.out(1.5)',
-        scrollTrigger: { trigger: '.qb-cta', start: 'top 85%' }
+        scrollTrigger: { trigger: '.qb-cta', start: 'top 94%' }
       })
     }, ref)
     return () => ctx.revert()

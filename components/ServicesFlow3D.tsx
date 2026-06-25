@@ -52,14 +52,13 @@ export default function ServicesFlow3D({ hostRef }: { hostRef: RefObject<HTMLDiv
         uniform vec3  uColA, uColB;
         varying vec2  vUv;
         void main() {
-          if (vUv.x > uDraw) discard;
+          float dist = uDraw - vUv.x;
+          if (dist < 0.0) discard;
           vec3 col = mix(uColA, uColB, smoothstep(0.0, 1.0, vUv.x));
-          float head = smoothstep(uDraw - 0.09, uDraw, vUv.x);
-          col = mix(col, vec3(0.95, 0.97, 1.0), head * 0.95);
           float across = 1.0 - smoothstep(0.0, 0.5, abs(vUv.y - 0.5));
-          // soft fade at both extremities so the line eases in and out
           float ends = smoothstep(0.0, 0.04, vUv.x) * smoothstep(0.0, 0.04, 1.0 - vUv.x);
-          float a = (across * 0.9 + head * 0.4) * uAlpha * ends;
+          float cap = smoothstep(0.0, 0.035, dist);
+          float a = across * uAlpha * ends * cap;
           gl_FragColor = vec4(col, a);
         }
       `,
@@ -104,25 +103,47 @@ export default function ServicesFlow3D({ hostRef }: { hostRef: RefObject<HTMLDiv
       depthWrite: false, blending: THREE.AdditiveBlending,
     })
 
-    // Glowing head sprite — hi-res radial gradient, soft round falloff
-    const SIZE = 256
-    const hc = document.createElement('canvas')
-    hc.width = hc.height = SIZE
-    const hg = hc.getContext('2d')!
-    const cx = SIZE / 2
-    const grad = hg.createRadialGradient(cx, cx, 0, cx, cx, cx)
-    grad.addColorStop(0, 'rgba(255,255,255,1)')
-    grad.addColorStop(0.12, 'rgba(232,242,255,0.98)')
-    grad.addColorStop(0.28, 'rgba(147,197,253,0.72)')
-    grad.addColorStop(0.52, 'rgba(77,136,255,0.28)')
-    grad.addColorStop(0.78, 'rgba(22,80,240,0.08)')
-    grad.addColorStop(1, 'rgba(22,80,240,0)')
-    hg.fillStyle = grad
-    hg.fillRect(0, 0, SIZE, SIZE)
-    const headTex = new THREE.CanvasTexture(hc)
-    headTex.minFilter = THREE.LinearFilter
-    headTex.magFilter = THREE.LinearFilter
-    headTex.generateMipmaps = false
+    const makeStarTexture = () => {
+      const SIZE = 256
+      const hc = document.createElement('canvas')
+      hc.width = hc.height = SIZE
+      const hg = hc.getContext('2d')!
+      const cx = SIZE / 2
+
+      hg.globalCompositeOperation = 'lighter'
+      for (let i = 0; i < 4; i++) {
+        hg.save()
+        hg.translate(cx, cx)
+        hg.rotate((Math.PI / 2) * i)
+        const beam = hg.createLinearGradient(0, -cx, 0, cx)
+        beam.addColorStop(0, 'rgba(255,255,255,0)')
+        beam.addColorStop(0.45, 'rgba(200,220,255,0.35)')
+        beam.addColorStop(0.5, 'rgba(255,255,255,0.9)')
+        beam.addColorStop(0.55, 'rgba(200,220,255,0.35)')
+        beam.addColorStop(1, 'rgba(255,255,255,0)')
+        hg.fillStyle = beam
+        hg.fillRect(-3, -cx, 6, cx * 2)
+        hg.restore()
+      }
+
+      const grad = hg.createRadialGradient(cx, cx, 0, cx, cx, cx * 0.55)
+      grad.addColorStop(0, 'rgba(255,255,255,1)')
+      grad.addColorStop(0.15, 'rgba(240,248,255,0.95)')
+      grad.addColorStop(0.35, 'rgba(147,197,253,0.55)')
+      grad.addColorStop(0.6, 'rgba(77,136,255,0.18)')
+      grad.addColorStop(1, 'rgba(22,80,240,0)')
+      hg.globalCompositeOperation = 'source-over'
+      hg.fillStyle = grad
+      hg.fillRect(0, 0, SIZE, SIZE)
+
+      const tex = new THREE.CanvasTexture(hc)
+      tex.minFilter = THREE.LinearFilter
+      tex.magFilter = THREE.LinearFilter
+      tex.generateMipmaps = false
+      return tex
+    }
+
+    const headTex = makeStarTexture()
     const headMat = new THREE.SpriteMaterial({
       map: headTex,
       transparent: true,
@@ -219,9 +240,9 @@ export default function ServicesFlow3D({ hostRef }: { hostRef: RefObject<HTMLDiv
         const p = curve.getPoint(d)
         head.position.set(p.x, p.y, 1)
         headCore.position.set(p.x, p.y, 1.1)
-        const pulse = 28 + Math.sin(t * 1.2) * 2.5
+        const pulse = 22 + Math.sin(t * 1.4) * 2
         head.scale.set(pulse, pulse, 1)
-        headCore.scale.set(pulse * 0.42, pulse * 0.42, 1)
+        headCore.scale.set(pulse * 0.35, pulse * 0.35, 1)
         const fade = Math.min(1, smoothstep(0, 0.06, d) * smoothstep(0, 0.06, 1 - d))
         headMat.opacity = fade * (0.88 + Math.sin(t * 1.2) * 0.06)
         headCoreMat.opacity = fade * (0.95 + Math.sin(t * 1.2 + 0.4) * 0.04)

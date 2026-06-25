@@ -50,12 +50,19 @@ function makePillTexture(tech: Tech): THREE.CanvasTexture {
   ctx.fill()
   ctx.shadowBlur = 0
 
-  // Label
-  ctx.font = '600 74px Inter, system-ui, sans-serif'
+  // Label — auto-scale pour les noms longs
+  const textX = pad + 92
+  const maxTextW = W - textX - pad - 16
+  let fontSize = 74
+  ctx.font = `600 ${fontSize}px Inter, system-ui, sans-serif`
+  while (ctx.measureText(tech.label).width > maxTextW && fontSize > 50) {
+    fontSize -= 3
+    ctx.font = `600 ${fontSize}px Inter, system-ui, sans-serif`
+  }
   ctx.textBaseline = 'middle'
   ctx.textAlign = 'left'
   ctx.fillStyle = '#eef4ff'
-  ctx.fillText(tech.label, pad + 92, H / 2 + 4)
+  ctx.fillText(tech.label, textX, H / 2 + 4)
 
   const tex = new THREE.CanvasTexture(c)
   tex.anisotropy = 4
@@ -110,7 +117,31 @@ export default function TechCarousel3D() {
       })
     }
     buildRing(RING_A, 0.62, 0)
-    buildRing(RING_B, -0.62, Math.PI / RING_B.length) // half-step stagger
+    buildRing(RING_B, -0.62, Math.PI / RING_B.length)
+
+    // Scintillements d'ambiance
+    const starCount = 90
+    const starPos = new Float32Array(starCount * 3)
+    const starPhase = new Float32Array(starCount)
+    for (let i = 0; i < starCount; i++) {
+      starPos[i * 3] = (Math.random() - 0.5) * 22
+      starPos[i * 3 + 1] = (Math.random() - 0.5) * 10
+      starPos[i * 3 + 2] = (Math.random() - 0.5) * 14 - 4
+      starPhase[i] = Math.random() * Math.PI * 2
+    }
+    const starGeo = new THREE.BufferGeometry()
+    starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3))
+    const starMat = new THREE.PointsMaterial({
+      color: 0xbcd6ff,
+      size: 0.06,
+      transparent: true,
+      opacity: 0.55,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      sizeAttenuation: true,
+    })
+    const stars = new THREE.Points(starGeo, starMat)
+    scene.add(stars)
 
     // ── interaction: drag to spin with inertia ──
     let vel = 0.0016          // idle auto-spin
@@ -133,16 +164,19 @@ export default function TechCarousel3D() {
     canvas.style.touchAction = 'pan-y'
 
     const tmp = new THREE.Vector3()
-    let onScreen = true, tabVisible = true, animId = 0
+    let onScreen = true, tabVisible = true, animId = 0, t = 0
     const isPaused = () => !onScreen || !tabVisible
 
     const render = () => {
       animId = requestAnimationFrame(render)
       if (isPaused()) return
+      t += 0.016
+
+      starMat.opacity = 0.42 + Math.sin(t * 1.8) * 0.08
+      stars.rotation.y = wheel.rotation.y * 0.15
 
       if (!dragging) {
         wheel.rotation.y += vel
-        // ease idle spin back, decay throw velocity
         vel += (idleSpin - vel) * 0.03
       }
 
@@ -186,6 +220,8 @@ export default function TechCarousel3D() {
       window.removeEventListener('pointermove', mm)
       window.removeEventListener('pointerup', onUp)
       geo.dispose()
+      starGeo.dispose()
+      starMat.dispose()
       planes.forEach(m => m.material.dispose())
       textures.forEach(t => t.dispose())
       renderer.dispose()

@@ -39,7 +39,7 @@ export default function Services() {
         const dir = el.classList.contains('flow-item--left') ? -36 : 36
         gsap.fromTo(el, { opacity: 0, x: dir, y: 14 }, {
           opacity: 1, x: 0, y: 0, duration: .7, ease: 'power3.out',
-          scrollTrigger: { trigger: el, start: 'top 84%' },
+          scrollTrigger: { trigger: el, start: 'top 93%' },
         })
       })
 

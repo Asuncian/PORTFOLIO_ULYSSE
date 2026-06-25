@@ -84,7 +84,7 @@ export default function Projects() {
           { opacity: 0, x: dir },
           {
             opacity: 1, x: 0, duration: 1.1, ease: 'power3.out',
-            scrollTrigger: { trigger: strip, start: 'top 84%' },
+            scrollTrigger: { trigger: strip, start: 'top 93%' },
           }
         )
 

@@ -25,7 +25,7 @@ export default function Stats() {
 
         gsap.fromTo(block, { opacity: 0, y: 30 }, {
           opacity: 1, y: 0, duration: .7, delay: i * .12, ease: 'power2.out',
-          scrollTrigger: { trigger: block, start: 'top 82%' },
+          scrollTrigger: { trigger: block, start: 'top 92%' },
           onStart: () => {
             counter.v = 0
             gsap.to(counter, {
