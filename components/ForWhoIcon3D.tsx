@@ -96,19 +96,37 @@ function buildIcon(variant: ForWhoIconVariant): { group: THREE.Group; mats: THRE
       break
     }
     case 'local': {
-      const cargo = new THREE.BoxGeometry(1.1, 0.62, 0.62)
-      addMesh(cargo, main, new THREE.Vector3(-0.22, -0.15, 0))
-      const cab = new THREE.BoxGeometry(0.48, 0.52, 0.58)
-      addMesh(cab, accent, new THREE.Vector3(0.62, -0.08, 0))
-      const roof = new THREE.BoxGeometry(0.5, 0.08, 0.6)
-      addMesh(roof, body, new THREE.Vector3(0.62, 0.22, 0))
-      const window = new THREE.BoxGeometry(0.38, 0.28, 0.05)
-      addMesh(window, body, new THREE.Vector3(0.62, 0.02, 0.31))
-      const wheelG = new THREE.TorusGeometry(0.16, 0.06, 10, 20)
-      ;[[-0.48, -0.52, 0.28], [0.48, -0.52, 0.28]].forEach(([x, y, z]) => {
-        addMesh(wheelG.clone(), body, new THREE.Vector3(x, y, z), new THREE.Euler(Math.PI / 2, 0, 0))
+      // Benne (skip) trapézoïdale + 4 roues
+      const bin = new THREE.CylinderGeometry(0.54, 0.4, 0.72, 4)
+      const binMesh = addMesh(bin, main, new THREE.Vector3(0, 0.1, 0))
+      binMesh.rotation.y = Math.PI / 4
+
+      const rim = new THREE.CylinderGeometry(0.58, 0.58, 0.07, 4)
+      const rimMesh = addMesh(rim, accent, new THREE.Vector3(0, 0.48, 0))
+      rimMesh.rotation.y = Math.PI / 4
+
+      const lip = new THREE.BoxGeometry(0.62, 0.06, 0.62)
+      const lipMesh = addMesh(lip, accent, new THREE.Vector3(0, 0.52, 0))
+      lipMesh.rotation.y = Math.PI / 4
+
+      const wheelY = -0.34
+      const wheelGeo = new THREE.CylinderGeometry(0.13, 0.13, 0.08, 12)
+      const wheelRot = new THREE.Euler(Math.PI / 2, 0, 0)
+      ;[
+        [-0.34, wheelY, 0.3],
+        [0.34, wheelY, 0.3],
+        [-0.34, wheelY, -0.3],
+        [0.34, wheelY, -0.3],
+      ].forEach(([x, y, z]) => {
+        addMesh(wheelGeo.clone(), body, new THREE.Vector3(x, y, z), wheelRot)
+        const hub = new THREE.CylinderGeometry(0.05, 0.05, 0.09, 8)
+        addMesh(hub, accent, new THREE.Vector3(x, y, z), wheelRot)
       })
-      wheelG.dispose()
+      wheelGeo.dispose()
+
+      const arm = new THREE.BoxGeometry(0.05, 0.32, 0.05)
+      addMesh(arm, body, new THREE.Vector3(-0.38, 0.22, 0.3))
+      addMesh(arm.clone(), body, new THREE.Vector3(0.38, 0.22, 0.3))
       break
     }
     case 'saas': {

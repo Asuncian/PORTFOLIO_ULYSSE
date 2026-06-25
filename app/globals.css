@@ -225,38 +225,96 @@ body::before {
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.42),
     0 0 0 2px rgba(147,197,253,.45),
+    0 0 28px -2px rgba(77,136,255,.65),
     0 10px 28px -6px rgba(22,80,240,.75);
 }
-/* CTA - filled gradient with relief (embossed) + shine sweep on hover */
+/* CTA stellaire — animations CSS uniquement (GPU, pas de JS) */
 .nav-cta {
   justify-self: end;
   display: inline-flex; align-items: center; gap: .5rem;
-  padding: 9px 22px; border-radius: 100px;
+  padding: 10px 24px; border-radius: 100px;
   font-size: .78rem; font-weight: 600; color: #fff;
-  text-decoration: none; position: relative; overflow: hidden; border: none;
-  background: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue) 45%, var(--blue-bright) 100%);
+  text-decoration: none; position: relative; overflow: visible; border: none;
+  background: linear-gradient(135deg, #0e2a8a 0%, var(--blue) 40%, #5b9dff 100%);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.32),
-    inset 0 -1px 0 rgba(0,0,0,.28),
-    0 6px 18px -5px rgba(22,80,240,.6);
-  transition: transform .25s, box-shadow .25s, filter .25s;
+    inset 0 1px 0 rgba(255,255,255,.35),
+    inset 0 -1px 0 rgba(0,0,0,.25),
+    0 0 20px -4px rgba(77,136,255,.55),
+    0 6px 22px -6px rgba(22,80,240,.65);
+  transition: transform .25s, filter .25s;
+  animation: navCtaBreath 4s ease-in-out infinite;
+  isolation: isolate;
+}
+.nav-cta-halo {
+  position: absolute; inset: -3px; border-radius: inherit; z-index: -1;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(147,197,253,.55) 60deg,
+    transparent 120deg,
+    rgba(77,136,255,.45) 200deg,
+    transparent 280deg
+  );
+  opacity: .55;
+  animation: navCtaOrbit 5s linear infinite;
+  filter: blur(4px);
+}
+.nav-cta-sparkles {
+  position: absolute; inset: 0; border-radius: inherit; z-index: 0;
+  pointer-events: none; overflow: hidden;
+  background-image:
+    radial-gradient(1.5px 1.5px at 18% 35%, rgba(255,255,255,.95) 50%, transparent 52%),
+    radial-gradient(1px 1px at 72% 28%, rgba(200,225,255,.9) 50%, transparent 52%),
+    radial-gradient(1.5px 1.5px at 58% 72%, rgba(255,255,255,.85) 50%, transparent 52%),
+    radial-gradient(1px 1px at 32% 68%, rgba(147,197,253,.9) 50%, transparent 52%),
+    radial-gradient(1px 1px at 88% 55%, rgba(255,255,255,.75) 50%, transparent 52%);
+  animation: navCtaTwinkle 2.8s ease-in-out infinite;
 }
 .nav-cta::before {
   content: ''; position: absolute; top: 0; left: -85%; width: 55%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.38), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.42), transparent);
   transform: skewX(-18deg); transition: left .6s ease; pointer-events: none;
+  z-index: 1; border-radius: inherit;
 }
 .nav-cta:hover::before { left: 130%; }
 .nav-cta:hover {
-  transform: translateY(-1px); filter: brightness(1.06);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.42),
-    0 0 0 1px rgba(147,197,253,.4),
-    0 10px 28px -6px rgba(22,80,240,.75);
+  transform: translateY(-2px); filter: brightness(1.08);
+  animation-play-state: paused;
 }
-.nav-cta span, .nav-cta svg { position: relative; z-index: 1; }
+.nav-cta:hover .nav-cta-halo { opacity: .85; }
+.nav-cta span:not(.nav-cta-halo):not(.nav-cta-sparkles),
+.nav-cta svg { position: relative; z-index: 2; }
 .nav-cta svg { transition: transform .25s; }
 .nav-cta:hover svg { transform: translateX(3px); }
+@keyframes navCtaBreath {
+  0%, 100% {
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.35),
+      inset 0 -1px 0 rgba(0,0,0,.25),
+      0 0 18px -4px rgba(77,136,255,.45),
+      0 6px 20px -6px rgba(22,80,240,.55);
+  }
+  50% {
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.4),
+      inset 0 -1px 0 rgba(0,0,0,.22),
+      0 0 32px -2px rgba(120,180,255,.7),
+      0 8px 28px -4px rgba(22,80,240,.75);
+  }
+}
+@keyframes navCtaOrbit {
+  to { transform: rotate(360deg); }
+}
+@keyframes navCtaTwinkle {
+  0%, 100% { opacity: .35; }
+  40% { opacity: .9; }
+  70% { opacity: .5; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-cta,
+  .nav-cta-halo,
+  .nav-cta-sparkles { animation: none; }
+}
 
 /* ── SECTIONS ── */
 section { position: relative; z-index: 4; }
@@ -1380,8 +1438,8 @@ footer {
 @media (max-width: 420px) {
   .nav-logo { font-size: 1rem; }
   .nav-cta  { font-size: .70rem; padding: 7px 13px; }
-  .nav-cta span { display: none; }
-  .nav-cta::after { content: 'Contact'; }
+  .nav-cta > span:not(.nav-cta-halo):not(.nav-cta-sparkles) { display: none; }
+  .nav-cta::after { content: 'Contact'; position: relative; z-index: 2; }
 
   .hero-title { letter-spacing: -2px; }
 
