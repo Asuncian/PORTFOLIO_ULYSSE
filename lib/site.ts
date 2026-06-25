@@ -12,15 +12,17 @@ export const SITE_LINKEDIN = 'https://linkedin.com/in/ulysse-goming-jobert-25625
 export const SITE_REGION = 'Occitanie'
 export const SITE_GEO_REGION = 'FR-OCC'
 
+/** Rôle affiché (hero, SEO, JSON-LD). */
+export const SITE_ROLE = 'Développeur IA & Automatisation'
+
 /** Google Search Console : balise meta de vérification du domaine. */
 export const GOOGLE_SITE_VERIFICATION =
   process.env.GOOGLE_SITE_VERIFICATION ?? 'MJONZxuhd88OQG_R1_aVo0JI_PVnTH6ncVRITkIBxSU'
 
 /** Titre principal (balise & Open Graph). Nom en premier : portfolio pro, pas offre freelance. */
-export const SITE_TITLE =
-  'Ulysse Goming-Jobert | Développeur IA & automatisation'
+export const SITE_TITLE = `Ulysse Goming-Jobert | ${SITE_ROLE}`
 
-/** Meta description (~155 car.) : développeur IA, Occitanie. */
+/** Meta description (~155 car.) : IA, automatisation, Occitanie. */
 export const SITE_DESCRIPTION =
   'PME, artisans et services : sites vitrines, automatisations IA et outils sur mesure. Développeur IA et automatisation en Occitanie, du premier échange à la mise en ligne.'
 
@@ -28,13 +30,13 @@ export const SITE_DESCRIPTION =
 export const SEO_SERVICE_KEYWORDS = [
   SITE_NAME,
   'développeur IA',
-  'développeur IA Occitanie',
   'développeur IA & automatisation',
+  'développeur IA Occitanie',
+  'automatisation IA',
+  'intégration IA',
+  'workflows IA',
   'développeur web',
   'développeur web Occitanie',
-  'développeur web & automatisation',
-  'intégration IA',
-  'automatisation IA',
   'création site web',
   'création site internet',
   'création site web PME',
