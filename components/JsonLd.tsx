@@ -1,52 +1,98 @@
-import { SITE_NAME, SITE_URL, SEO_KEYWORDS } from '@/lib/site'
+import {
+  SITE_DESCRIPTION,
+  SITE_EMAIL,
+  SITE_LINKEDIN,
+  SITE_NAME,
+  SITE_PHONE,
+  SITE_REGION,
+  SITE_SERVICES,
+  SITE_URL,
+  SEO_KEYWORDS,
+} from '@/lib/site'
+
+const personId = `${SITE_URL}/#person`
+const websiteId = `${SITE_URL}/#website`
+const businessId = `${SITE_URL}/#business`
 
 const schema = {
   '@context': 'https://schema.org',
   '@graph': [
     {
+      '@type': 'WebPage',
+      '@id': SITE_URL,
+      url: SITE_URL,
+      name: SITE_NAME,
+      description: SITE_DESCRIPTION,
+      inLanguage: 'fr-FR',
+      isPartOf: { '@id': websiteId },
+      about: { '@id': personId },
+      primaryImageOfPage: { '@type': 'ImageObject', url: `${SITE_URL}/logo-bloom-yourself.png` },
+    },
+    {
+      '@type': 'WebSite',
+      '@id': websiteId,
+      name: SITE_NAME,
+      url: SITE_URL,
+      description: SITE_DESCRIPTION,
+      inLanguage: 'fr-FR',
+      publisher: { '@id': personId },
+      keywords: SEO_KEYWORDS.join(', '),
+    },
+    {
       '@type': 'Person',
+      '@id': personId,
       name: SITE_NAME,
       url: SITE_URL,
       jobTitle: 'Développeur web & automatisation',
-      email: 'gomingjobertulysse@gmail.com',
-      telephone: '+33645003007',
-      sameAs: ['https://linkedin.com/in/ulysse-goming-jobert-256251254'],
+      email: SITE_EMAIL,
+      telephone: SITE_PHONE,
+      sameAs: [SITE_LINKEDIN],
       knowsAbout: [
         'Développement web',
-        'Next.js',
-        'React',
+        'Sites vitrines pour PME',
         'Automatisation n8n',
         'CRM sur mesure',
-        'Sites vitrines',
+        'Next.js',
+        'React',
         'SEO local',
         'Docker',
         'Déploiement VPS',
       ],
-      areaServed: { '@type': 'AdministrativeArea', name: 'Var, Provence-Alpes-Côte d\'Azur' },
-    },
-    {
-      '@type': 'WebSite',
-      name: SITE_NAME,
-      url: SITE_URL,
-      description:
-        'Portfolio de Ulysse Goming-Jobert : sites web, automatisations n8n et outils sur mesure, du Var à la mise en ligne.',
-      inLanguage: 'fr-FR',
-      keywords: SEO_KEYWORDS.join(', '),
+      areaServed: [
+        { '@type': 'Country', name: 'France' },
+        { '@type': 'AdministrativeArea', name: SITE_REGION },
+      ],
     },
     {
       '@type': 'ProfessionalService',
+      '@id': businessId,
       name: `${SITE_NAME} — Développement web & automatisation`,
       url: SITE_URL,
-      description:
-        'Création de sites vitrines, automatisations (n8n, Make), CRM et outils métier. Accompagnement jusqu\'au déploiement.',
-      areaServed: 'France',
-      serviceType: [
-        'Développement web',
-        'Automatisation de processus',
-        'Création de site vitrine',
-        'Outil métier sur mesure',
-        'Hébergement et déploiement',
+      description: SITE_DESCRIPTION,
+      email: SITE_EMAIL,
+      telephone: SITE_PHONE,
+      priceRange: '€€',
+      founder: { '@id': personId },
+      areaServed: [
+        { '@type': 'Country', name: 'France' },
+        { '@type': 'AdministrativeArea', name: SITE_REGION },
       ],
+      serviceType: SITE_SERVICES.map((s) => s.name),
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'Services web & automatisation pour PME',
+        itemListElement: SITE_SERVICES.map((service, i) => ({
+          '@type': 'Offer',
+          position: i + 1,
+          itemOffered: {
+            '@type': 'Service',
+            name: service.name,
+            description: service.description,
+            provider: { '@id': businessId },
+            areaServed: { '@type': 'Country', name: 'France' },
+          },
+        })),
+      },
     },
   ],
 }
