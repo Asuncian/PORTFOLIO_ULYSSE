@@ -4,18 +4,34 @@ node_modules/
 # Build Next.js
 .next/
 out/
-
-# Variables d'environnement
-.env
-.env.local
-.env.*.local
-
-# Build Next.js
-.next/
-out/
-
-# Artefacts TypeScript
 *.tsbuildinfo
 
-# Divers
+# Variables d'environnement (secrets — jamais versionner)
+.env
+.env.*
+!.env.example
+.ENV
+.ENV.*
+
+# Clés / certificats
+*.pem
+*.key
+*.p12
+credentials.json
+secrets.json
+
+# IDE & outils locaux
+.cursor/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs & OS
+*.log
+npm-debug.log*
 .DS_Store
+Thumbs.db
+
+# Hébergeurs / déploiement local
+.vercel/
