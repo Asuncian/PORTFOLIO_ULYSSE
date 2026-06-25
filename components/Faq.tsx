@@ -7,7 +7,7 @@ export default function Faq() {
         <p className="section-tag">Questions fréquentes</p>
         <h2 className="section-title">Vous vous <em>reconnaissez ?</em></h2>
         <p className="section-sub">
-          Artisans et PME : les questions qu&apos;on me pose avant de lancer un site ou une automatisation.
+          Artisans et PME : les questions qu&apos;on me pose avant un site ou une automatisation.
         </p>
       </div>
 

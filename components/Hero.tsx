@@ -73,7 +73,7 @@ export default function Hero() {
       <p className="hero-role h-role">Développeur web &amp; automatisation</p>
 
       <p className="hero-sub h-sub">
-        Sites et automatisations pour artisans et PME : plus de visibilité sur Google, plus de demandes, moins de temps perdu sur l&apos;administratif.
+        Je développe des sites et des automatisations pour des besoins concrets. Du premier échange jusqu&apos;à la mise en ligne.
       </p>
 
       <div className="hero-actions">

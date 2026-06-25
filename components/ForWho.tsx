@@ -9,7 +9,7 @@ const targets: { icon: ForWhoIconVariant; title: string; desc: string }[] = [
   {
     icon: 'artisan',
     title: 'Artisans & terrain',
-    desc: 'Peu de demandes en ligne ? Un site clair, le référencement local et un contact simple pour transformer les recherches Google en clients.',
+    desc: 'Un site qui montre le travail sur le terrain. SEO local, pages par zone et contact simple pour les pros de votre secteur.',
   },
   {
     icon: 'local',
@@ -35,7 +35,7 @@ export default function ForWho() {
         <p className="section-tag">Univers</p>
         <h2 className="section-title">Les secteurs de <em>mes projets</em></h2>
         <p className="section-sub">
-          Artisans, services locaux et PME : des secteurs où la visibilité Google et un bon site changent vraiment le nombre de clients.
+          Bien-être, artisans, services locaux, SaaS, sport : les secteurs où j&apos;ai déjà livré.
         </p>
       </div>
 

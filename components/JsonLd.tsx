@@ -71,7 +71,7 @@ const schema = {
     {
       '@type': 'ProfessionalService',
       '@id': businessId,
-      name: `${SITE_NAME} — Développement web & automatisation`,
+      name: `${SITE_NAME} | Développement web & automatisation`,
       url: SITE_URL,
       description: SITE_DESCRIPTION,
       email: SITE_EMAIL,

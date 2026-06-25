@@ -12,17 +12,17 @@ export const SITE_LINKEDIN = 'https://linkedin.com/in/ulysse-goming-jobert-25625
 export const SITE_REGION = 'Occitanie'
 export const SITE_GEO_REGION = 'FR-OCC'
 
-/** Google Search Console — balise meta de vérification du domaine. */
+/** Google Search Console : balise meta de vérification du domaine. */
 export const GOOGLE_SITE_VERIFICATION =
   process.env.GOOGLE_SITE_VERIFICATION ?? 'MJONZxuhd88OQG_R1_aVo0JI_PVnTH6ncVRITkIBxSU'
 
 /** Titre principal (balise & Open Graph). */
 export const SITE_TITLE =
-  'Site vitrine artisan & PME : plus de clients | Ulysse Goming-Jobert'
+  'Sites web & automatisation pour PME | Ulysse Goming-Jobert'
 
-/** Meta description (~155 car.) — intention recherche pain PME / artisans. */
+/** Meta description (~155 car.) : développeur web, Occitanie, sans positionnement freelance. */
 export const SITE_DESCRIPTION =
-  'Artisan ou PME : peu de clients en ligne ? Site vitrine, SEO local et automatisations pour recevoir des demandes et gagner du temps. Occitanie et France.'
+  'PME, artisans et services : sites vitrines, automatisations et outils sur mesure. Développeur web et automatisation en Occitanie, du premier échange à la mise en ligne.'
 
 /** Termes prestations, stack et géolocalisation. */
 export const SEO_SERVICE_KEYWORDS = [
@@ -57,7 +57,7 @@ export const SEO_SERVICE_KEYWORDS = [
   'application web sur mesure',
   'digitalisation PME',
   'digitalisation artisan',
-  'prestataire site web Occitanie',
+  'développeur site web Occitanie',
   'développeur Next.js',
   'développeur React',
   'SEO local',
@@ -166,12 +166,12 @@ export const SITE_SERVICES = [
   },
 ] as const
 
-/** FAQ visible + schéma JSON-LD — requêtes longue traîne artisans / PME. */
+/** FAQ visible + schéma JSON-LD : requêtes longue traîne artisans / PME. */
 export const SITE_FAQ = [
   {
     question: 'Comment un artisan peut avoir plus de clients avec un site web ?',
     answer:
-      'Un site clair rassure avant le premier appel : photos, zones d\'intervention, avis et formulaire de devis. Couplé au référencement local, il vous place sur Google quand quelqu\'un cherche votre métier près de chez lui. Je construis ce parcours de A à Z.',
+      'Un site clair rassure avant le premier appel : photos, zones d\'intervention, avis et formulaire de devis. Avec un bon référencement local, vous apparaissez sur Google quand quelqu\'un cherche votre métier près de chez lui. Je développe ce parcours de A à Z.',
   },
   {
     question: 'Mon site actuel ne me ramène pas de clients, que faire ?',

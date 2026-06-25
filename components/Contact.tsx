@@ -131,7 +131,7 @@ export default function Contact() {
         <p className="contact-status">
           <span className="contact-status-dot" aria-hidden="true" />
           <span className="contact-status-full">Disponible pour en discuter. Je lis tout et je réponds sous 24 h.</span>
-          <span className="contact-status-short">Disponible — réponse sous 24 h.</span>
+          <span className="contact-status-short">Disponible, réponse sous 24 h.</span>
         </p>
 
         <div className="contact-form-block">
