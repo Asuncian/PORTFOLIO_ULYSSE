@@ -109,11 +109,11 @@ export default function Contact() {
         </div>
 
         <div className="contact-chips">
-          <a href="tel:0645003007" className="contact-chip">
+          <a href="tel:0645003007" className="contact-chip contact-chip--tel">
             <PhoneIcon />
             06 45 00 30 07
           </a>
-          <a href="mailto:gomingjobertulysse@gmail.com" className="contact-chip">
+          <a href="mailto:gomingjobertulysse@gmail.com" className="contact-chip contact-chip--mail">
             <MailIcon />
             gomingjobertulysse@gmail.com
           </a>
@@ -121,7 +121,7 @@ export default function Contact() {
             href="https://linkedin.com/in/ulysse-goming-jobert-256251254"
             target="_blank"
             rel="noopener noreferrer"
-            className="contact-chip"
+            className="contact-chip contact-chip--linkedin"
           >
             <LinkedInIcon />
             LinkedIn
