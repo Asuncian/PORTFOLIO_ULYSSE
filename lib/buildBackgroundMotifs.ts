@@ -7,22 +7,17 @@ export type MotifEntry = {
   tick: (t: number) => void
 }
 
-type MP = { body: number; main: number; accent: number; edge: number }
+type MP = { edge: number }
 
 const PALETTES = {
-  storage:  { body: 0x0a2848, main: 0x38bdf8, accent: 0x6ee7b7, edge: 0x93c5fd },
-  security: { body: 0x0c1e3d, main: 0x93c5fd, accent: 0x4d88ff, edge: 0xbae6fd },
-  web:      { body: 0x0c1840, main: 0x4d88ff, accent: 0x8ab8ff, edge: 0x93c5fd },
-  auto:     { body: 0x1a1440, main: 0x818cf8, accent: 0xc4b5fd, edge: 0xa5b4fc },
-  perf:     { body: 0x0a2830, main: 0x4d88ff, accent: 0x6ee7b7, edge: 0x67e8f9 },
+  storage:  { edge: 0x7dd3fc },
+  security: { edge: 0xbae6fd },
+  web:      { edge: 0x93c5fd },
+  auto:     { edge: 0xa5b4fc },
+  perf:     { edge: 0x67e8f9 },
 } satisfies Record<string, MP>
 
-type MotifMats = {
-  body: THREE.MeshStandardMaterial
-  main: THREE.MeshStandardMaterial
-  accent: THREE.MeshStandardMaterial
-  edge: THREE.LineBasicMaterial
-}
+const WIRE_OPACITY = 0.34
 
 export function buildBackgroundMotifs(
   scene: THREE.Scene,
@@ -31,47 +26,29 @@ export function buildBackgroundMotifs(
 ): MotifEntry[] {
   const motifs: MotifEntry[] = []
 
-  const createMotifMats = (p: MP): MotifMats => {
-    const solid = (color: number, intensity = 0.26) => {
-      const m = new THREE.MeshStandardMaterial({
-        color,
-        emissive: color,
-        emissiveIntensity: intensity,
-        metalness: 0.48,
-        roughness: 0.34,
-        transparent: true,
-        opacity: 0.88,
-      })
-      mats.push(m)
-      return m
-    }
-    const edge = new THREE.LineBasicMaterial({ color: p.edge, transparent: true, opacity: 0.9 })
+  const createEdgeMat = (p: MP) => {
+    const edge = new THREE.LineBasicMaterial({
+      color: p.edge,
+      transparent: true,
+      opacity: WIRE_OPACITY,
+    })
     mats.push(edge)
-    return {
-      body: solid(p.body, 0.1),
-      main: solid(p.main, 0.3),
-      accent: solid(p.accent, 0.4),
-      edge,
-    }
+    return edge
   }
 
-  const addMesh = (
+  const addWire = (
     g: THREE.Group,
     geo: THREE.BufferGeometry,
-    mat: THREE.MeshStandardMaterial,
     edge: THREE.LineBasicMaterial,
     pos = new THREE.Vector3(),
     rot = new THREE.Euler(),
   ) => {
-    const mesh = new THREE.Mesh(geo, mat)
-    mesh.position.copy(pos)
-    mesh.rotation.copy(rot)
-    const edges = new THREE.LineSegments(new THREE.EdgesGeometry(geo), edge)
-    edges.position.copy(pos)
-    edges.rotation.copy(rot)
-    g.add(mesh, edges)
+    const wire = new THREE.LineSegments(new THREE.EdgesGeometry(geo), edge)
+    wire.position.copy(pos)
+    wire.rotation.copy(rot)
+    g.add(wire)
     geos.push(geo)
-    return mesh
+    return wire
   }
 
   const addLine = (g: THREE.Group, pts: THREE.Vector3[], edge: THREE.LineBasicMaterial) => {
@@ -91,14 +68,21 @@ export function buildBackgroundMotifs(
     motifs.push({ g, base: new THREE.Vector3(x, y, z), parallax, tick })
   }
 
-  const buildGear = (g: THREE.Group, r: number, teeth: number, thick: number, m: MotifMats, pos: THREE.Vector3) => {
+  const buildGear = (
+    g: THREE.Group,
+    r: number,
+    teeth: number,
+    thick: number,
+    edge: THREE.LineBasicMaterial,
+    pos: THREE.Vector3,
+  ) => {
     const gear = new THREE.Group()
     gear.position.copy(pos)
-    addMesh(gear, new THREE.CylinderGeometry(r, r, thick, teeth, 1), m.main, m.edge)
+    addWire(gear, new THREE.CylinderGeometry(r, r, thick, teeth, 1), edge)
     for (let i = 0; i < teeth; i++) {
       const a = (i / teeth) * Math.PI * 2
-      addMesh(
-        gear, new THREE.BoxGeometry(1, thick * 1.15, 1.2), m.accent, m.edge,
+      addWire(
+        gear, new THREE.BoxGeometry(1, thick * 1.15, 1.2), edge,
         new THREE.Vector3(Math.cos(a) * (r + 0.5), Math.sin(a) * (r + 0.5), 0),
         new THREE.Euler(0, 0, -a),
       )
@@ -107,18 +91,13 @@ export function buildBackgroundMotifs(
     return gear
   }
 
-  scene.add(new THREE.AmbientLight(0x081428, 0.9))
-  const motifKey = new THREE.DirectionalLight(0x8ab8ff, 0.5)
-  motifKey.position.set(40, 60, 90)
-  scene.add(motifKey)
-
   // Serveur — 3 baies, LEDs
   const storage = new THREE.Group()
-  const stM = createMotifMats(PALETTES.storage)
-  addMesh(storage, new THREE.BoxGeometry(14, 16, 6), stM.body, stM.edge)
-  ;[5, 0, -5].forEach((y, i) => {
-    addMesh(storage, new THREE.BoxGeometry(12.5, 3.8, 5.2), stM.main, stM.edge, new THREE.Vector3(0, y, 0.3))
-    addMesh(storage, new THREE.SphereGeometry(0.32, 8, 8), i < 2 ? stM.accent : stM.main, stM.edge, new THREE.Vector3(5.5, y, 2.85))
+  const stE = createEdgeMat(PALETTES.storage)
+  addWire(storage, new THREE.BoxGeometry(14, 16, 6), stE)
+  ;[5, 0, -5].forEach((y) => {
+    addWire(storage, new THREE.BoxGeometry(12.5, 3.8, 5.2), stE, new THREE.Vector3(0, y, 0.3))
+    addWire(storage, new THREE.SphereGeometry(0.32, 8, 8), stE, new THREE.Vector3(5.5, y, 2.85))
   })
   addMotif(storage, -70, 20, -55, 62, (t) => {
     storage.rotation.y = Math.sin(t * 0.035) * 0.06
@@ -126,7 +105,7 @@ export function buildBackgroundMotifs(
 
   // Sécurité — bouclier + cadenas
   const security = new THREE.Group()
-  const secM = createMotifMats(PALETTES.security)
+  const secE = createEdgeMat(PALETTES.security)
   const shieldShape = new THREE.Shape()
   shieldShape.moveTo(0, 11)
   shieldShape.bezierCurveTo(9, 10, 11, 6, 11, 1.5)
@@ -144,11 +123,11 @@ export function buildBackgroundMotifs(
     curveSegments: 28,
   })
   shieldGeo.center()
-  addMesh(security, shieldGeo, secM.body, secM.edge, new THREE.Vector3(0, 0.5, -1))
-  addMesh(security, new THREE.TorusGeometry(2.5, 0.28, 10, 28, Math.PI), secM.main, secM.edge, new THREE.Vector3(0, 2.8, 1.6))
-  addMesh(security, new THREE.BoxGeometry(5, 5.2, 1.5), secM.main, secM.edge, new THREE.Vector3(0, -0.5, 1.5))
-  addMesh(
-    security, new THREE.CylinderGeometry(0.45, 0.45, 0.3, 10), secM.accent, secM.edge,
+  addWire(security, shieldGeo, secE, new THREE.Vector3(0, 0.5, -1))
+  addWire(security, new THREE.TorusGeometry(2.5, 0.28, 10, 28, Math.PI), secE, new THREE.Vector3(0, 2.8, 1.6))
+  addWire(security, new THREE.BoxGeometry(5, 5.2, 1.5), secE, new THREE.Vector3(0, -0.5, 1.5))
+  addWire(
+    security, new THREE.CylinderGeometry(0.45, 0.45, 0.3, 10), secE,
     new THREE.Vector3(0, -1.1, 2.2), new THREE.Euler(Math.PI / 2, 0, 0),
   )
   addMotif(security, 74, 26, -58, 58, (t) => {
@@ -157,46 +136,46 @@ export function buildBackgroundMotifs(
 
   // Web — navigateur + globe
   const web = new THREE.Group()
-  const wM = createMotifMats(PALETTES.web)
-  addMesh(web, new THREE.BoxGeometry(22, 15, 2), wM.body, wM.edge)
-  addMesh(web, new THREE.BoxGeometry(20, 9.5, 0.3), wM.main, wM.edge, new THREE.Vector3(0, -1.2, 1.05))
-  addMesh(web, new THREE.BoxGeometry(13, 1.6, 0.28), wM.accent, wM.edge, new THREE.Vector3(0, 5.8, 1.1))
+  const wE = createEdgeMat(PALETTES.web)
+  addWire(web, new THREE.BoxGeometry(22, 15, 2), wE)
+  addWire(web, new THREE.BoxGeometry(20, 9.5, 0.3), wE, new THREE.Vector3(0, -1.2, 1.05))
+  addWire(web, new THREE.BoxGeometry(13, 1.6, 0.28), wE, new THREE.Vector3(0, 5.8, 1.1))
   ;[-8, -5, -2].forEach((x) => {
-    addMesh(web, new THREE.SphereGeometry(0.35, 8, 8), wM.accent, wM.edge, new THREE.Vector3(x, 5.8, 1.2))
+    addWire(web, new THREE.SphereGeometry(0.35, 8, 8), wE, new THREE.Vector3(x, 5.8, 1.2))
   })
   ;[[10, 2.5], [8, -0.5], [6, -3]].forEach(([w, y]) => {
-    addMesh(web, new THREE.BoxGeometry(w, 0.35, 0.18), wM.accent, wM.edge, new THREE.Vector3(0, y, 1.15))
+    addWire(web, new THREE.BoxGeometry(w, 0.35, 0.18), wE, new THREE.Vector3(0, y, 1.15))
   })
-  addMesh(web, new THREE.SphereGeometry(3.8, 18, 18), wM.main, wM.edge, new THREE.Vector3(12, -0.5, 2.2))
-  addMesh(web, new THREE.TorusGeometry(3.8, 0.2, 8, 28), wM.accent, wM.edge, new THREE.Vector3(12, -0.5, 2.2), new THREE.Euler(1.2, 0.3, 0.2))
+  addWire(web, new THREE.SphereGeometry(3.8, 18, 18), wE, new THREE.Vector3(12, -0.5, 2.2))
+  addWire(web, new THREE.TorusGeometry(3.8, 0.2, 8, 28), wE, new THREE.Vector3(12, -0.5, 2.2), new THREE.Euler(1.2, 0.3, 0.2))
   addMotif(web, 60, -4, -24, 48, (t) => {
     web.rotation.y = 0.12 + Math.sin(t * 0.028) * 0.04
   })
 
   // Automatisation — email → engrenage → base
   const auto = new THREE.Group()
-  const aM = createMotifMats(PALETTES.auto)
+  const aE = createEdgeMat(PALETTES.auto)
   const n1 = new THREE.Vector3(-10, 0, 0)
   const n2 = new THREE.Vector3(0, 0, 0)
   const n3 = new THREE.Vector3(10, 0, 0)
-  addMesh(auto, new THREE.BoxGeometry(6, 4.2, 1.5), aM.main, aM.edge, n1)
-  addMesh(auto, new THREE.ConeGeometry(2.8, 2, 4), aM.accent, aM.edge, new THREE.Vector3(-10, 3, 0.75), new THREE.Euler(0, 0, Math.PI))
-  addMesh(auto, new THREE.BoxGeometry(5, 3.2, 1.5), aM.main, aM.edge, n2)
-  addMesh(auto, new THREE.CylinderGeometry(2.8, 2.8, 5, 18), aM.main, aM.edge, new THREE.Vector3(n3.x, 0.4, 0))
-  addMesh(auto, new THREE.CylinderGeometry(3.1, 3.1, 0.7, 18), aM.accent, aM.edge, new THREE.Vector3(n3.x, 2.9, 0))
-  const gear = buildGear(auto, 1.2, 10, 0.5, aM, n2)
+  addWire(auto, new THREE.BoxGeometry(6, 4.2, 1.5), aE, n1)
+  addWire(auto, new THREE.ConeGeometry(2.8, 2, 4), aE, new THREE.Vector3(-10, 3, 0.75), new THREE.Euler(0, 0, Math.PI))
+  addWire(auto, new THREE.BoxGeometry(5, 3.2, 1.5), aE, n2)
+  addWire(auto, new THREE.CylinderGeometry(2.8, 2.8, 5, 18), aE, new THREE.Vector3(n3.x, 0.4, 0))
+  addWire(auto, new THREE.CylinderGeometry(3.1, 3.1, 0.7, 18), aE, new THREE.Vector3(n3.x, 2.9, 0))
+  const gear = buildGear(auto, 1.2, 10, 0.5, aE, n2)
   gear.rotation.x = Math.PI / 2
-  addLine(auto, [new THREE.Vector3(-7, 0, 0.85), new THREE.Vector3(-2.5, 0, 0.85)], aM.edge)
-  addLine(auto, [new THREE.Vector3(2.5, 0, 0.85), new THREE.Vector3(7, 0, 0.85)], aM.edge)
-  addMesh(auto, new THREE.ConeGeometry(0.75, 1.2, 3), aM.accent, aM.edge, new THREE.Vector3(-4.2, 0, 0.85), new THREE.Euler(0, 0, -Math.PI / 2))
-  addMesh(auto, new THREE.ConeGeometry(0.75, 1.2, 3), aM.accent, aM.edge, new THREE.Vector3(4.2, 0, 0.85), new THREE.Euler(0, 0, -Math.PI / 2))
+  addLine(auto, [new THREE.Vector3(-7, 0, 0.85), new THREE.Vector3(-2.5, 0, 0.85)], aE)
+  addLine(auto, [new THREE.Vector3(2.5, 0, 0.85), new THREE.Vector3(7, 0, 0.85)], aE)
+  addWire(auto, new THREE.ConeGeometry(0.75, 1.2, 3), aE, new THREE.Vector3(-4.2, 0, 0.85), new THREE.Euler(0, 0, -Math.PI / 2))
+  addWire(auto, new THREE.ConeGeometry(0.75, 1.2, 3), aE, new THREE.Vector3(4.2, 0, 0.85), new THREE.Euler(0, 0, -Math.PI / 2))
   addMotif(auto, -64, -12, -32, 52, (t) => {
     gear.rotation.z = t * 0.1
   })
 
-  // Performance — éclair seul, lisible
+  // Performance — éclair
   const perf = new THREE.Group()
-  const pM = createMotifMats(PALETTES.perf)
+  const pE = createEdgeMat(PALETTES.perf)
   const bolt = new THREE.Shape()
   bolt.moveTo(1.2, 12)
   bolt.lineTo(-1.6, 1.5)
@@ -213,7 +192,7 @@ export function buildBackgroundMotifs(
     bevelSegments: 2,
   })
   boltGeo.center()
-  addMesh(perf, boltGeo, pM.accent, pM.edge)
+  addWire(perf, boltGeo, pE)
   addMotif(perf, 8, -36, -46, 40, (t) => {
     perf.rotation.y = 0.08 + Math.sin(t * 0.025) * 0.04
     perf.rotation.z = Math.sin(t * 0.04) * 0.03

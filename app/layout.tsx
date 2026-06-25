@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import JsonLd from '@/components/JsonLd'
+import { SEO_KEYWORDS, SITE_NAME, SITE_URL } from '@/lib/site'
 import './globals.css'
 
 const inter = Inter({
@@ -10,33 +12,55 @@ const inter = Inter({
   fallback: ['system-ui', 'Segoe UI', 'sans-serif'],
 })
 
+const description =
+  'Ulysse Goming-Jobert, développeur web et automatisation dans le Var. Sites vitrines, workflows n8n, CRM sur mesure, Next.js/React et déploiement Docker — du besoin terrain à la mise en ligne.'
+
 export const metadata: Metadata = {
-  title: 'Ulysse Goming-Jobert | Développement web & automatisation',
-  description: 'Sites, automatisations et outils sur mesure. Du besoin terrain jusqu\'à la mise en ligne.',
-  keywords: 'développeur web, automatisation, Next.js, React, n8n, artisans, SaaS',
-  authors: [{ name: 'Ulysse Goming-Jobert' }],
-  robots: { index: true, follow: true },
-  openGraph: {
-    title: 'Ulysse Goming-Jobert | Développement web & automatisation',
-    description: 'Sites rapides, automatisations et outils sur mesure. Du premier échange jusqu\'à la mise en ligne.',
-    type: 'website',
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: `${SITE_NAME} | Développeur web & automatisation (Var)`,
+    template: `%s | ${SITE_NAME}`,
   },
+  description,
+  keywords: [...SEO_KEYWORDS],
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
+  },
+  alternates: { canonical: '/' },
+  openGraph: {
+    type: 'website',
+    locale: 'fr_FR',
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: `${SITE_NAME} | Développeur web & automatisation`,
+    description,
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${SITE_NAME} | Développeur web & automatisation`,
+    description,
+  },
+  category: 'technology',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    // The font CSS variable must live on <html> so that `--font` (declared in
-    // :root) can resolve `var(--font-inter)`. On <body> it stayed out of :root's
-    // scope, `--font` collapsed to an invalid value and the page fell back to
-    // the serif default (Times New Roman).
     <html lang="fr" className={inter.variable}>
       <head>
-        {/* next/font self-hosts Inter at build time - no Google Fonts requests,
-            so no preconnect needed. */}
         <meta name="theme-color" content="#010108" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <meta name="geo.region" content="FR-83" />
+        <meta name="geo.placename" content="Var, Provence-Alpes-Côte d'Azur" />
       </head>
-      <body>{children}</body>
+      <body>
+        <JsonLd />
+        {children}
+      </body>
     </html>
   )
 }
