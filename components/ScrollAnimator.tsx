@@ -29,12 +29,12 @@ export default function ScrollAnimator() {
 
       gsap.utils.toArray<HTMLElement>('.reveal-contact').forEach((el) => {
         gsap.fromTo(el,
-          { opacity: 0, y: 28, rotateX: 6, transformPerspective: 900 },
+          { opacity: 0, y: 18, rotateX: 4, transformPerspective: 900 },
           {
-            opacity: 1, y: 0, rotateX: 0, duration: 0.9, ease: 'power3.out',
+            opacity: 1, y: 0, rotateX: 0, duration: 0.7, ease: 'power3.out',
             scrollTrigger: {
               trigger: el,
-              start: 'top bottom-=100',
+              start: 'top bottom+=220',
             },
           },
         )

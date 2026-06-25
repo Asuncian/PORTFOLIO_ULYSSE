@@ -5,12 +5,12 @@ const steps = [
   {
     num: '01',
     title: 'Comprendre',
-    desc: "Je commence par cerner le besoin réel : ce qui prend du temps, ce qui bloque, ce qui compte vraiment.",
+    desc: "Je commence par comprendre le besoin : ce qui prend du temps, ce qui bloque, ce qui compte vraiment pour vous.",
   },
   {
     num: '02',
     title: 'Concevoir',
-    desc: "Je propose une direction claire : quoi faire, dans quel ordre, et pourquoi. Sans jargon inutile.",
+    desc: "Je vous propose une direction claire : quoi faire, dans quel ordre, et pourquoi. Sans jargon.",
   },
   {
     num: '03',
@@ -69,7 +69,7 @@ export default function Method() {
       <div className="section-header reveal">
         <p className="section-tag">Méthode</p>
         <h2 className="section-title">Ma façon de <em>travailler</em></h2>
-        <p className="section-sub">De la première discussion à la mise en ligne, en trois étapes simples.</p>
+        <p className="section-sub">De la première discussion à la mise en ligne, en trois étapes.</p>
       </div>
 
       <div className="method-stage reveal" ref={stageRef}>

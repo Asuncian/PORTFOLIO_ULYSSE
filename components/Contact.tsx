@@ -100,11 +100,11 @@ export default function Contact() {
     <section id="contact">
       <div className="contact-wrap">
 
-        <div className="section-header reveal" style={{ marginBottom: '3rem' }}>
+        <div className="section-header reveal-contact" style={{ marginBottom: '3rem' }}>
           <p className="section-tag">Contact</p>
           <h2 className="section-title">On se <em>parle ?</em></h2>
           <p className="section-sub">
-            Un projet en tête, une équipe à renforcer, ou juste envie d'échanger ? Écrivez-moi, je réponds vite.
+            Un projet, une question, ou juste envie d'échanger : écrivez-moi, je réponds vite.
           </p>
         </div>
 
@@ -130,14 +130,14 @@ export default function Contact() {
 
         <p className="contact-status">
           <span className="contact-status-dot" aria-hidden="true" />
-          Disponible à temps plein pour mettre mon expertise au service de vos projets.
+          Disponible pour en discuter. Je lis tout et je réponds sous 24 h.
         </p>
 
         <div className="contact-form-block reveal-contact">
           <div className="contact-form-header">
             <p className="contact-form-tag">Écrivez-moi</p>
-            <h3 className="contact-form-title">Un message, une idée de projet</h3>
-            <p className="contact-form-sub">Je lis tout et je réponds sous 24 h.</p>
+            <h3 className="contact-form-title">Parlez-moi de votre projet</h3>
+            <p className="contact-form-sub">Quelques lignes suffisent pour démarrer.</p>
           </div>
 
         <form ref={formRef} className="contact-form" onSubmit={onSubmit} noValidate>
@@ -198,7 +198,7 @@ export default function Contact() {
           )}
           {status === 'sent' && (
             <p className="form-feedback form-feedback-ok" role="status">
-              Message envoyé. Je vous réponds dès que possible.
+              Message envoyé. Je vous réponds dès que je peux.
             </p>
           )}
 

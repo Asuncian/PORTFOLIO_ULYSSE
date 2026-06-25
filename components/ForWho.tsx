@@ -4,27 +4,27 @@ const targets: { icon: ForWhoIconVariant; title: string; desc: string }[] = [
   {
     icon: 'wellness',
     title: 'Luxe & bien-être',
-    desc: 'Vitrines soignées pour institutes et marques exigeantes. Identité claire, carte interactive, parcours fluide.',
+    desc: 'Vitrines soignées pour instituts et marques exigeantes. Identité claire, carte interactive, parcours fluide.',
   },
   {
     icon: 'artisan',
     title: 'Artisans & terrain',
-    desc: 'Un site qui montre le vrai travail sur le terrain. SEO local, pages par zone et contact simple pour les pros du Var.',
+    desc: 'Un site qui montre le travail sur le terrain. SEO local, pages par zone et contact simple pour les pros du Var.',
   },
   {
     icon: 'local',
     title: 'Services locaux',
-    desc: 'Site web pour un service du quotidien. Devis, zones d\'intervention et crédibilité en ligne.',
+    desc: 'Site pour un service du quotidien : devis, zones d\'intervention et crédibilité en ligne.',
   },
   {
     icon: 'saas',
     title: 'Produits web & SaaS',
-    desc: 'Outils en ligne qui tournent : abonnements, exports PDF, parcours clair. Du prototype jusqu\'à la mise en prod.',
+    desc: 'Outils en ligne qui tournent : abonnements, exports PDF, parcours clair. Du prototype à la prod.',
   },
   {
     icon: 'sport',
     title: 'Clubs & associations',
-    desc: 'CRM et outils internes pour suivre partenaires, relances et facturation. Suivi centralisé, vision claire sur l\'activité.',
+    desc: 'CRM et outils internes pour suivre partenaires, relances et facturation. Tout au même endroit.',
   },
 ]
 
@@ -35,7 +35,7 @@ export default function ForWho() {
         <p className="section-tag">Univers</p>
         <h2 className="section-title">Les secteurs de <em>mes projets</em></h2>
         <p className="section-sub">
-          Vous les retrouverez plus bas : bien-être, artisans, services locaux, SaaS, sport.
+          Bien-être, artisans, services locaux, SaaS, sport : les secteurs où j'ai déjà livré.
         </p>
       </div>
 

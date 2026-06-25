@@ -7,17 +7,17 @@ export default function QuoteBand() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo('.qb-quote', { opacity: 0, y: 40 }, {
-        opacity: 1, y: 0, duration: 1.1, ease: 'power3.out',
-        scrollTrigger: { trigger: '.qb-quote', start: 'top 90%' }
+      gsap.fromTo('.bridge-lead', { opacity: 0, y: 28 }, {
+        opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
+        scrollTrigger: { trigger: '.bridge-lead', start: 'top 90%' },
       })
-      gsap.fromTo('.qb-attr', { opacity: 0 }, {
-        opacity: 1, duration: .8, delay: .3, ease: 'power2.out',
-        scrollTrigger: { trigger: '.qb-attr', start: 'top 92%' }
+      gsap.fromTo('.bridge-text', { opacity: 0, y: 18 }, {
+        opacity: 1, y: 0, duration: 0.8, delay: 0.12, ease: 'power2.out',
+        scrollTrigger: { trigger: '.bridge-text', start: 'top 92%' },
       })
-      gsap.fromTo('.qb-cta', { opacity: 0, scale: .9 }, {
-        opacity: 1, scale: 1, duration: .7, delay: .4, ease: 'back.out(1.5)',
-        scrollTrigger: { trigger: '.qb-cta', start: 'top 94%' }
+      gsap.fromTo('.bridge-cta', { opacity: 0, scale: 0.94 }, {
+        opacity: 1, scale: 1, duration: 0.65, delay: 0.2, ease: 'back.out(1.5)',
+        scrollTrigger: { trigger: '.bridge-cta', start: 'top 94%' },
       })
     }, ref)
     return () => ctx.revert()
@@ -25,12 +25,11 @@ export default function QuoteBand() {
 
   return (
     <section id="quote-band" ref={ref}>
-      <p className="quote-text qb-quote">
-        «&nbsp;Un bon outil, c'est celui qu'on finit par oublier,
-        parce qu'il fait <strong>simplement son travail.</strong>&nbsp;»
+      <p className="bridge-lead">Un projet en tête ?</p>
+      <p className="bridge-text">
+        Dites-moi où vous en êtes. Je vous réponds avec une idée claire, sans engagement.
       </p>
-      <p className="quote-attr qb-attr">- Ulysse Goming Jobert</p>
-      <div className="quote-band-cta qb-cta">
+      <div className="bridge-cta">
         <a href="#contact" className="btn-primary">
           <span>Me contacter</span>
         </a>

@@ -20,7 +20,7 @@ const projects: Project[] = [
     type: 'Site vitrine luxe',
     theme: 't-bloom',
     logoSrc: '/logo-bloom-yourself.png',
-    desc: 'Trois univers sur une seule vitrine : Academy, Agency et Institut Maison Bloom. Carte interactive, scroll soigné, identité premium pour la Côte d\'Azur.',
+    desc: 'Trois univers sur une vitrine : Academy, Agency et Institut Maison Bloom. Carte interactive, scroll soigné, identité premium sur la Côte d\'Azur.',
     url: 'bloomyourselfacademy.com',
     status: 'live',
   },
@@ -29,7 +29,7 @@ const projects: Project[] = [
     type: 'Site artisan',
     theme: 't-nature',
     logoSrc: '/logo-enzo-elagage.png',
-    desc: 'Un site qui montre le vrai travail de terrain. SEO local, pages géo générées et scroll fluide pour un artisan élagage en Provence.',
+    desc: 'Un site qui montre le travail sur le terrain. SEO local, pages par zone et scroll fluide pour un élaguer en Provence.',
     url: 'enzo-elagage-var.fr',
     status: 'live',
   },
@@ -38,7 +38,7 @@ const projects: Project[] = [
     type: 'Site vitrine',
     theme: 't-amber',
     logoSrc: '/logo-allodav.png',
-    desc: 'Site vitrine pour Allodav Services, location de bennes dans le Var. Présentation claire, devis simple et présence locale renforcée.',
+    desc: 'Vitrine pour Allodav Services, location de bennes dans le Var. Présentation claire, devis simple, bonne visibilité locale.',
     url: 'allodavservices83.fr',
     status: 'live',
   },
@@ -47,7 +47,7 @@ const projects: Project[] = [
     type: 'Plateforme SaaS',
     theme: 't-violet',
     logoSrc: '/logo-cvnova.png',
-    desc: 'Templates soignés, export PDF et abonnement premium pour préparer un CV propre, sans prise de tête.',
+    desc: 'Templates soignés, export PDF et abonnement premium pour sortir un CV propre, sans se prendre la tête.',
     url: 'cvnova.fr',
     status: 'live',
   },
@@ -56,7 +56,7 @@ const projects: Project[] = [
     type: 'Outil métier',
     theme: 't-sport',
     logoSrc: '/logo-htv-basket.png',
-    desc: 'Prospects, clients, facturation et relances pour Hyères Toulon Var Basket, centralisés dans un outil dédié.',
+    desc: 'Prospects, clients, facturation et relances pour HTV Basket, centralisés dans un outil fait pour eux.',
     url: null,
     status: 'private',
   },
@@ -126,7 +126,7 @@ export default function Projects() {
         <p className="section-tag">Projets</p>
         <h2 className="section-title">Ce que j'ai <em>livré</em></h2>
         <p className="section-sub">
-          Chaque projet part d'un besoin concret, pour une structure qui l'utilise au quotidien.
+          Des projets partis d'un besoin réel, utilisés au quotidien par ceux qui les ont commandés.
         </p>
       </div>
 
@@ -204,8 +204,7 @@ export default function Projects() {
 
       <div className="proj-more reveal">
         <p className="proj-more-text">
-          La liste continue. D'autres sites et outils internes tournent déjà en production,
-          dont certains en accès réservé.
+          D'autres sites et outils internes tournent déjà en prod, dont certains en accès réservé.
         </p>
       </div>
     </section>
