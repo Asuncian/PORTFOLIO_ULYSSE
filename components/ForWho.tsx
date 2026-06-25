@@ -14,7 +14,7 @@ const targets: { icon: ForWhoIconVariant; title: string; desc: string }[] = [
   {
     icon: 'local',
     title: 'Services locaux',
-    desc: 'Faire connaître un service du quotidien mieux qu\'une page Facebook. Devis, zones d\'intervention et crédibilité en ligne.',
+    desc: 'Site web pour un service du quotidien. Devis, zones d\'intervention et crédibilité en ligne.',
   },
   {
     icon: 'saas',
@@ -24,7 +24,7 @@ const targets: { icon: ForWhoIconVariant; title: string; desc: string }[] = [
   {
     icon: 'sport',
     title: 'Clubs & associations',
-    desc: 'CRM et outils internes pour suivre partenaires, relances et facturation. Moins de tableurs, plus de visibilité.',
+    desc: 'CRM et outils internes pour suivre partenaires, relances et facturation. Suivi centralisé, vision claire sur l\'activité.',
   },
 ]
 

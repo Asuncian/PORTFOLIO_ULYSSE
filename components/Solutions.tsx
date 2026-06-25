@@ -67,7 +67,7 @@ const cols = [
       'Sites rapides, mobiles, qui durent',
       'Formulaires reliés directement à vos outils',
       'Un site qui montre clairement ce que vous faites',
-      'Performances et accessibilité, pas en option',
+      'Performances et accessibilité intégrées dès le départ',
     ],
   },
   {

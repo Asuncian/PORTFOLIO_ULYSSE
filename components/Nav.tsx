@@ -10,39 +10,6 @@ const links = [
 
 const SECTION_IDS = links.map(l => l.id)
 
-function NavIcon({ id }: { id: (typeof links)[number]['id'] }) {
-  const props = { width: 14, height: 14, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.8, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const }
-  switch (id) {
-    case 'pour-qui':
-      return (
-        <svg {...props}>
-          <circle cx="12" cy="12" r="9" />
-          <path d="M12 3v18M3 12h18" />
-        </svg>
-      )
-    case 'services':
-      return (
-        <svg {...props}>
-          <path d="M4 7h16M4 12h10M4 17h14" />
-          <circle cx="19" cy="12" r="2" />
-        </svg>
-      )
-    case 'projets':
-      return (
-        <svg {...props}>
-          <rect x="3" y="5" width="18" height="14" rx="2" />
-          <path d="M8 10h8M8 14h5" />
-        </svg>
-      )
-    case 'methode':
-      return (
-        <svg {...props}>
-          <path d="M5 12h4l2-4 4 8 2-4h2" />
-        </svg>
-      )
-  }
-}
-
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [active, setActive] = useState('')
@@ -132,23 +99,20 @@ export default function Nav() {
         <span className="nav-logo-text">Ulysse</span><span className="nav-dot">.</span>
       </a>
 
-      <div className="nav-track">
-        <ul className="nav-links">
-          {links.map(l => (
-            <li key={l.href}>
-              <a
-                href={l.href}
-                className={`nav-link${active === l.id ? ' nav-active' : ''}`}
-                onClick={() => onLinkClick(l.id)}
-                aria-current={active === l.id ? 'page' : undefined}
-              >
-                <span className="nav-link-icon" aria-hidden><NavIcon id={l.id} /></span>
-                <span className="nav-link-label">{l.label}</span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <ul className="nav-links">
+        {links.map(l => (
+          <li key={l.href}>
+            <a
+              href={l.href}
+              className={`nav-link${active === l.id ? ' nav-active' : ''}`}
+              onClick={() => onLinkClick(l.id)}
+              aria-current={active === l.id ? 'page' : undefined}
+            >
+              {l.label}
+            </a>
+          </li>
+        ))}
+      </ul>
 
       <a
         href="#contact"

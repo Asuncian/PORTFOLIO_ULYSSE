@@ -7,13 +7,13 @@ const ServicesFlow3D = lazy(() => import('./ServicesFlow3D'))
 
 const items = [
   { title: 'Automatisation des réservations', desc: 'Un calendrier unique, synchronisé entre Booking, le site et les demandes directes.' },
-  { title: 'Centralisation des données clients', desc: 'Toutes les infos au même endroit. Fini les fichiers Excel éparpillés.' },
+  { title: 'Centralisation des données clients', desc: 'Toutes les infos au même endroit, sans fichiers éparpillés.' },
   { title: "Envoi automatique d'emails", desc: 'Confirmations, rappels et relances qui partent tout seuls.' },
-  { title: 'CRM sur mesure', desc: "Un outil de suivi taillé pour une activité, pas une usine à gaz." },
+  { title: 'CRM sur mesure', desc: 'Un CRM léger, pensé pour une activité précise.' },
   { title: 'Sites vitrines modernes', desc: 'Rapides, propres, lisibles sur mobile. Juste ce qu\'il faut pour donner envie.' },
   { title: 'Formulaires personnalisés', desc: 'Devis, contact, prise de rendez-vous, reliés directement aux bons outils.' },
   { title: 'Réponses sur le site', desc: 'Les visiteurs posent leurs questions courantes et prennent rendez-vous sans vous déranger.' },
-  { title: 'Tableaux de bord', desc: 'Les indicateurs utiles d\'un coup d\'œil. Pas un rapport que personne ne lit.' },
+  { title: 'Tableaux de bord', desc: 'Les indicateurs utiles d\'un coup d\'œil, directement exploitables.' },
 ]
 
 export default function Services() {

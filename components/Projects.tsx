@@ -42,7 +42,7 @@ const projects: Project[] = [
     theme: 't-amber',
     logoSrc: '/logo-allodav.png',
     logoStyle: { background: '#0a0a0a' },
-    desc: 'Pour faire connaître un service local qui mérite mieux qu\'une page Facebook. Location de bennes dans le Var, avec un site fluide et soigné.',
+    desc: 'Site vitrine pour Allodav Services, location de bennes dans le Var. Présentation claire, devis simple et présence locale renforcée.',
     url: 'allodavservices83.fr',
     status: 'live',
   },
@@ -52,7 +52,7 @@ const projects: Project[] = [
     theme: 't-violet',
     logoSrc: '/logo-cvnova.png',
     logoStyle: { background: '#faf5ff', padding: '4px' },
-    desc: 'Ton prochain entretien commence par un bon CV. Templates soignés, export PDF et abonnement premium, sans se prendre la tête avec Word.',
+    desc: 'Templates soignés, export PDF et abonnement premium pour préparer un CV propre, sans prise de tête.',
     url: 'cvnova.fr',
     status: 'live',
   },
@@ -62,7 +62,7 @@ const projects: Project[] = [
     theme: 't-sport',
     logoSrc: '/logo-htv-basket.png',
     logoStyle: { background: '#fff', padding: '2px' },
-    desc: 'Tout ce qu\'il faut pour suivre ses partenaires sans se noyer dans les tableurs. Prospects, clients, facturation et relances pour Hyères Toulon Var Basket.',
+    desc: 'Prospects, clients, facturation et relances pour Hyères Toulon Var Basket, centralisés dans un outil dédié.',
     url: null,
     status: 'private',
   },
@@ -132,7 +132,7 @@ export default function Projects() {
         <p className="section-tag">Projets</p>
         <h2 className="section-title">Ce que j'ai <em>livré</em></h2>
         <p className="section-sub">
-          Ce ne sont pas des exercices de style : chaque projet répond à un besoin réel, pour une structure qui l'utilise au quotidien.
+          Chaque projet part d'un besoin concret, pour une structure qui l'utilise au quotidien.
         </p>
       </div>
 
@@ -198,8 +198,8 @@ export default function Projects() {
 
       <div className="proj-more reveal">
         <p className="proj-more-text">
-          Ce n'est qu'un <em>aperçu</em>. D'autres sites et outils internes tournent déjà,
-          parfois en accès privé.
+          La liste continue. D'autres sites et outils internes tournent déjà en production,
+          dont certains en accès réservé.
         </p>
       </div>
     </section>
