@@ -9,8 +9,8 @@ export const SITE_PHONE = '+33645003007'
 export const SITE_PHONE_DISPLAY = '06 45 00 30 07'
 export const SITE_LINKEDIN = 'https://linkedin.com/in/ulysse-goming-jobert-256251254'
 
-export const SITE_REGION = 'Var, Provence-Alpes-Côte d\'Azur'
-export const SITE_GEO_REGION = 'FR-83'
+export const SITE_REGION = 'Occitanie'
+export const SITE_GEO_REGION = 'FR-OCC'
 
 /** Titre principal (balise & Open Graph). */
 export const SITE_TITLE =
@@ -18,17 +18,13 @@ export const SITE_TITLE =
 
 /** Meta description (~155 car.) — intention recherche PME / services. */
 export const SITE_DESCRIPTION =
-  'PME, artisans et services : sites vitrines, automatisations n8n et outils sur mesure. Développeur web freelance dans le Var — du devis à la mise en ligne.'
+  'PME, artisans et services : sites vitrines, automatisations et outils sur mesure. Développeur web & automatisation en Occitanie — du premier échange à la mise en ligne.'
 
 export const SEO_KEYWORDS = [
   SITE_NAME,
   'développeur web',
-  'développeur web freelance',
-  'développeur web Var',
-  'développeur web Provence',
-  'développeur web PACA',
-  'développeur web Toulon',
-  'développeur freelance France',
+  'développeur web Occitanie',
+  'développeur web & automatisation',
   'création site web',
   'création site internet',
   'création site web PME',
@@ -51,8 +47,7 @@ export const SEO_KEYWORDS = [
   'outil métier sur mesure',
   'application web sur mesure',
   'digitalisation PME',
-  'freelance web Var',
-  'prestataire site web Var',
+  'prestataire site web Occitanie',
   'développeur Next.js',
   'développeur React',
   'SEO local',

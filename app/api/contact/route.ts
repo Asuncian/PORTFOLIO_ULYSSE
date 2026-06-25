@@ -76,14 +76,9 @@ export async function POST(req: NextRequest) {
 
   try {
     await transporter.sendMail({
-      from: submitter,
+      from: formatEmailAddress(smtpFrom),
       to: formatEmailAddress(to),
       replyTo: submitter,
-      sender: formatEmailAddress(smtpFrom),
-      envelope: {
-        from: smtpFrom.email,
-        to: to.email,
-      },
       subject,
       text,
       html,

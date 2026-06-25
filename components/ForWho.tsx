@@ -9,7 +9,7 @@ const targets: { icon: ForWhoIconVariant; title: string; desc: string }[] = [
   {
     icon: 'artisan',
     title: 'Artisans & terrain',
-    desc: 'Un site qui montre le travail sur le terrain. SEO local, pages par zone et contact simple pour les pros du Var.',
+    desc: 'Un site qui montre le travail sur le terrain. SEO local, pages par zone et contact simple pour les pros de votre secteur.',
   },
   {
     icon: 'local',

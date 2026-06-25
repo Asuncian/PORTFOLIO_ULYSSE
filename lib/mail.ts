@@ -36,7 +36,7 @@ function buildTransporter(): Transporter | null {
   const host = process.env.EMAIL_HOST?.trim()
   const portRaw = process.env.EMAIL_PORT?.trim()
   const user = process.env.EMAIL_HOST_USER?.trim()
-  const pass = process.env.EMAIL_HOST_PASSWORD?.trim()
+  const pass = process.env.EMAIL_HOST_PASSWORD?.trim().replace(/^["']|["']$/g, '')
 
   if (!host || !portRaw || !user || !pass) {
     return null
