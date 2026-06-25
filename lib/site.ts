@@ -18,7 +18,7 @@ export const SITE_TITLE =
 
 /** Meta description (~155 car.) — intention recherche PME / services. */
 export const SITE_DESCRIPTION =
-  'PME, artisans et services : sites vitrines, automatisations et outils sur mesure. Développeur web & automatisation en Occitanie — du premier échange à la mise en ligne.'
+  'PME, artisans et services : sites vitrines, automatisations et outils sur mesure. Développeur web et automatisation en Occitanie, du premier échange à la mise en ligne.'
 
 export const SEO_KEYWORDS = [
   SITE_NAME,

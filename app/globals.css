@@ -25,13 +25,18 @@
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 /* Smooth anchor scroll, offset so the fixed nav never covers the section title */
-html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;
+  overflow-x: clip;
+}
 
 body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font);
-  overflow-x: hidden;
+  overflow-x: clip;
+  max-width: 100%;
   cursor: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -1512,8 +1517,30 @@ footer {
   .method-beam { display: none; }
   .flow-item, .flow-item--left, .flow-item--right { justify-content: flex-start; }
   .flow-card { width: 100%; margin-left: 0 !important; }
-  .flow-item--left .flow-node, .flow-item--right .flow-node { left: 21px; }
-  .flow-list { padding-left: 3.4rem; }
+  .flow-list { padding-left: 0; }
+  .flow-item {
+    display: grid;
+    grid-template-columns: 2.75rem minmax(0, 1fr);
+    gap: .75rem;
+    align-items: start;
+    min-height: unset;
+    padding: .35rem 0;
+  }
+  .flow-node,
+  .flow-item--left .flow-node,
+  .flow-item--right .flow-node {
+    position: relative;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin: .1rem 0 0;
+    box-shadow: 0 0 0 5px var(--bg), 0 0 14px rgba(22,80,240,.28);
+  }
+  .flow-node i { font-size: .68rem; }
+  .flow-flat-line { display: none; }
+  .flow-stage { display: none; }
   .proj-strip, .proj-strip.alt { padding: 2rem 1.75rem; }
   .strip-layout { gap: 2rem; }
 }
@@ -1523,24 +1550,51 @@ footer {
   html {
     -webkit-text-size-adjust: 100%;
     scroll-padding-top: 64px;
+    overflow-x: clip;
   }
 
-  main { padding-bottom: env(safe-area-inset-bottom, 0px); }
+  main {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+  }
 
   /* Header */
   #main-nav {
-    grid-template-columns: 1fr auto;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
-    padding: .7rem 1rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: .7rem max(.75rem, env(safe-area-inset-right)) .7rem max(.75rem, env(safe-area-inset-left));
     padding-top: calc(.7rem + env(safe-area-inset-top, 0px));
   }
   #main-nav.scrolled {
-    padding: .58rem 1rem;
+    padding: .58rem max(.75rem, env(safe-area-inset-right)) .58rem max(.75rem, env(safe-area-inset-left));
     padding-top: calc(.58rem + env(safe-area-inset-top, 0px));
   }
-  .nav-logo { font-size: clamp(.72rem, 3.2vw, .88rem); letter-spacing: -.25px; max-width: calc(100vw - 4.5rem); }
+  .nav-logo {
+    font-size: clamp(.72rem, 3.2vw, .88rem);
+    letter-spacing: -.25px;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  .brand-name--nav {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
   .brand-name--nav .brand-last { font-size: .9em; }
-  .nav-actions { justify-self: end; gap: 0; }
+  .nav-actions {
+    justify-self: end;
+    flex-shrink: 0;
+    gap: 0;
+    margin-left: .45rem;
+  }
   .nav-links { display: none; }
   .nav-cta { display: none; }
   .nav-burger { display: flex; }
@@ -1576,8 +1630,8 @@ footer {
     font-size: .86rem; max-width: 22rem; line-height: 1.62;
     margin-bottom: 1.65rem; margin-inline: auto;
   }
-  .hero-plane { opacity: .18; width: 130vw; }
-  .hero-orb { width: 85vw; height: 48vw; }
+  .hero-plane { opacity: .18; width: 100%; max-width: 100%; }
+  .hero-orb { width: min(85vw, 100%); height: 48vw; max-width: 100%; }
   .hero-actions { width: 100%; max-width: 22rem; gap: .6rem; margin-inline: auto; }
   .btn-primary, .btn-ghost {
     width: 100%; justify-content: center;
@@ -1602,8 +1656,11 @@ footer {
   }
 
   #pour-qui, #services, #solutions, #stats, #methode, #contact, #projets, #quote-band {
-    padding: 3rem 1rem;
+    padding: 3rem max(1rem, env(safe-area-inset-right)) 3rem max(1rem, env(safe-area-inset-left));
   }
+
+  #tech { padding: 2.5rem 0 3rem; }
+  .tech-head { padding: 0 1rem; margin-bottom: .75rem; }
 
   .tech3d-stage { height: 220px; }
   .tech-hint { display: none; }
@@ -1644,12 +1701,34 @@ footer {
   .fw-card p { font-size: .78rem; line-height: 1.58; }
   .fw-icon { width: 60px; height: 60px; margin-bottom: .75rem; }
 
-  /* Compétences */
-  .flow-card { padding: 1rem 1.05rem; }
-  .flow-list { padding-left: 2.85rem; }
-  .flow-item--left .flow-node, .flow-item--right .flow-node { left: 18px; }
-  .flow-flat-line { left: 18px; }
-  .flow-stage { min-height: 220px; }
+  /* Compétences — grille numéro + carte, sans chevauchement */
+  .flow-list { padding-left: 0; }
+  .flow-item {
+    display: grid;
+    grid-template-columns: 2.65rem minmax(0, 1fr);
+    gap: .7rem;
+    align-items: start;
+    min-height: unset;
+    padding: .3rem 0;
+  }
+  .flow-node,
+  .flow-item--left .flow-node,
+  .flow-item--right .flow-node {
+    position: relative;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    width: 2.65rem;
+    height: 2.65rem;
+    margin: .08rem 0 0;
+    box-shadow: 0 0 0 4px var(--bg), 0 0 12px rgba(22,80,240,.25);
+  }
+  .flow-node i { font-size: .66rem; }
+  .flow-flat-line { display: none; }
+  .flow-stage { display: none; }
+  .flow-card { padding: .9rem .95rem; width: 100%; min-width: 0; }
+  .flow-card h3 { font-size: .88rem; line-height: 1.25; }
+  .flow-card p { font-size: .78rem; line-height: 1.55; }
 
   /* Piliers */
   .pillars { gap: .7rem; }
@@ -1673,10 +1752,20 @@ footer {
   .proj-strip.alt .strip-meta { justify-content: flex-start; }
   .proj-strip.alt .strip-footer { justify-content: flex-start; }
   .proj-strip.alt .proj-private-note { justify-content: flex-start; }
-  .strip-logo-side { justify-content: center !important; }
+  .strip-logo-side {
+    justify-content: center !important;
+    align-items: center;
+    min-height: 130px;
+    padding: .85rem .5rem;
+    width: 100%;
+  }
   .strip-logo-img {
-    max-width: min(180px, 72%);
-    max-height: 140px;
+    width: auto;
+    height: auto;
+    max-width: min(200px, 78%);
+    max-height: 130px;
+    object-fit: contain;
+    display: block;
     margin-inline: auto;
   }
   .strip-meta { flex-wrap: wrap; gap: .4rem; }
@@ -1699,12 +1788,21 @@ footer {
   .method-card3d { padding: 1.5rem 1.1rem; }
 
   /* Contact */
-  .contact-wrap { text-align: center; }
+  .contact-wrap { text-align: center; width: 100%; max-width: 100%; }
   .contact-chips {
-    justify-content: flex-start;
-    padding-inline: .1rem;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+    padding-inline: 0;
+    gap: .55rem;
   }
-  .contact-chip { font-size: .72rem; padding: .5rem .75rem; }
+  .contact-chip {
+    font-size: .72rem;
+    padding: .5rem .75rem;
+    white-space: normal;
+    text-align: center;
+    max-width: 100%;
+  }
   .contact-status {
     white-space: normal;
     font-size: .72rem;
@@ -1722,11 +1820,28 @@ footer {
 
   /* Footer */
   footer {
-    padding: 1.65rem 1rem calc(1.65rem + env(safe-area-inset-bottom, 0px));
+    padding: 1.65rem max(.75rem, env(safe-area-inset-right)) calc(1.65rem + env(safe-area-inset-bottom, 0px)) max(.75rem, env(safe-area-inset-left));
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
-  .footer-contacts { flex-wrap: wrap; justify-content: center; gap: .85rem 1.25rem; }
-  .footer-contact { font-size: .72rem; }
-  .footer-copy { white-space: normal; }
+  .footer-contacts {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .65rem;
+    width: 100%;
+  }
+  .footer-contact {
+    font-size: .72rem;
+    max-width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+  .footer-copy {
+    white-space: normal;
+    padding-bottom: .5rem;
+  }
 
   .proj-strip:hover { transform: none; }
 }
@@ -1735,5 +1850,6 @@ footer {
   .hero-title { font-size: 1.85rem; letter-spacing: -1px; }
   .hero-name-last { font-size: .74em; }
   .hero-role { font-size: .6rem; letter-spacing: .1em; }
-  .strip-logo-img { max-width: min(150px, 65%); max-height: 120px; }
+  .brand-name--nav .brand-last { display: none; }
+  .strip-logo-img { max-width: min(170px, 72%); max-height: 115px; }
 }
