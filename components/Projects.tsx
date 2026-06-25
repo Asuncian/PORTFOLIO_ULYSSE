@@ -44,10 +44,10 @@ const projects: Project[] = [
   },
   {
     name: 'CVNova',
-    type: 'Plateforme SaaS',
+    type: 'Service en ligne',
     theme: 't-violet',
     logoSrc: '/logo-cvnova.png',
-    desc: 'Templates soignés, export PDF et abonnement premium pour sortir un CV propre, sans se prendre la tête.',
+    desc: 'CV et lettres de motivation rédigés sur mesure. Formules au choix, réalisations à parcourir et contact simple pour vous orienter avant de commander.',
     url: 'cvnova.fr',
     status: 'live',
   },
