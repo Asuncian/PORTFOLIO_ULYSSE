@@ -12,6 +12,10 @@ export const SITE_LINKEDIN = 'https://linkedin.com/in/ulysse-goming-jobert-25625
 export const SITE_REGION = 'Occitanie'
 export const SITE_GEO_REGION = 'FR-OCC'
 
+/** Google Search Console — balise meta de vérification du domaine. */
+export const GOOGLE_SITE_VERIFICATION =
+  process.env.GOOGLE_SITE_VERIFICATION ?? 'MJONZxuhd88OQG_R1_aVo0JI_PVnTH6ncVRITkIBxSU'
+
 /** Titre principal (balise & Open Graph). */
 export const SITE_TITLE =
   'Sites web & automatisation pour PME | Ulysse Goming-Jobert'

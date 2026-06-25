@@ -1,7 +1,8 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import JsonLd from '@/components/JsonLd'
 import {
+  GOOGLE_SITE_VERIFICATION,
   SEO_KEYWORDS,
   SITE_DESCRIPTION,
   SITE_GEO_REGION,
@@ -20,6 +21,13 @@ const inter = Inter({
   fallback: ['system-ui', 'Segoe UI', 'sans-serif'],
 })
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+  themeColor: '#010108',
+}
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
@@ -32,6 +40,9 @@ export const metadata: Metadata = {
   authors: [{ name: SITE_NAME, url: SITE_URL }],
   creator: SITE_NAME,
   publisher: SITE_NAME,
+  verification: {
+    google: GOOGLE_SITE_VERIFICATION,
+  },
   robots: {
     index: true,
     follow: true,
@@ -70,10 +81,6 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr" className={inter.variable}>
-      <head>
-        <meta name="theme-color" content="#010108" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-      </head>
       <body>
         <JsonLd />
         {children}
