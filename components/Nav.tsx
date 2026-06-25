@@ -10,55 +10,6 @@ const links = [
 
 const SECTION_IDS = links.map(l => l.id)
 
-const tabLinks = [
-  {
-    href: '#hero',
-    label: 'Accueil',
-    shortLabel: 'Accueil',
-    id: 'hero',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-        <path d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1v-9.5z" />
-      </svg>
-    ),
-  },
-  {
-    href: '#pour-qui',
-    label: 'Univers',
-    shortLabel: 'Univers',
-    id: 'pour-qui',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-        <circle cx="12" cy="12" r="9" />
-        <path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18" />
-      </svg>
-    ),
-  },
-  {
-    href: '#projets',
-    label: 'Projets',
-    shortLabel: 'Projets',
-    id: 'projets',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-        <path d="M4 7h16M4 12h10M4 17h14" />
-        <rect x="2" y="4" width="20" height="16" rx="2" />
-      </svg>
-    ),
-  },
-  {
-    href: '#contact',
-    label: 'Contact',
-    shortLabel: 'Contact',
-    id: 'contact',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-        <path d="M21 15a4 4 0 01-4 4H7l-4 3V7a4 4 0 014-4h10a4 4 0 014 4z" />
-      </svg>
-    ),
-  },
-] as const
-
 const drawerLinks = [
   { href: '#hero', label: 'Accueil', id: 'hero' },
   ...links,
@@ -231,24 +182,15 @@ export default function Nav() {
               </li>
             ))}
           </ul>
+          <a
+            href="#contact"
+            className="mobile-drawer-cta"
+            onClick={() => onLinkClick('contact')}
+          >
+            Me contacter
+          </a>
         </div>
       </div>
-
-      <nav className="mobile-tabbar" aria-label="Navigation principale">
-        {tabLinks.map(l => (
-          <a
-            key={l.href}
-            href={l.href}
-            className={`mobile-tab${active === l.id ? ' is-active' : ''}${l.id === 'contact' ? ' mobile-tab--cta' : ''}`}
-            onClick={() => onLinkClick(l.id)}
-            aria-label={l.label}
-            aria-current={active === l.id ? 'page' : undefined}
-          >
-            <span className="mobile-tab-icon">{l.icon}</span>
-            <span className="mobile-tab-label">{l.shortLabel}</span>
-          </a>
-        ))}
-      </nav>
     </>
   )
 }

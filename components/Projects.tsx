@@ -9,6 +9,7 @@ interface Project {
   type: string
   theme: string
   logoSrc: string
+  logoBare?: boolean
   desc: string
   url: string | null
   status: ProjectStatus
@@ -38,6 +39,7 @@ const projects: Project[] = [
     type: 'Site vitrine',
     theme: 't-amber',
     logoSrc: '/logo-allodav.png',
+    logoBare: true,
     desc: 'Vitrine pour Allodav Services, location de bennes dans le Var. Présentation claire, devis simple, bonne visibilité locale.',
     url: 'allodavservices83.fr',
     status: 'live',
@@ -149,30 +151,14 @@ export default function Projects() {
               </svg>
             </div>
 
-            {/* Visual */}
-            <div className="strip-visual">
-              <div className="strip-logo-watermark" aria-hidden>
-                <Image
-                  src={proj.logoSrc}
-                  alt=""
-                  width={200}
-                  height={200}
-                  className="strip-logo-watermark-img"
-                />
-              </div>
-              <div className="strip-logo-stack">
-                <div className="strip-logo-halo" aria-hidden />
-                <div className="strip-logo-frame">
-                  <Image
-                    src={proj.logoSrc}
-                    alt={proj.name}
-                    width={120}
-                    height={120}
-                    className="strip-logo-img"
-                  />
-                </div>
-              </div>
-              <div className="strip-orb" aria-hidden />
+            <div className="strip-logo-bg" aria-hidden>
+              <Image
+                src={proj.logoSrc}
+                alt=""
+                width={280}
+                height={280}
+                className={`strip-logo-bg-img${proj.logoBare ? ' strip-logo-bg-img--bare' : ''}`}
+              />
             </div>
 
             {/* Content */}
