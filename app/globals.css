@@ -496,46 +496,89 @@ section { position: relative; z-index: 4; }
 
 /* ──────────────────────── SERVICES (fil conducteur) ──────────────────────── */
 #services { padding: 8rem 2rem; }
-.levers { position: relative; max-width: 720px; margin: 0 auto; }
-/* The wavy thread (SVG) + its glowing fill that draws on scroll.
-   Sits in the 52px node column, weaving behind the numbered nodes. */
-.levers-thread {
-  position: absolute; top: 26px; bottom: 26px; left: 0; width: 52px;
-  height: calc(100% - 52px); pointer-events: none; overflow: visible;
+
+/* ── FLOW — services threaded by a WebGL line that weaves right ↔ left ── */
+.flow { position: relative; max-width: 1000px; margin: 0 auto; }
+
+/* WebGL canvas layer — sits behind the cards, full height of the list */
+.flow-stage {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
 }
-.levers-thread-track {
-  stroke: rgba(77,136,255,.14); stroke-width: 2; stroke-linecap: round;
+.flow-canvas { display: block; width: 100%; height: 100%; }
+
+/* Flat fallback line (low-power / reduced-motion / touch) */
+.flow-flat-line {
+  position: absolute; top: 26px; bottom: 26px; left: 21px; width: 2px; z-index: 0;
+  background: rgba(77,136,255,.12); border-radius: 2px; overflow: hidden;
 }
-.levers-thread-fill {
-  stroke: url(#leversGradient); stroke-width: 2.4; stroke-linecap: round;
-  filter: drop-shadow(0 0 6px rgba(77,136,255,.55));
-  will-change: stroke-dashoffset;
+.flow-flat-fill {
+  position: absolute; inset: 0; transform-origin: top; transform: scaleY(0);
+  background: linear-gradient(180deg, var(--blue-bright), var(--blue) 60%, var(--blue-deep));
+  box-shadow: 0 0 12px rgba(77,136,255,.5); will-change: transform;
 }
-.lever {
-  position: relative;
-  display: grid; grid-template-columns: 52px 1fr; align-items: start;
-  gap: 1.4rem; padding: 1.05rem 0;
+
+.flow-list { position: relative; z-index: 1; list-style: none; }
+.flow-item {
+  position: relative; display: flex; align-items: center;
+  min-height: 96px; padding: .7rem 0;
   will-change: opacity, transform;
 }
-.lever-node {
-  width: 52px; height: 52px; border-radius: 50%;
+.flow-item--right { justify-content: flex-end; }
+.flow-item--left  { justify-content: flex-start; }
+
+/* The node the line threads through — alternates inner-left / inner-right */
+.flow-node {
+  position: absolute; top: 50%; transform: translate(-50%, -50%);
+  width: 44px; height: 44px; border-radius: 50%; z-index: 2;
   display: flex; align-items: center; justify-content: center;
   background: var(--bg); border: 1px solid var(--blue-border-h);
-  color: var(--blue-bright); font-size: .74rem; font-weight: 700; letter-spacing: 1px;
-  position: relative; z-index: 1;
-  box-shadow: 0 0 0 6px var(--bg); /* masks the thread passing behind the node */
-  transition: background .3s, box-shadow .3s, border-color .3s, transform .3s;
+  box-shadow: 0 0 0 7px var(--bg), 0 0 18px rgba(22,80,240,.35);
+  transition: border-color .3s, box-shadow .3s, transform .3s;
 }
-.lever:hover .lever-node {
-  background: var(--blue-dim); border-color: var(--blue-mid);
-  box-shadow: 0 0 0 6px var(--bg), 0 0 22px var(--blue-glow);
-  transform: scale(1.06);
+.flow-node i {
+  font-style: normal; font-size: .72rem; font-weight: 700; letter-spacing: .5px;
+  color: var(--blue-bright);
 }
-.lever-body { padding: .4rem 0 .9rem; border-bottom: 1px solid var(--border); }
-.lever:last-child .lever-body { border-bottom: none; }
-.lever-body h3 { font-size: .98rem; font-weight: 700; letter-spacing: -.2px; margin-bottom: .35rem; transition: color .25s; }
-.lever:hover .lever-body h3 { color: var(--blue-pale); }
-.lever-body p { font-size: .82rem; color: var(--text-dim); line-height: 1.7; }
+.flow-item--right .flow-node { left: 60%; }
+.flow-item--left  .flow-node { left: 40%; }
+.flow-item:hover .flow-node {
+  border-color: var(--blue-mid); transform: translate(-50%, -50%) scale(1.1);
+  box-shadow: 0 0 0 7px var(--bg), 0 0 26px var(--blue-glow);
+}
+
+.flow-card {
+  width: 38%;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(22,80,240,.06) 0%, transparent 55%), var(--surface);
+  padding: 1.3rem 1.5rem;
+  transition: border-color .3s, background .3s, box-shadow .3s, transform .3s;
+}
+.flow-item--right .flow-card { margin-left: auto; }
+.flow-item:hover .flow-card {
+  border-color: var(--border-h); background: var(--surface-h);
+  box-shadow: 0 14px 40px -22px rgba(22,80,240,.6); transform: translateY(-3px);
+}
+.flow-card h3 { font-size: .96rem; font-weight: 700; letter-spacing: -.2px; margin-bottom: .35rem; transition: color .25s; }
+.flow-item:hover .flow-card h3 { color: var(--blue-pale); }
+.flow-card p { font-size: .82rem; color: var(--text-dim); line-height: 1.65; }
+
+/* Single-column layout for the flat fallback (any width) */
+.flow--flat .flow-item { justify-content: flex-start !important; }
+.flow--flat .flow-card { width: 100%; margin-left: 0 !important; }
+.flow--flat .flow-node,
+.flow--flat .flow-item--left .flow-node,
+.flow--flat .flow-item--right .flow-node { left: 21px; }
+.flow--flat .flow-list { padding-left: 3.4rem; }
+
+/* On narrow screens the weave collapses to a single left-aligned column —
+   the WebGL line rebuilds from the new node positions and threads them. */
+@media (max-width: 860px) {
+  .flow-item, .flow-item--left, .flow-item--right { justify-content: flex-start; }
+  .flow-card { width: 100%; margin-left: 0 !important; }
+  .flow-item--left .flow-node, .flow-item--right .flow-node { left: 21px; }
+  .flow-list { padding-left: 3.4rem; }
+  .flow-flat-line { left: 21px; }
+}
 
 /* ──────────────────────── SOLUTIONS (3 piliers) ──────────────────────── */
 #solutions { padding: 8rem 2rem; background: var(--bg-2); }
@@ -938,56 +981,64 @@ section { position: relative; z-index: 4; }
   50%      { box-shadow: 0 0 10px #22c55e, 0 0 20px rgba(34,197,94,.3); }
 }
 
-/* Épuré form — floating labels on an underline, no boxy card */
+/* Glass card form — filled fields with floating labels */
 .contact-form {
-  max-width: 560px; margin: 0 auto; text-align: left;
-  display: flex; flex-direction: column; gap: 2.1rem;
+  max-width: 620px; margin: 0 auto; text-align: left;
+  display: flex; flex-direction: column; gap: 1.3rem;
+  padding: 2.4rem; border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(22,80,240,.06) 0%, transparent 55%), var(--surface);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04), 0 30px 80px -45px rgba(0,0,0,.85);
 }
+.cf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.3rem; }
 .ff { position: relative; }
 .ff input, .ff textarea {
-  width: 100%; background: transparent; border: none; outline: none;
-  color: var(--text); font-family: var(--font); font-size: .95rem;
-  padding: 7px 2px; cursor: none; resize: vertical;
-  border-bottom: 1px solid rgba(255,255,255,.13);
-  transition: border-color .25s;
+  width: 100%; outline: none; cursor: none; resize: vertical;
+  color: var(--text); font-family: var(--font); font-size: .92rem;
+  background: rgba(255,255,255,.025);
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 1.4rem .95rem .55rem;
+  transition: border-color .25s, background .25s, box-shadow .25s;
 }
-.ff textarea { min-height: 96px; line-height: 1.6; }
+.ff textarea { min-height: 120px; line-height: 1.6; }
+.ff input:focus, .ff textarea:focus {
+  border-color: var(--blue-mid); background: rgba(22,80,240,.06);
+  box-shadow: 0 0 0 3px rgba(22,80,240,.12);
+}
 .ff label {
-  position: absolute; left: 2px; top: 7px; pointer-events: none;
-  color: var(--text-faint); font-size: .95rem; transform-origin: left center;
-  transition: transform .22s ease, color .22s;
+  position: absolute; left: 1rem; top: 1.05rem; pointer-events: none;
+  color: var(--text-faint); font-size: .92rem;
+  transition: top .2s ease, font-size .2s ease, color .2s, letter-spacing .2s;
 }
-/* Label floats up when the field is focused or filled */
+/* Label floats to the top of the field when focused or filled */
 .ff input:focus + label,
 .ff input:not(:placeholder-shown) + label,
 .ff textarea:focus + label,
 .ff textarea:not(:placeholder-shown) + label {
-  transform: translateY(-22px) scale(.74);
-  color: var(--blue-bright); letter-spacing: 1.5px; text-transform: uppercase;
+  top: .45rem; font-size: .6rem; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--blue-bright);
 }
-/* Animated focus underline */
-.ff-line {
-  position: absolute; left: 0; bottom: 0; height: 1.5px; width: 100%;
-  background: linear-gradient(90deg, var(--blue), var(--blue-bright));
-  transform: scaleX(0); transform-origin: left; transition: transform .3s ease;
-}
-.ff input:focus ~ .ff-line, .ff textarea:focus ~ .ff-line { transform: scaleX(1); }
 
 .contact-form .form-submit {
-  align-self: flex-start; margin-top: .4rem;
-  padding: 13px 30px; border-radius: 100px;
+  align-self: stretch; justify-content: center; margin-top: .3rem;
+  padding: 15px 30px; border-radius: var(--radius-sm);
   background: linear-gradient(135deg, var(--blue) 0%, var(--blue-mid) 50%, var(--blue-bright) 100%);
-  border: none; color: #fff; font-size: .88rem; font-weight: 700;
+  border: none; color: #fff; font-size: .9rem; font-weight: 700;
   cursor: none; display: inline-flex; align-items: center; gap: .55rem;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 8px 22px -6px rgba(22,80,240,.55);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 10px 26px -8px rgba(22,80,240,.6);
   transition: transform .2s, box-shadow .2s, filter .2s;
 }
 .contact-form .form-submit:hover {
   transform: translateY(-2px); filter: brightness(1.06);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.4), 0 14px 32px -8px rgba(22,80,240,.7);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.4), 0 16px 36px -10px rgba(22,80,240,.75);
 }
 .contact-form .form-submit svg { transition: transform .2s; }
 .contact-form .form-submit:hover svg { transform: translateX(3px); }
+
+@media (max-width: 560px) {
+  .contact-form { padding: 1.6rem; }
+  .cf-grid { grid-template-columns: 1fr; }
+}
 
 /* ──────────────────────── FOOTER ──────────────────────── */
 footer {

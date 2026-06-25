@@ -89,7 +89,7 @@ export default function Solutions() {
         <p className="section-tag">Expertise</p>
         <h2 className="section-title">Trois <em>domaines</em></h2>
         <p className="section-sub">
-          Les trois terrains où je suis le plus à l'aise, de l'idée jusqu'au serveur.
+          Les trois terrains où je me sens le plus à l'aise, de l'idée jusqu'au serveur.
         </p>
       </div>
 

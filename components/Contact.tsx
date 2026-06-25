@@ -42,9 +42,9 @@ export default function Contact() {
 
         <div className="section-header reveal" style={{ marginBottom: '3rem' }}>
           <p className="section-tag">Contact</p>
-          <h2 className="section-title">On se <em>parle ?</em></h2>
+          <h2 className="section-title">On en <em>discute ?</em></h2>
           <p className="section-sub">
-            Une proposition d'alternance, une question, ou juste l'envie d'échanger ? Écrivez-moi, je réponds vite.
+            Une alternance, un projet à concrétiser, ou simplement l'envie d'échanger sur ce que vous voyez ici — écrivez-moi, je réponds vite.
           </p>
         </div>
 
@@ -73,28 +73,26 @@ export default function Contact() {
           </span>
         </div>
 
-        {/* Formulaire épuré, labels flottants */}
+        {/* Formulaire en carte, champs remplis à labels flottants */}
         <form className="contact-form" onSubmit={e => e.preventDefault()}>
-          <div className="ff">
-            <input id="nom" type="text" placeholder=" " required />
-            <label htmlFor="nom">Votre nom</label>
-            <span className="ff-line" aria-hidden />
-          </div>
-
-          <div className="ff">
-            <input id="email" type="email" placeholder=" " required />
-            <label htmlFor="email">Votre email</label>
-            <span className="ff-line" aria-hidden />
+          <div className="cf-grid">
+            <div className="ff">
+              <input id="nom" type="text" placeholder=" " required />
+              <label htmlFor="nom">Votre nom</label>
+            </div>
+            <div className="ff">
+              <input id="email" type="email" placeholder=" " required />
+              <label htmlFor="email">Votre email</label>
+            </div>
           </div>
 
           <div className="ff ff-area">
             <textarea id="message" rows={4} placeholder=" " required />
             <label htmlFor="message">Votre message</label>
-            <span className="ff-line" aria-hidden />
           </div>
 
           <button type="submit" className="form-submit">
-            Envoyer
+            Envoyer le message
             <SendIcon />
           </button>
         </form>

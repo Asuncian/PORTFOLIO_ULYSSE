@@ -5,7 +5,7 @@ export default function Footer() {
         Ulysse<span>.</span>
       </div>
       <div className="footer-links">
-        <a href="#pour-qui">Pour qui</a>
+        <a href="#pour-qui">Terrain</a>
         <a href="#projets">Projets</a>
         <a href="#methode">Méthode</a>
         <a href="#contact">Contact</a>
