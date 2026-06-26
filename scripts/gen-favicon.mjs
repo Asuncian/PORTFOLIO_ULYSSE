@@ -8,12 +8,10 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.join(__dirname, '..')
 const src = path.join(root, 'public/brand/icon-source.png')
 
-// Fond bleu proche du bouton UGJ (évite les bandes noires ajoutées au redimensionnement)
-const ICON_BG = { r: 65, g: 96, b: 160, alpha: 1 }
-
+/** Redimensionne la source telle quelle, sans crop ni fond ajouté. */
 async function squarePng(size) {
   return sharp(src)
-    .resize(size, size, { fit: 'contain', background: ICON_BG })
+    .resize(size, size, { fit: 'fill' })
     .png()
     .toBuffer()
 }
@@ -35,4 +33,4 @@ await squarePng(32).then((buf) => fs.writeFileSync(path.join(root, 'app/icon.png
 await squarePng(180).then((buf) => fs.writeFileSync(path.join(root, 'app/apple-icon.png'), buf))
 await squarePng(180).then((buf) => fs.writeFileSync(path.join(root, 'public/apple-touch-icon.png'), buf))
 
-console.log('favicon.ico + icons regenerated from icon-source (contain, no crop)')
+console.log('favicon.ico + icons regenerated (source exacte, fill)')
