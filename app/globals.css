@@ -49,7 +49,7 @@ body {
 /* Defer rendering of below-fold sections until near viewport.
    #services is excluded - it drives a scroll-scrubbed thread that must stay
    measurable for ScrollTrigger. */
-#solutions, #methode, #faq, #quote-band {
+#solutions, #quote-band {
   content-visibility: auto;
   contain-intrinsic-size: 0 700px;
 }
@@ -445,8 +445,10 @@ section { position: relative; z-index: 4; }
   min-height: 100vh;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
-  text-align: center; padding: 7rem 2rem 5rem;
-  position: relative; overflow: hidden;
+  text-align: center; padding: 7rem 2rem 5.5rem;
+  position: relative;
+  overflow-x: clip;
+  overflow-y: visible;
   perspective: 1100px;
 }
 /* Perspective floor grid - gives the header 3D depth even on the CSS fallback */
@@ -477,25 +479,29 @@ section { position: relative; z-index: 4; }
 
 .hero-title {
   font-size: clamp(2.5rem, 7.2vw, 5.25rem);
-  font-weight: 900; line-height: 1.12;
+  font-weight: 900; line-height: 1.18;
   margin-bottom: .85rem; letter-spacing: -2px;
   position: relative; z-index: 1;
   transform-style: preserve-3d; will-change: transform;
+  padding-bottom: .12em;
 }
 .hero-title .line {
   display: block;
   overflow: visible;
-  padding-block: .06em;
+  padding-block: .08em .14em;
 }
 .hero-title .word { display: inline-block; will-change: transform; }
 .hero-name-first {
   background: linear-gradient(125deg, #ffffff 0%, var(--blue-pale) 52%, rgba(186,214,255,.95) 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  padding-bottom: .04em;
 }
 .hero-name-last {
   font-size: .78em;
   letter-spacing: -.015em;
-  line-height: 1.1;
+  line-height: 1.22;
+  padding-bottom: .1em;
+  display: inline-block;
   background: linear-gradient(125deg, var(--blue-bright) 0%, #93c5fd 36%, var(--blue-mid) 66%, var(--blue-pale) 100%);
   background-size: 200%;
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
@@ -1549,7 +1555,7 @@ footer {
 .reveal { opacity: 0; transform: translateY(28px); will-change: opacity, transform; }
 .reveal-grid > * { will-change: opacity, transform; }
 @media (prefers-reduced-motion: reduce) {
-  .reveal, .reveal-grid > * { opacity: 1; transform: none; will-change: auto; }
+  .reveal, .reveal-grid > *, .reveal-early, .reveal-early.reveal-grid > * { opacity: 1; transform: none; will-change: auto; }
 }
 @media (pointer: coarse) {
   body { cursor: auto; }
@@ -1678,19 +1684,22 @@ footer {
   /* Hero */
   #hero {
     min-height: 100svh;
-    padding: calc(4.75rem + env(safe-area-inset-top, 0px)) 1.1rem 2.75rem;
+    padding: calc(4.75rem + env(safe-area-inset-top, 0px)) 1.1rem 3.25rem;
     align-items: center;
     text-align: center;
+    overflow-x: clip;
+    overflow-y: visible;
   }
   .hero-title {
     font-size: clamp(2.1rem, 8.5vw, 2.75rem);
     letter-spacing: -1.4px;
     margin-bottom: .65rem;
-    line-height: 1.1;
+    line-height: 1.16;
     width: 100%;
+    padding-bottom: .15em;
   }
-  .hero-name-last { font-size: .76em; }
-  .hero-title .line { white-space: normal; }
+  .hero-name-last { font-size: .76em; line-height: 1.24; padding-bottom: .12em; }
+  .hero-title .line { white-space: normal; padding-block: .06em .16em; }
   .hero-role {
     font-size: .65rem;
     letter-spacing: .14em;

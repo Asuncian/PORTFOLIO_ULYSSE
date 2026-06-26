@@ -3,7 +3,7 @@ import { SITE_FAQ } from '@/lib/site'
 export default function Faq() {
   return (
     <section id="faq">
-      <div className="section-header reveal">
+      <div className="section-header reveal reveal-early">
         <p className="section-tag">Questions fréquentes</p>
         <h2 className="section-title">Vous vous <em>reconnaissez ?</em></h2>
         <p className="section-sub">
@@ -11,7 +11,7 @@ export default function Faq() {
         </p>
       </div>
 
-      <div className="faq-list reveal-grid">
+      <div className="faq-list reveal-grid reveal-early">
         {SITE_FAQ.map(({ question, answer }) => (
           <details key={question} className="faq-item">
             <summary>{question}</summary>

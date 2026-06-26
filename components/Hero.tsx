@@ -12,7 +12,10 @@ export default function Hero() {
   // Intro timeline
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ delay: 0.2 })
+      const tl = gsap.timeline({
+        delay: 0.2,
+        onComplete: () => gsap.set('.h-word', { clearProps: 'clipPath,y' }),
+      })
       tl.from('.h-word', {
           clipPath: 'inset(0 0 110% 0)',
           y: 42,
@@ -71,7 +74,7 @@ export default function Hero() {
         <span className="line"><span className="h-word word hero-name-last">Goming-Jobert</span></span>
       </h1>
 
-      <p className="hero-role h-role">Développeur web &amp; automatisation</p>
+      <p className="hero-role h-role">{SITE_ROLE}</p>
 
       <p className="hero-sub h-sub">
         Je développe des sites et des automatisations pour des besoins concrets. Du premier échange jusqu&apos;à la mise en ligne.
