@@ -1552,10 +1552,14 @@ footer {
 .footer-copy { font-size: .73rem; color: rgba(255,255,255,.88); }
 
 /* ──────────────────────── REVEAL ──────────────────────── */
-.reveal { opacity: 0; transform: translateY(28px); will-change: opacity, transform; }
-.reveal-grid > * { will-change: opacity, transform; }
+.reveal { opacity: 0; transform: translateY(22px); will-change: opacity, transform; }
+.reveal-grid > * { opacity: 0; transform: translateY(28px); will-change: opacity, transform; }
+.motion-stagger > *,
+.method-stage.motion-stagger .method-card3d { will-change: transform; }
 @media (prefers-reduced-motion: reduce) {
-  .reveal, .reveal-grid > *, .reveal-early, .reveal-early.reveal-grid > * { opacity: 1; transform: none; will-change: auto; }
+  .reveal, .reveal-grid > * { opacity: 1; transform: none; will-change: auto; }
+  .motion-stagger > *,
+  .method-stage.motion-stagger .method-card3d { transform: none; will-change: auto; }
 }
 @media (pointer: coarse) {
   body { cursor: auto; }

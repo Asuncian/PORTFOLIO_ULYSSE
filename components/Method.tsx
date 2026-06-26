@@ -66,13 +66,13 @@ export default function Method() {
 
   return (
     <section id="methode">
-      <div className="section-header reveal reveal-early">
+      <div className="section-header">
         <p className="section-tag">Méthode</p>
         <h2 className="section-title">Ma façon de <em>travailler</em></h2>
         <p className="section-sub">De la première discussion à la mise en ligne, en trois étapes.</p>
       </div>
 
-      <div className="method-stage reveal reveal-early" ref={stageRef}>
+      <div className="method-stage motion-stagger" ref={stageRef}>
         <div className="method-scene" ref={sceneRef}>
           <span className="method-beam" aria-hidden />
           {steps.map((s, i) => (

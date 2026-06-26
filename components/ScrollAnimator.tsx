@@ -2,25 +2,21 @@
 import { useEffect } from 'react'
 import { gsap, ScrollTrigger } from '@/lib/gsap'
 
-const EARLY_SELECTORS = '.reveal-early'
-
-function syncEarlyReveals() {
+/** Déclenche les animations douces déjà visibles dans le viewport (scroll rapide, hash). */
+function syncMotionInView() {
   ScrollTrigger.refresh()
-  document.querySelectorAll<HTMLElement>(EARLY_SELECTORS).forEach((el) => {
-    const rect = el.getBoundingClientRect()
-    if (rect.top >= window.innerHeight || rect.bottom <= 0) return
-    gsap.set(el, { opacity: 1, y: 0, clearProps: 'transform' })
-    ScrollTrigger.getAll()
-      .filter((st) => st.trigger === el)
-      .forEach((st) => st.kill())
-  })
 
-  document.querySelectorAll<HTMLElement>('.reveal-early.reveal-grid').forEach((grid) => {
-    const rect = grid.getBoundingClientRect()
-    if (rect.top >= window.innerHeight || rect.bottom <= 0) return
-    gsap.set(grid.children, { opacity: 1, y: 0, clearProps: 'transform' })
+  document.querySelectorAll<HTMLElement>('.motion-stagger').forEach((group) => {
+    const rect = group.getBoundingClientRect()
+    if (rect.top >= window.innerHeight * 0.98 || rect.bottom <= 0) return
+
+    const children = group.classList.contains('method-stage')
+      ? group.querySelectorAll<HTMLElement>('.method-card3d')
+      : Array.from(group.children) as HTMLElement[]
+
+    gsap.set(children, { y: 0, clearProps: 'transform' })
     ScrollTrigger.getAll()
-      .filter((st) => st.trigger === grid)
+      .filter((st) => st.trigger === group)
       .forEach((st) => st.kill())
   })
 }
@@ -28,46 +24,22 @@ function syncEarlyReveals() {
 export default function ScrollAnimator() {
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (reduced) {
-      document.querySelectorAll<HTMLElement>('.reveal, .reveal-grid > *, .reveal-early, .reveal-early.reveal-grid > *').forEach((el) => {
-        el.style.opacity = '1'
-        el.style.transform = 'none'
-      })
-      return
-    }
+    if (reduced) return
 
     const ctx = gsap.context(() => {
       gsap.utils.toArray<HTMLElement>('.reveal').forEach((el) => {
-        const early = el.classList.contains('reveal-early')
-        gsap.to(el, {
-          opacity: 1,
-          y: 0,
-          duration: early ? 0.7 : 0.85,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: el,
-            start: early ? 'top bottom' : 'top 94%',
-            once: true,
-            invalidateOnRefresh: true,
-          },
-        })
-      })
-
-      gsap.utils.toArray<HTMLElement>('.reveal-grid').forEach((grid) => {
-        const early = grid.classList.contains('reveal-early')
-        const children = grid.children
         gsap.fromTo(
-          children,
-          { opacity: 0, y: early ? 24 : 40 },
+          el,
+          { opacity: 0, y: 22 },
           {
             opacity: 1,
             y: 0,
-            duration: early ? 0.6 : 0.7,
-            stagger: early ? 0.06 : 0.1,
+            duration: 0.65,
             ease: 'power2.out',
+            immediateRender: false,
             scrollTrigger: {
-              trigger: grid,
-              start: early ? 'top bottom' : 'top 92%',
+              trigger: el,
+              start: 'top 90%',
               once: true,
               invalidateOnRefresh: true,
             },
@@ -75,25 +47,69 @@ export default function ScrollAnimator() {
         )
       })
 
-      syncEarlyReveals()
+      gsap.utils.toArray<HTMLElement>('.reveal-grid').forEach((grid) => {
+        gsap.fromTo(
+          grid.children,
+          { opacity: 0, y: 28 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.55,
+            stagger: 0.07,
+            ease: 'power2.out',
+            immediateRender: false,
+            scrollTrigger: {
+              trigger: grid,
+              start: 'top 88%',
+              once: true,
+              invalidateOnRefresh: true,
+            },
+          },
+        )
+      })
+
+      // Méthode & FAQ : toujours lisibles, léger slide sans masquer le contenu
+      gsap.utils.toArray<HTMLElement>('.motion-stagger').forEach((group) => {
+        const targets = group.classList.contains('method-stage')
+          ? group.querySelectorAll<HTMLElement>('.method-card3d')
+          : group.children
+
+        gsap.from(targets, {
+          y: 14,
+          duration: 0.5,
+          stagger: 0.05,
+          ease: 'power2.out',
+          immediateRender: false,
+          scrollTrigger: {
+            trigger: group,
+            start: 'top 92%',
+            once: true,
+            invalidateOnRefresh: true,
+          },
+        })
+      })
+
+      syncMotionInView()
     })
 
     const refresh = () => {
       ScrollTrigger.refresh()
-      syncEarlyReveals()
+      syncMotionInView()
     }
-    const onHash = () => window.setTimeout(syncEarlyReveals, 200)
+    const onHash = () => window.setTimeout(syncMotionInView, 120)
 
     window.addEventListener('load', refresh)
     window.addEventListener('resize', refresh, { passive: true })
     window.addEventListener('hashchange', onHash)
-    const t = window.setTimeout(syncEarlyReveals, 150)
+    const t1 = window.setTimeout(syncMotionInView, 80)
+    const t2 = window.setTimeout(syncMotionInView, 400)
 
     return () => {
       window.removeEventListener('load', refresh)
       window.removeEventListener('resize', refresh)
       window.removeEventListener('hashchange', onHash)
-      window.clearTimeout(t)
+      window.clearTimeout(t1)
+      window.clearTimeout(t2)
       ctx.revert()
     }
   }, [])
