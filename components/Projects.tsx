@@ -17,46 +17,46 @@ interface Project {
 const projects: Project[] = [
   {
     name: 'BloomYourself',
-    type: 'Formation & bien-Ãªtre',
+    type: 'Formation & bien-être',
     theme: 't-bloom',
     logoSrc: '/logo-bloom-yourself.png',
-    desc: 'Centre de formation beautÃ© certifiÃ© Qualiopi Ã  FrÃ©jus : difficile de faire remonter les parcours quand institut, agence et academy cohabitent. La vitrine met les formations (regard, onglerie, massage, reconversion) au premier plan pour que les visiteurs comprennent vite l\'offre et passent Ã  l\'action.',
+    desc: 'Centre de formation beauté certifié Qualiopi à Fréjus : difficile de faire remonter les parcours quand institut, agence et academy cohabitent. La vitrine met les formations (regard, onglerie, massage, reconversion) au premier plan pour que les visiteurs comprennent vite l\'offre et passent à l\'action.',
     url: 'bloomyourselfacademy.com',
     status: 'live',
   },
   {
-    name: 'Enzo Ã‰lagage',
-    type: 'Site artisan',
+    name: 'Enzo Élagage',
+    type: 'Élagage & paysage',
     theme: 't-nature',
     logoSrc: '/logo-enzo-elagage.png',
-    desc: 'Site pour Enzo, Ã©lagueur dans le Var. Photos de chantiers, pages par commune pour Ãªtre trouvÃ© localement et formulaire pour demander un devis simplement.',
+    desc: 'Élagueur-grimpeur dans le Var : les recherches locales noient souvent l\'activité dans des annuaires génériques. Le site montre les chantiers, décline une page par commune pour le référencement local et un formulaire clair pour demander un devis sans perdre de temps.',
     url: 'enzo-elagage-var.fr',
     status: 'live',
   },
   {
     name: 'Allodav Services',
-    type: 'Site vitrine',
+    type: 'Location de bennes',
     theme: 't-amber',
     logoSrc: '/logo-allodav.png',
-    desc: 'Site pour Allodav, location de bennes dans le Var. Prestations et zones d\'intervention claires, avec un contact direct pour les particuliers et les pros du bÃ¢timent.',
+    desc: 'Location de bennes dans le Var : particuliers comme pros du bâtiment ont besoin de savoir vite quoi louer et où. La vitrine détaille les prestations et zones d\'intervention, avec un contact direct pour lancer une demande sans aller-retour inutile.',
     url: 'allodavservices83.fr',
     status: 'live',
   },
   {
     name: 'CVNova',
-    type: 'Service en ligne',
+    type: 'CV & candidature',
     theme: 't-violet',
     logoSrc: '/logo-cvnova.png',
-    desc: 'CV et lettres de motivation rÃ©digÃ©s sur mesure. Formules au choix, rÃ©alisations Ã  parcourir et contact simple pour vous orienter avant de commander.',
+    desc: 'Rédaction de CV et lettres de motivation sur mesure : difficile de choisir une formule sans voir le travail réel. Le site présente les offres, des réalisations à parcourir et un contact simple pour orienter chaque demande avant de commander.',
     url: 'cvnova.fr',
     status: 'live',
   },
   {
     name: 'CRM HTV Basket',
-    type: 'Outil mÃ©tier',
+    type: 'Outil métier',
     theme: 't-sport',
     logoSrc: '/logo-htv-basket.png',
-    desc: 'Prospects, clients, facturation et relances pour HTV Basket, centralisÃ©s dans un outil fait pour eux.',
+    desc: 'Club de basket HTV : prospects, clients, devis et relances étaient éparpillés entre tableurs et messagerie. L\'outil rassemble tout le suivi commercial en un seul endroit, adapté au rythme et aux habitudes de l\'équipe.',
     url: null,
     status: 'private',
   },
@@ -124,9 +124,9 @@ export default function Projects() {
     <section id="projets">
       <div className="section-header reveal">
         <p className="section-tag">Projets</p>
-        <h2 className="section-title">Ce que j'ai <em>livrÃ©</em></h2>
+        <h2 className="section-title">Ce que j'ai <em>livré</em></h2>
         <p className="section-sub">
-          Des projets partis d'un besoin rÃ©el, utilisÃ©s au quotidien par ceux qui les ont commandÃ©s.
+          Des projets partis d'un besoin réel, utilisés au quotidien par ceux qui les ont commandés.
         </p>
       </div>
 
@@ -154,20 +154,20 @@ export default function Projects() {
                 <div className="strip-meta">
                   <span className="proj-type">{proj.type}</span>
                   {proj.status === 'live'    && <span className="proj-status proj-status-live">Live</span>}
-                  {proj.status === 'beta'    && <span className="proj-status proj-status-beta">BÃªta</span>}
-                  {proj.status === 'private' && <span className="proj-status proj-status-private">PrivÃ©</span>}
+                  {proj.status === 'beta'    && <span className="proj-status proj-status-beta">Bêta</span>}
+                  {proj.status === 'private' && <span className="proj-status proj-status-private">Privé</span>}
                 </div>
                 <h3 className="strip-title">{proj.name}</h3>
                 <p className="strip-desc">{proj.desc}</p>
                 <div className="strip-footer">
                   {proj.url ? (
                     <a href={`https://${proj.url}`} target="_blank" rel="noopener noreferrer" className="proj-link">
-                      {proj.url}<span className="proj-link-arrow">â†—</span>
+                      {proj.url}<span className="proj-link-arrow">?</span>
                     </a>
                   ) : (
                     <span className="proj-private-note">
                       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-                      AccÃ¨s protÃ©gÃ© par login
+                      Accès protégé par login
                     </span>
                   )}
                 </div>
@@ -189,7 +189,7 @@ export default function Projects() {
 
       <div className="proj-more reveal">
         <p className="proj-more-text">
-          D'autres sites et outils internes tournent dÃ©jÃ  en prod, dont certains en accÃ¨s rÃ©servÃ©.
+          D'autres sites et outils internes tournent déjà en prod, dont certains en accès réservé.
         </p>
       </div>
     </section>
