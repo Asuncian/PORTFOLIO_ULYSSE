@@ -17,10 +17,10 @@ interface Project {
 const projects: Project[] = [
   {
     name: 'BloomYourself Academy',
-    type: 'Site vitrine luxe',
+    type: 'Formation & bien-être',
     theme: 't-bloom',
     logoSrc: '/logo-bloom-yourself.png',
-    desc: 'BloomYourself regroupe trois activités bien être sur la Côte d\'Azur. Vitrine pour présenter l\'Academy, l\'Agency et l\'Institut Maison Bloom, avec une carte pour l\'institut et un site agréable sur mobile.',
+    desc: 'Centre de formation beauté certifié Qualiopi à Fréjus : difficile de faire remonter les parcours quand institut, agence et academy cohabitent. La vitrine met les formations (regard, onglerie, massage, reconversion) au premier plan pour que les visiteurs comprennent vite l\'offre et passent à l\'action.',
     url: 'bloomyourselfacademy.com',
     status: 'live',
   },
