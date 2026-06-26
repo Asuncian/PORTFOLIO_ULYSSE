@@ -17,19 +17,19 @@ interface Project {
 const projects: Project[] = [
   {
     name: 'BloomYourself Academy',
-    type: 'Formation & bien-être',
+    type: 'Site vitrine luxe',
     theme: 't-bloom',
     logoSrc: '/logo-bloom-yourself.png',
-    desc: 'Centre de formation beauté certifié Qualiopi à Fréjus : difficile de faire remonter les parcours quand institut, agence et academy cohabitent. La vitrine met les formations (regard, onglerie, massage, reconversion) au premier plan pour que les visiteurs comprennent vite l\'offre et passent à l\'action.',
+    desc: 'BloomYourself regroupe trois activitÃ©s bien Ãªtre sur la CÃ´te d\'Azur. Vitrine pour prÃ©senter l\'Academy, l\'Agency et l\'Institut Maison Bloom, avec une carte pour l\'institut et un site agrÃ©able sur mobile.',
     url: 'bloomyourselfacademy.com',
     status: 'live',
   },
   {
-    name: 'Enzo Élagage',
+    name: 'Enzo Ã‰lagage',
     type: 'Site artisan',
     theme: 't-nature',
     logoSrc: '/logo-enzo-elagage.png',
-    desc: 'Site pour Enzo, élagueur dans le Var. Photos de chantiers, pages par commune pour être trouvé localement et formulaire pour demander un devis simplement.',
+    desc: 'Site pour Enzo, Ã©lagueur dans le Var. Photos de chantiers, pages par commune pour Ãªtre trouvÃ© localement et formulaire pour demander un devis simplement.',
     url: 'enzo-elagage-var.fr',
     status: 'live',
   },
@@ -38,7 +38,7 @@ const projects: Project[] = [
     type: 'Site vitrine',
     theme: 't-amber',
     logoSrc: '/logo-allodav.png',
-    desc: 'Site pour Allodav, location de bennes dans le Var. Prestations et zones d\'intervention claires, avec un contact direct pour les particuliers et les pros du bâtiment.',
+    desc: 'Site pour Allodav, location de bennes dans le Var. Prestations et zones d\'intervention claires, avec un contact direct pour les particuliers et les pros du bÃ¢timent.',
     url: 'allodavservices83.fr',
     status: 'live',
   },
@@ -47,16 +47,16 @@ const projects: Project[] = [
     type: 'Service en ligne',
     theme: 't-violet',
     logoSrc: '/logo-cvnova.png',
-    desc: 'CV et lettres de motivation rédigés sur mesure. Formules au choix, réalisations à parcourir et contact simple pour vous orienter avant de commander.',
+    desc: 'CV et lettres de motivation rÃ©digÃ©s sur mesure. Formules au choix, rÃ©alisations Ã  parcourir et contact simple pour vous orienter avant de commander.',
     url: 'cvnova.fr',
     status: 'live',
   },
   {
     name: 'CRM HTV Basket',
-    type: 'Outil métier',
+    type: 'Outil mÃ©tier',
     theme: 't-sport',
     logoSrc: '/logo-htv-basket.png',
-    desc: 'Prospects, clients, facturation et relances pour HTV Basket, centralisés dans un outil fait pour eux.',
+    desc: 'Prospects, clients, facturation et relances pour HTV Basket, centralisÃ©s dans un outil fait pour eux.',
     url: null,
     status: 'private',
   },
@@ -124,9 +124,9 @@ export default function Projects() {
     <section id="projets">
       <div className="section-header reveal">
         <p className="section-tag">Projets</p>
-        <h2 className="section-title">Ce que j'ai <em>livré</em></h2>
+        <h2 className="section-title">Ce que j'ai <em>livrÃ©</em></h2>
         <p className="section-sub">
-          Des projets partis d'un besoin réel, utilisés au quotidien par ceux qui les ont commandés.
+          Des projets partis d'un besoin rÃ©el, utilisÃ©s au quotidien par ceux qui les ont commandÃ©s.
         </p>
       </div>
 
@@ -136,6 +136,7 @@ export default function Projects() {
             <div className="strip-bg-glow" aria-hidden />
             <div className="strip-shine"   aria-hidden />
 
+            {/* Soft marine waves - layered, slow, themed by --accent */}
             <div className="strip-waves" aria-hidden>
               <svg className="wave wave-1" viewBox="0 0 1440 220" preserveAspectRatio="none">
                 <path d="M0,128 C240,200 480,40 720,96 C960,152 1200,72 1440,120 L1440,220 L0,220 Z" />
@@ -153,20 +154,20 @@ export default function Projects() {
                 <div className="strip-meta">
                   <span className="proj-type">{proj.type}</span>
                   {proj.status === 'live'    && <span className="proj-status proj-status-live">Live</span>}
-                  {proj.status === 'beta'    && <span className="proj-status proj-status-beta">Bêta</span>}
-                  {proj.status === 'private' && <span className="proj-status proj-status-private">Privé</span>}
+                  {proj.status === 'beta'    && <span className="proj-status proj-status-beta">BÃªta</span>}
+                  {proj.status === 'private' && <span className="proj-status proj-status-private">PrivÃ©</span>}
                 </div>
                 <h3 className="strip-title">{proj.name}</h3>
                 <p className="strip-desc">{proj.desc}</p>
                 <div className="strip-footer">
                   {proj.url ? (
                     <a href={`https://${proj.url}`} target="_blank" rel="noopener noreferrer" className="proj-link">
-                      {proj.url}<span className="proj-link-arrow">?</span>
+                      {proj.url}<span className="proj-link-arrow">â†—</span>
                     </a>
                   ) : (
                     <span className="proj-private-note">
                       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-                      Accès protégé par login
+                      AccÃ¨s protÃ©gÃ© par login
                     </span>
                   )}
                 </div>
@@ -188,7 +189,7 @@ export default function Projects() {
 
       <div className="proj-more reveal">
         <p className="proj-more-text">
-          D'autres sites et outils internes tournent déjà en prod, dont certains en accès réservé.
+          D'autres sites et outils internes tournent dÃ©jÃ  en prod, dont certains en accÃ¨s rÃ©servÃ©.
         </p>
       </div>
     </section>
