@@ -10,7 +10,7 @@ const steps = [
   {
     num: '02',
     title: 'Concevoir',
-    desc: "Je vous propose une direction claire : quoi faire, dans quel ordre, et pourquoi. Sans jargon.",
+    desc: "Je vous propose une direction claire : quoi faire, dans quel ordre, et pourquoi.",
   },
   {
     num: '03',

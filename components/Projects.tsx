@@ -16,7 +16,7 @@ interface Project {
 
 const projects: Project[] = [
   {
-    name: 'BloomYourself Academy',
+    name: 'BloomYourself',
     type: 'Formation & bien-être',
     theme: 't-bloom',
     logoSrc: '/logo-bloom-yourself.png',
