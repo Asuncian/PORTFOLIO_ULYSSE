@@ -29,7 +29,7 @@ const schema = {
       inLanguage: 'fr-FR',
       isPartOf: { '@id': websiteId },
       about: { '@id': personId },
-      primaryImageOfPage: { '@type': 'ImageObject', url: `${SITE_URL}/logo-bloom-yourself.png` },
+      primaryImageOfPage: { '@type': 'ImageObject', url: `${SITE_URL}/icon-512.png` },
     },
     {
       '@type': 'WebSite',

@@ -58,6 +58,15 @@ export const metadata: Metadata = {
     canonical: '/',
     languages: { 'fr-FR': '/' },
   },
+  icons: {
+    icon: [
+      { url: '/icon-48.png', sizes: '48x48', type: 'image/png' },
+      { url: '/icon-96.png', sizes: '96x96', type: 'image/png' },
+      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+    ],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
+    shortcut: '/icon-48.png',
+  },
   openGraph: {
     type: 'website',
     locale: 'fr_FR',
@@ -65,6 +74,7 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
+    images: [{ url: '/icon-512.png', width: 512, height: 512, alt: SITE_NAME }],
   },
   twitter: {
     card: 'summary_large_image',
