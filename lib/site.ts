@@ -17,7 +17,7 @@ export const SITE_GEO_REGION = 'FR-OCC'
 
 /** Google Search Console : balise meta de vérification du domaine. */
 export const GOOGLE_SITE_VERIFICATION =
-  process.env.GOOGLE_SITE_VERIFICATION ?? 'MJONZxuhd88OQG_R1_aVo0JI_PVnTH6ncVRITkIBxSU'
+  process.env.GOOGLE_SITE_VERIFICATION ?? 'Xe4PhmrSulMtv2gTpwhOSBNLy6lVepHCj90mxnVoMHE'
 
 /** Titre principal (balise & Open Graph). Nom en premier : portfolio pro, pas offre freelance. */
 export const SITE_TITLE =
