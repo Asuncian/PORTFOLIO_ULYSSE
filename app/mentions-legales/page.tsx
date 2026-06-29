@@ -58,10 +58,11 @@ export default function MentionsLegalesPage() {
           </p>
         </LegalBlock>
 
-        <LegalBlock title="Le contenu du site">
+        <LegalBlock title="Logos et projets affichés">
           <p>
-            Les textes, visuels, code et identité graphique de mon portfolio m&apos;appartiennent,
-            sauf mention contraire. Si vous voulez reprendre quelque chose, écrivez-moi avant.
+            Les logos dans la section Projets appartiennent à mes clients (sites que j&apos;ai
+            réalisés pour eux). Le code, les textes et la charte graphique de ce portfolio sont mon
+            travail.
           </p>
         </LegalBlock>
 

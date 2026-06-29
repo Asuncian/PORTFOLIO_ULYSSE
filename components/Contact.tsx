@@ -210,8 +210,8 @@ export default function Contact() {
               disabled={status === 'sending'}
             />
             <span>
-              J&apos;accepte que mon nom, mon email et mon message soient utilisés pour que je
-              puisse répondre. C&apos;est expliqué sur la{' '}
+              Vous acceptez que votre nom, votre email et votre message soient utilisés pour que
+              je puisse vous répondre. C&apos;est expliqué sur la{' '}
               <Link href="/politique-confidentialite" target="_blank" rel="noopener noreferrer">
                 page confidentialité
               </Link>
