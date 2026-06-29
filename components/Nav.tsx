@@ -1,5 +1,6 @@
 'use client'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import BrandName from '@/components/BrandName'
 
 const links = [
@@ -18,6 +19,10 @@ const drawerLinks = [
 ]
 
 export default function Nav() {
+  const pathname = usePathname()
+  const onHome = pathname === '/'
+  const hrefFor = (hash: string) => (onHome ? hash : `/${hash}`)
+
   const [scrolled, setScrolled] = useState(false)
   const [active, setActive] = useState('')
   const [menuOpen, setMenuOpen] = useState(false)
@@ -111,7 +116,7 @@ export default function Nav() {
   return (
     <>
       <nav id="main-nav" className={scrolled ? 'scrolled' : ''}>
-        <a href="#hero" className="nav-logo" onClick={() => onLinkClick('hero')}>
+        <a href={hrefFor('#hero')} className="nav-logo" onClick={() => onLinkClick('hero')}>
           <BrandName variant="nav" />
         </a>
 
@@ -119,7 +124,7 @@ export default function Nav() {
           {links.map(l => (
             <li key={l.href}>
               <a
-                href={l.href}
+                href={hrefFor(l.href)}
                 className={`nav-link${active === l.id ? ' nav-active' : ''}`}
                 onClick={() => onLinkClick(l.id)}
                 aria-current={active === l.id ? 'page' : undefined}
@@ -132,7 +137,7 @@ export default function Nav() {
 
         <div className="nav-actions">
           <a
-            href="#contact"
+            href={hrefFor('#contact')}
             className={`nav-cta${active === 'contact' ? ' nav-cta-active' : ''}`}
             onClick={() => onLinkClick('contact')}
           >
@@ -175,7 +180,7 @@ export default function Nav() {
             {drawerLinks.map(l => (
               <li key={l.href}>
                 <a
-                  href={l.href}
+                  href={hrefFor(l.href)}
                   className={active === l.id ? 'is-active' : ''}
                   onClick={() => onLinkClick(l.id)}
                 >
@@ -185,7 +190,7 @@ export default function Nav() {
             ))}
           </ul>
           <a
-            href="#contact"
+            href={hrefFor('#contact')}
             className="mobile-drawer-cta"
             onClick={() => onLinkClick('contact')}
           >

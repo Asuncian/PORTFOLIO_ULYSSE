@@ -16,7 +16,7 @@ export const LEGAL_SITE_URL = SITE_URL
 export const LEGAL_HOST = {
   name: 'Hetzner Online GmbH',
   address: 'Industriestr. 25, 91710 Gunzenhausen, Allemagne',
-  server: 'VPS CX23 — déploiement Docker via Dokploy (reverse proxy intégré)',
+  server: 'VPS CX23, déploiement Docker via Dokploy (reverse proxy intégré)',
 } as const
 
 /** Registrar du nom de domaine. */

@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
-import LegalPage from '@/components/LegalPage'
+import Link from 'next/link'
+import LegalPage, { LegalBlock } from '@/components/LegalPage'
+import LegalShell from '@/components/LegalShell'
 import {
   LEGAL_DOMAIN,
   LEGAL_EMAIL,
@@ -9,81 +11,75 @@ import {
   LEGAL_REGION,
   LEGAL_SITE_URL,
 } from '@/lib/legal'
-import { SITE_URL } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: 'Mentions légales',
-  description: 'Mentions légales du portfolio Ulysse Goming-Jobert.',
+  description: 'Informations légales du portfolio Ulysse Goming-Jobert.',
   alternates: { canonical: '/mentions-legales' },
   robots: { index: true, follow: true },
 }
 
 export default function MentionsLegalesPage() {
   return (
-    <LegalPage title="Mentions légales">
-      <section>
-        <h2>Éditeur du site</h2>
-        <p>
-          <strong>{LEGAL_PUBLISHER}</strong>
-          <br />
-          Développeur web &amp; automatisation — {LEGAL_REGION}, France
-          <br />
-          Email : <a href={`mailto:${LEGAL_EMAIL}`}>{LEGAL_EMAIL}</a>
-          <br />
-          Téléphone : <a href="tel:+33645003007">{LEGAL_PHONE}</a>
-        </p>
-      </section>
+    <LegalShell>
+      <LegalPage
+        tag="Informations"
+        title={<>Les mentions <em>légales</em></>}
+        subtitle="Les infos obligatoires sur ce site, sans jargon inutile."
+      >
+        <LegalBlock title="Qui édite ce site ?">
+          <p>
+            <strong>{LEGAL_PUBLISHER}</strong>, développeur web et automatisation en {LEGAL_REGION}.
+          </p>
+          <p>
+            Email : <a href={`mailto:${LEGAL_EMAIL}`}>{LEGAL_EMAIL}</a>
+            <br />
+            Téléphone : <a href="tel:+33645003007">{LEGAL_PHONE}</a>
+          </p>
+        </LegalBlock>
 
-      <section>
-        <h2>Directeur de la publication</h2>
-        <p>{LEGAL_PUBLISHER}</p>
-      </section>
+        <LegalBlock title="Directeur de la publication">
+          <p>{LEGAL_PUBLISHER}</p>
+        </LegalBlock>
 
-      <section>
-        <h2>Nom de domaine</h2>
-        <p>
-          Registrar : {LEGAL_DOMAIN.registrar}
-          <br />
-          {LEGAL_DOMAIN.address}
-        </p>
-      </section>
+        <LegalBlock title="Nom de domaine">
+          <p>
+            Le domaine est géré chez {LEGAL_DOMAIN.registrar}, {LEGAL_DOMAIN.address}.
+          </p>
+        </LegalBlock>
 
-      <section>
-        <h2>Hébergement</h2>
-        <p>
-          {LEGAL_HOST.server}.
-          <br />
-          Hébergeur : {LEGAL_HOST.name}
-          <br />
-          {LEGAL_HOST.address}
-        </p>
-      </section>
+        <LegalBlock title="Hébergement">
+          <p>
+            Le site tourne sur un {LEGAL_HOST.server.toLowerCase()}.
+          </p>
+          <p>
+            Hébergeur : {LEGAL_HOST.name}, {LEGAL_HOST.address}.
+          </p>
+        </LegalBlock>
 
-      <section>
-        <h2>Propriété intellectuelle</h2>
-        <p>
-          L&apos;ensemble du contenu de ce site (textes, visuels, code, identité graphique) est la
-          propriété de {LEGAL_PUBLISHER}, sauf mention contraire. Toute reproduction sans autorisation
-          écrite préalable est interdite.
-        </p>
-      </section>
+        <LegalBlock title="Propriété intellectuelle">
+          <p>
+            Les textes, visuels, code et identité graphique de ce portfolio appartiennent à{' '}
+            {LEGAL_PUBLISHER}, sauf mention contraire. Merci de ne rien copier sans mon accord écrit
+            au préalable.
+          </p>
+        </LegalBlock>
 
-      <section>
-        <h2>Données personnelles</h2>
-        <p>
-          Les traitements de données personnelles sont décrits dans la{' '}
-          <a href="/politique-confidentialite">politique de confidentialité</a>.
-        </p>
-      </section>
+        <LegalBlock title="Données personnelles">
+          <p>
+            Pour savoir comment je traite vos données quand vous m&apos;écrivez, consultez la{' '}
+            <Link href="/politique-confidentialite">politique de confidentialité</Link>.
+          </p>
+        </LegalBlock>
 
-      <section>
-        <h2>Contact</h2>
-        <p>
-          Pour toute question relative au site :{' '}
-          <a href={`mailto:${LEGAL_EMAIL}`}>{LEGAL_EMAIL}</a>
-        </p>
-        <p className="legal-muted">Site : {LEGAL_SITE_URL || SITE_URL}</p>
-      </section>
-    </LegalPage>
+        <LegalBlock title="Une question ?">
+          <p>
+            Pour toute demande liée au site :{' '}
+            <a href={`mailto:${LEGAL_EMAIL}`}>{LEGAL_EMAIL}</a>
+          </p>
+          <p className="legal-muted">{LEGAL_SITE_URL}</p>
+        </LegalBlock>
+      </LegalPage>
+    </LegalShell>
   )
 }

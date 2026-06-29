@@ -33,9 +33,8 @@ export default function CookieNotice() {
     <div className="cookie-notice" role="dialog" aria-labelledby="cookie-notice-title">
       <div className="cookie-notice-inner">
         <p id="cookie-notice-title" className="cookie-notice-text">
-          Ce site charge les polices via Google Fonts.
-          {' '}
-          <Link href="/politique-confidentialite">En savoir plus</Link>
+          Ce site charge la police Inter via Google Fonts.{' '}
+          <Link href="/politique-confidentialite">Plus de détails ici</Link>.
         </p>
         <button type="button" className="cookie-notice-btn" onClick={dismiss}>
           Compris
