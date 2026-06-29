@@ -9,12 +9,13 @@ import {
   LEGAL_PHONE,
   LEGAL_PUBLISHER,
   LEGAL_REGION,
+  LEGAL_ROLE,
   LEGAL_SITE_URL,
 } from '@/lib/legal'
 
 export const metadata: Metadata = {
   title: 'Mentions légales',
-  description: 'Informations légales du portfolio Ulysse Goming-Jobert.',
+  description: 'Mentions légales de mon portfolio.',
   alternates: { canonical: '/mentions-legales' },
   robots: { index: true, follow: true },
 }
@@ -25,56 +26,54 @@ export default function MentionsLegalesPage() {
       <LegalPage
         tag="Informations"
         title={<>Les mentions <em>légales</em></>}
-        subtitle="Les infos obligatoires sur ce site, sans jargon inutile."
+        subtitle="Mon portfolio, où il est hébergé, et comment me joindre si vous avez une question."
       >
-        <LegalBlock title="Qui édite ce site ?">
+        <LegalBlock title="Qui est derrière ce site ?">
           <p>
-            <strong>{LEGAL_PUBLISHER}</strong>, développeur web et automatisation en {LEGAL_REGION}.
+            Je suis {LEGAL_PUBLISHER}, {LEGAL_ROLE.toLowerCase()} en {LEGAL_REGION}.
           </p>
           <p>
-            Email : <a href={`mailto:${LEGAL_EMAIL}`}>{LEGAL_EMAIL}</a>
-            <br />
-            Téléphone : <a href="tel:+33645003007">{LEGAL_PHONE}</a>
-          </p>
-        </LegalBlock>
-
-        <LegalBlock title="Directeur de la publication">
-          <p>{LEGAL_PUBLISHER}</p>
-        </LegalBlock>
-
-        <LegalBlock title="Nom de domaine">
-          <p>
-            Le domaine est géré chez {LEGAL_DOMAIN.registrar}, {LEGAL_DOMAIN.address}.
+            Vous pouvez me joindre par email à{' '}
+            <a href={`mailto:${LEGAL_EMAIL}`}>{LEGAL_EMAIL}</a> ou au{' '}
+            <a href="tel:+33645003007">{LEGAL_PHONE}</a>.
           </p>
         </LegalBlock>
 
-        <LegalBlock title="Hébergement">
+        <LegalBlock title="Responsable de la publication">
+          <p>Je suis responsable de la publication de mon portfolio.</p>
+        </LegalBlock>
+
+        <LegalBlock title="Le nom de domaine">
           <p>
-            Le site tourne sur un {LEGAL_HOST.server.toLowerCase()}.
-          </p>
-          <p>
-            Hébergeur : {LEGAL_HOST.name}, {LEGAL_HOST.address}.
+            J&apos;ai enregistré le domaine chez {LEGAL_DOMAIN.registrar}, {LEGAL_DOMAIN.address}.
           </p>
         </LegalBlock>
 
-        <LegalBlock title="Propriété intellectuelle">
+        <LegalBlock title="L&apos;hébergement">
           <p>
-            Les textes, visuels, code et identité graphique de ce portfolio appartiennent à{' '}
-            {LEGAL_PUBLISHER}, sauf mention contraire. Merci de ne rien copier sans mon accord écrit
-            au préalable.
+            Je déploie mon portfolio sur un {LEGAL_HOST.server.toLowerCase()}.
+          </p>
+          <p>
+            L&apos;infrastructure est chez {LEGAL_HOST.name}, {LEGAL_HOST.address}.
           </p>
         </LegalBlock>
 
-        <LegalBlock title="Données personnelles">
+        <LegalBlock title="Le contenu du site">
           <p>
-            Pour savoir comment je traite vos données quand vous m&apos;écrivez, consultez la{' '}
-            <Link href="/politique-confidentialite">politique de confidentialité</Link>.
+            Les textes, visuels, code et identité graphique de mon portfolio m&apos;appartiennent,
+            sauf mention contraire. Si vous voulez reprendre quelque chose, écrivez-moi avant.
           </p>
         </LegalBlock>
 
-        <LegalBlock title="Une question ?">
+        <LegalBlock title="Vos messages et vos données">
           <p>
-            Pour toute demande liée au site :{' '}
+            Si vous m&apos;écrivez via le formulaire, j&apos;explique ce que j&apos;en fais sur ma{' '}
+            <Link href="/politique-confidentialite">page confidentialité</Link>.
+          </p>
+        </LegalBlock>
+
+        <LegalBlock title="Une question sur le site ?">
+          <p>
             <a href={`mailto:${LEGAL_EMAIL}`}>{LEGAL_EMAIL}</a>
           </p>
           <p className="legal-muted">{LEGAL_SITE_URL}</p>

@@ -35,7 +35,7 @@ export function parseContactBody(body: Record<string, unknown>): ParseResult {
   if (body.consent !== true) {
     return {
       ok: false,
-      error: 'Merci d\'accepter la politique de confidentialité pour envoyer le formulaire.',
+      error: 'Cochez la case confidentialité pour envoyer votre message.',
       status: 400,
     }
   }

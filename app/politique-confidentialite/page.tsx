@@ -7,12 +7,11 @@ import {
   LEGAL_DOMAIN,
   LEGAL_EMAIL,
   LEGAL_HOST,
-  LEGAL_PUBLISHER,
 } from '@/lib/legal'
 
 export const metadata: Metadata = {
   title: 'Politique de confidentialité',
-  description: 'Comment Ulysse Goming-Jobert traite vos données quand vous utilisez ce site.',
+  description: 'Ce que je fais des informations que vous m\'envoyez via le formulaire de mon portfolio.',
   alternates: { canonical: '/politique-confidentialite' },
   robots: { index: true, follow: true },
 }
@@ -21,110 +20,87 @@ export default function PolitiqueConfidentialitePage() {
   return (
     <LegalShell>
       <LegalPage
-        tag="Vie privée"
-        title={<>Vos données, <em>simplement</em></>}
-        subtitle="Ce que je collecte quand vous m'écrivez, pourquoi, et combien de temps je garde."
+        tag="Confidentialité"
+        title={<>Quand vous m&apos;<em>écrivez</em></>}
+        subtitle="Le formulaire me transmet votre nom, votre email et votre message. Voici ce que j'en fais avec."
       >
-        <LegalBlock title="Qui est responsable ?">
+        <LegalBlock title="Qui traite vos données ?">
           <p>
-            {LEGAL_PUBLISHER}. Pour toute question :{' '}
-            <a href={`mailto:${LEGAL_EMAIL}`}>{LEGAL_EMAIL}</a>.
+            Je reçois et lis les messages envoyés depuis mon portfolio. Pour toute question sur ce
+            sujet : <a href={`mailto:${LEGAL_EMAIL}`}>{LEGAL_EMAIL}</a>.
           </p>
         </LegalBlock>
 
-        <LegalBlock title="Ce que je collecte">
-          <p>Quand vous remplissez le formulaire de contact, je reçois :</p>
+        <LegalBlock title="Qu&apos;est-ce que je reçois ?">
+          <p>
+            Quand vous remplissez le formulaire de contact, j&apos;ai accès à votre nom, votre
+            adresse email et au texte de votre message. Le serveur peut aussi voir votre adresse IP
+            le temps de filtrer le spam. Je ne collecte rien d&apos;autre via mon site.
+          </p>
+        </LegalBlock>
+
+        <LegalBlock title="Pourquoi je m&apos;en sers ?">
+          <p>
+            Pour vous répondre. Vous cochez une case pour m&apos;y autoriser, et je traite votre
+            message dans la foulée. J&apos;ai aussi mis quelques limites techniques pour éviter les
+            envois automatiques et les abus.
+          </p>
+        </LegalBlock>
+
+        <LegalBlock title="Combien de temps je les garde ?">
+          <p>
+            Je conserve vos messages jusqu&apos;à {DATA_RETENTION_MONTHS} mois après notre dernier
+            échange, le temps de reprendre contact si on reparle du même sujet. Vous pouvez me
+            demander de les supprimer avant. Les compteurs anti-spam côté serveur ne sont pas gardés
+            longtemps.
+          </p>
+        </LegalBlock>
+
+        <LegalBlock title="Qui intervient en coulisse ?">
+          <p>Pour que mon portfolio et le formulaire fonctionnent, j&apos;utilise :</p>
           <ul>
-            <li>votre nom ;</li>
-            <li>votre adresse email ;</li>
-            <li>le contenu de votre message.</li>
+            <li>Gmail (Google) pour envoyer et recevoir vos messages ;</li>
+            <li>Google Fonts pour la police du site (Inter) ;</li>
+            <li>{LEGAL_HOST.name} pour l&apos;hébergement ({LEGAL_HOST.server.toLowerCase()}) ;</li>
+            <li>{LEGAL_DOMAIN.registrar} pour le nom de domaine.</li>
           </ul>
           <p>
-            Pour limiter le spam, je peux aussi traiter temporairement votre adresse IP et
-            l&apos;horodatage de la requête. Rien d&apos;autre.
+            Je ne revends pas vos données et je ne les utilise pas pour de la publicité.
           </p>
         </LegalBlock>
 
-        <LegalBlock title="Pourquoi je le fais">
-          <ul>
-            <li>
-              <strong>Vous répondre</strong> : avec votre accord (case à cocher du formulaire) et
-              parce que c&apos;est la suite logique de votre demande.
-            </li>
-            <li>
-              <strong>Protéger le site</strong> : limiter les abus, le spam et les envois automatisés.
-            </li>
-          </ul>
-        </LegalBlock>
-
-        <LegalBlock title="Combien de temps je garde vos messages">
+        <LegalBlock title="Où passent vos informations ?">
           <p>
-            Jusqu&apos;à <strong>{DATA_RETENTION_MONTHS} mois</strong> après notre dernier échange,
-            sauf obligation légale ou si vous me demandez de les supprimer avant.
-          </p>
-          <p>
-            Les compteurs anti-spam côté serveur sont éphémères : ils ne sont pas archivés
-            durablement.
-          </p>
-        </LegalBlock>
-
-        <LegalBlock title="Qui peut y accéder">
-          <p>Seulement les prestataires utiles au fonctionnement du site :</p>
-          <ul>
-            <li>
-              <strong>Gmail / Google (SMTP)</strong> pour envoyer et recevoir vos messages.
-            </li>
-            <li>
-              <strong>Google Fonts</strong> pour charger la police Inter (votre IP peut être transmise
-              à Google au chargement).
-            </li>
-            <li>
-              <strong>{LEGAL_HOST.name}</strong> pour l&apos;hébergement ({LEGAL_HOST.server.toLowerCase()}).
-            </li>
-            <li>
-              <strong>{LEGAL_DOMAIN.registrar}</strong> pour la gestion du nom de domaine.
-            </li>
-          </ul>
-          <p>Je ne vends pas vos données. Point.</p>
-        </LegalBlock>
-
-        <LegalBlock title="Où sont stockées les données">
-          <p>
-            Les serveurs Hetzner sont en Union européenne. Google (emails et polices) peut traiter
-            des données aux États-Unis, avec les garanties prévues par le RGPD. Infomaniak est en
-            Suisse, pays reconnu pour un niveau de protection adéquat.
+            Mon serveur est hébergé chez Hetzner, en Union européenne. Les emails transitent par
+            Gmail, qui peut traiter des données aux États-Unis. Les polices passent par Google.
+            Le domaine est géré par Infomaniak, en Suisse. Tout ça dans le cadre des règles RGPD.
           </p>
         </LegalBlock>
 
         <LegalBlock title="Cookies et traceurs">
           <p>
-            Pas de pub, pas de Google Analytics, pas de tracking marketing.
+            Pas de pub, pas de Google Analytics, pas de tracking marketing sur mon portfolio.
           </p>
           <p>
-            Google Fonts peut transmettre votre IP quand la police se charge. C&apos;est tout ce
-            qu&apos;il y a à signaler de ce côté.
+            Google Fonts charge la police depuis leurs serveurs, ce qui peut transmettre votre IP.
+            C&apos;est la seule chose à signaler de ce côté.
           </p>
         </LegalBlock>
 
-        <LegalBlock title="Vos droits">
-          <p>Vous pouvez, à tout moment :</p>
-          <ul>
-            <li>demander l&apos;accès à vos données ou leur correction ;</li>
-            <li>demander leur suppression ;</li>
-            <li>vous opposer à certains traitements ou en demander la limitation.</li>
-          </ul>
+        <LegalBlock title="Ce que vous pouvez demander">
           <p>
-            Écrivez-moi à <a href={`mailto:${LEGAL_EMAIL}`}>{LEGAL_EMAIL}</a>. Vous pouvez aussi
-            contacter la{' '}
+            Vous pouvez me demander de consulter, corriger ou supprimer les informations que vous
+            m&apos;avez envoyées. Écrivez-moi à{' '}
+            <a href={`mailto:${LEGAL_EMAIL}`}>{LEGAL_EMAIL}</a>. Vous pouvez aussi contacter la{' '}
             <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer">CNIL</a> si
-            besoin.
+            vous préférez passer par eux.
           </p>
         </LegalBlock>
 
         <LegalBlock title="Mise à jour">
           <p>
-            Dernière mise à jour : juin 2026. Les{' '}
-            <Link href="/mentions-legales">mentions légales</Link> complètent cette page.
+            Dernière mise à jour : juin 2026. Mes{' '}
+            <Link href="/mentions-legales">mentions légales</Link> complètent ce texte.
           </p>
         </LegalBlock>
       </LegalPage>

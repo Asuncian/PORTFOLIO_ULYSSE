@@ -3,10 +3,12 @@ import {
   SITE_NAME,
   SITE_PHONE_DISPLAY,
   SITE_REGION,
+  SITE_ROLE,
   SITE_URL,
 } from '@/lib/site'
 
 export const LEGAL_PUBLISHER = SITE_NAME
+export const LEGAL_ROLE = SITE_ROLE
 export const LEGAL_EMAIL = SITE_EMAIL
 export const LEGAL_PHONE = SITE_PHONE_DISPLAY
 export const LEGAL_REGION = SITE_REGION

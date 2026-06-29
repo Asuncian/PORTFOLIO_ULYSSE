@@ -67,7 +67,7 @@ export default function Contact() {
 
     if (!consent) {
       setStatus('error')
-      setErrorMsg('Merci d\'accepter la politique de confidentialité pour envoyer le formulaire.')
+      setErrorMsg('Cochez la case confidentialité pour envoyer votre message.')
       return
     }
 
@@ -210,10 +210,10 @@ export default function Contact() {
               disabled={status === 'sending'}
             />
             <span>
-          J&apos;accepte que mes données soient utilisées pour me répondre, comme expliqué dans
-          la{' '}
+              J&apos;accepte que mon nom, mon email et mon message soient utilisés pour que je
+              puisse répondre. C&apos;est expliqué sur la{' '}
               <Link href="/politique-confidentialite" target="_blank" rel="noopener noreferrer">
-                politique de confidentialité
+                page confidentialité
               </Link>
               .
             </span>

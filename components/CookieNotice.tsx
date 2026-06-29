@@ -34,7 +34,7 @@ export default function CookieNotice() {
       <div className="cookie-notice-inner">
         <p id="cookie-notice-title" className="cookie-notice-text">
           Ce site charge la police Inter via Google Fonts.{' '}
-          <Link href="/politique-confidentialite">Plus de détails ici</Link>.
+          <Link href="/politique-confidentialite">J&apos;en parle ici</Link>.
         </p>
         <button type="button" className="cookie-notice-btn" onClick={dismiss}>
           Compris
