@@ -1,7 +1,8 @@
 'use client'
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { usePathname } from 'next/navigation'
 import BrandName from '@/components/BrandName'
+import { navigateToSection, sectionHref } from '@/lib/scroll-section'
+import { usePathname } from 'next/navigation'
+import { useCallback, useEffect, useRef, useState, type MouseEvent } from 'react'
 
 const links = [
   { href: '#pour-qui', label: 'Terrain', id: 'pour-qui' },
@@ -21,7 +22,6 @@ const drawerLinks = [
 export default function Nav() {
   const pathname = usePathname()
   const onHome = pathname === '/'
-  const hrefFor = (hash: string) => (onHome ? hash : `/${hash}`)
 
   const [scrolled, setScrolled] = useState(false)
   const [active, setActive] = useState('')
@@ -30,7 +30,7 @@ export default function Nav() {
   const clickTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const pickActiveSection = useCallback(() => {
-    if (clickedRef.current) return
+    if (!onHome || clickedRef.current) return
 
     const viewportMid = window.scrollY + window.innerHeight * 0.35
     let bestId = ''
@@ -59,9 +59,14 @@ export default function Nav() {
       return
     }
     if (bestId) setActive(bestId)
-  }, [])
+  }, [onHome])
 
   useEffect(() => {
+    if (!onHome) {
+      setActive('')
+      return
+    }
+
     const onScroll = () => {
       setScrolled(window.scrollY > 55)
       pickActiveSection()
@@ -95,7 +100,7 @@ export default function Nav() {
       obs.disconnect()
       if (clickTimerRef.current) clearTimeout(clickTimerRef.current)
     }
-  }, [pickActiveSection])
+  }, [onHome, pickActiveSection])
 
   useEffect(() => {
     document.body.classList.toggle('nav-menu-open', menuOpen)
@@ -113,10 +118,20 @@ export default function Nav() {
     }, 900)
   }
 
+  const handleSectionNav = (e: MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault()
+    onLinkClick(id)
+    navigateToSection(id, onHome)
+  }
+
   return (
     <>
       <nav id="main-nav" className={scrolled ? 'scrolled' : ''}>
-        <a href={hrefFor('#hero')} className="nav-logo" onClick={() => onLinkClick('hero')}>
+        <a
+          href={sectionHref('hero', onHome)}
+          className="nav-logo"
+          onClick={(e) => handleSectionNav(e, 'hero')}
+        >
           <BrandName variant="nav" />
         </a>
 
@@ -124,9 +139,9 @@ export default function Nav() {
           {links.map(l => (
             <li key={l.href}>
               <a
-                href={hrefFor(l.href)}
+                href={sectionHref(l.id, onHome)}
                 className={`nav-link${active === l.id ? ' nav-active' : ''}`}
-                onClick={() => onLinkClick(l.id)}
+                onClick={(e) => handleSectionNav(e, l.id)}
                 aria-current={active === l.id ? 'page' : undefined}
               >
                 {l.label}
@@ -137,9 +152,9 @@ export default function Nav() {
 
         <div className="nav-actions">
           <a
-            href={hrefFor('#contact')}
+            href={sectionHref('contact', onHome)}
             className={`nav-cta${active === 'contact' ? ' nav-cta-active' : ''}`}
-            onClick={() => onLinkClick('contact')}
+            onClick={(e) => handleSectionNav(e, 'contact')}
           >
             <span className="nav-cta-label">
               <span className="nav-cta-text-full">Me contacter</span>
@@ -180,9 +195,9 @@ export default function Nav() {
             {drawerLinks.map(l => (
               <li key={l.href}>
                 <a
-                  href={hrefFor(l.href)}
+                  href={sectionHref(l.id, onHome)}
                   className={active === l.id ? 'is-active' : ''}
-                  onClick={() => onLinkClick(l.id)}
+                  onClick={(e) => handleSectionNav(e, l.id)}
                 >
                   {l.label}
                 </a>
@@ -190,9 +205,9 @@ export default function Nav() {
             ))}
           </ul>
           <a
-            href={hrefFor('#contact')}
+            href={sectionHref('contact', onHome)}
             className="mobile-drawer-cta"
-            onClick={() => onLinkClick('contact')}
+            onClick={(e) => handleSectionNav(e, 'contact')}
           >
             Me contacter
           </a>

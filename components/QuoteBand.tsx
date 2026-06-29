@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useRef } from 'react'
 import { gsap, ScrollTrigger } from '@/lib/gsap'
+import SectionLink from '@/components/SectionLink'
 
 export default function QuoteBand() {
   const ref = useRef<HTMLElement>(null)
@@ -30,9 +31,9 @@ export default function QuoteBand() {
         Dites-moi où vous en êtes. Je vous réponds avec une idée claire, sans engagement.
       </p>
       <div className="bridge-cta">
-        <a href="#contact" className="btn-primary">
+        <SectionLink sectionId="contact" className="btn-primary">
           <span>Me contacter</span>
-        </a>
+        </SectionLink>
       </div>
     </section>
   )

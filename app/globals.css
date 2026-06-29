@@ -1677,7 +1677,7 @@ footer {
   .cursor-dot, .cursor-ring, .cursor-halo { display: none !important; }
   .ff input, .ff textarea { cursor: text; }
   .proj-strip { cursor: auto; }
-  .btn-primary, .btn-ghost, .nav-cta, .contact-form .form-submit, .footer-contact, .contact-chip { cursor: pointer; }
+  .btn-primary, .btn-ghost, .nav-cta, .contact-form .form-submit, .footer-contact, .contact-chip, .legal-back { cursor: pointer; }
 }
 
 /* ──────────────────────── RESPONSIVE ──────────────────────── */
@@ -2038,6 +2038,19 @@ footer {
   }
   .cookie-notice-inner { flex-direction: column; align-items: stretch; }
   .cookie-notice-btn { width: 100%; text-align: center; }
+
+  .legal-section { padding-top: calc(5.5rem + env(safe-area-inset-top, 0px)); }
+  .legal-wrap .section-header { margin-bottom: 2.5rem; }
+  .legal-back {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 2rem;
+    font-size: .82rem;
+    padding: 11px 22px;
+  }
+  .legal-item-title { font-size: .86rem; padding: 1rem 1.1rem 0; }
+  .legal-item-body { padding: .55rem 1.1rem 1rem; font-size: .8rem; }
+  .form-consent { font-size: .74rem; gap: .55rem; }
 
   .proj-strip:hover { transform: none; }
 }

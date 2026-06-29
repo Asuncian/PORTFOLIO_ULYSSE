@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useRef } from 'react'
 import { gsap } from '@/lib/gsap'
+import SectionLink from '@/components/SectionLink'
 import { SITE_ROLE } from '@/lib/site'
 
 export default function Hero() {
@@ -81,8 +82,8 @@ export default function Hero() {
       </p>
 
       <div className="hero-actions">
-        <a href="#projets" className="btn-primary h-btn"><span>Voir mes projets</span></a>
-        <a href="#contact" className="btn-ghost h-btn">Me contacter</a>
+        <SectionLink sectionId="projets" className="btn-primary h-btn"><span>Voir mes projets</span></SectionLink>
+        <SectionLink sectionId="contact" className="btn-ghost h-btn">Me contacter</SectionLink>
       </div>
     </section>
   )

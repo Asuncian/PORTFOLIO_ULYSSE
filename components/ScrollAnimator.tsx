@@ -1,6 +1,7 @@
 'use client'
 import { useEffect } from 'react'
 import { gsap, ScrollTrigger } from '@/lib/gsap'
+import { scrollToInitialHash } from '@/lib/scroll-section'
 
 /** Déclenche les animations douces déjà visibles dans le viewport (scroll rapide, hash). */
 function syncMotionInView() {
@@ -22,6 +23,10 @@ function syncMotionInView() {
 }
 
 export default function ScrollAnimator() {
+  useEffect(() => {
+    scrollToInitialHash()
+  }, [])
+
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (reduced) return
