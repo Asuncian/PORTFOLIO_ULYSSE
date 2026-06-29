@@ -6,7 +6,14 @@ export const CONTACT_LIMITS = {
   emailMax: 254,
   messageMin: 10,
   messageMax: 5000,
-  bodyMaxBytes: 8_192,
+  bodyMaxBytes: 32_768,
+} as const
+
+export const CONTACT_RATE = {
+  ipLimit: 5,
+  ipWindowMs: 60_000,
+  emailLimit: 3,
+  emailWindowMs: 3_600_000,
 } as const
 
 export type ContactFields = {
@@ -23,6 +30,14 @@ export function parseContactBody(body: Record<string, unknown>): ParseResult {
   const website = typeof body.website === 'string' ? body.website.trim() : ''
   if (website) {
     return { ok: true, data: { name: '', email: '', message: '' }, isBot: true }
+  }
+
+  if (body.consent !== true) {
+    return {
+      ok: false,
+      error: 'Vous devez accepter la politique de confidentialité.',
+      status: 400,
+    }
   }
 
   const name = typeof body.name === 'string' ? body.name : ''

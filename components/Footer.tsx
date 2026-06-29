@@ -51,7 +51,13 @@ export default function Footer() {
           LinkedIn
         </a>
       </div>
-      <p className="footer-copy">© {new Date().getFullYear()} Ulysse Goming-Jobert</p>
+      <p className="footer-copy">
+        © {new Date().getFullYear()} Ulysse Goming-Jobert
+        {' · '}
+        <a href="/mentions-legales" className="footer-legal-link">Mentions légales</a>
+        {' · '}
+        <a href="/politique-confidentialite" className="footer-legal-link">Confidentialité</a>
+      </p>
     </footer>
   )
 }

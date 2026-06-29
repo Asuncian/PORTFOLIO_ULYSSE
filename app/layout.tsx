@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
+import CookieNotice from '@/components/CookieNotice'
 import JsonLd from '@/components/JsonLd'
 import {
   GOOGLE_SITE_VERIFICATION,
@@ -95,6 +96,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <JsonLd />
         {children}
+        <CookieNotice />
       </body>
     </html>
   )

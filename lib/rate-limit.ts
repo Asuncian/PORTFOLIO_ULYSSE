@@ -2,6 +2,11 @@ type Bucket = { count: number; reset: number }
 
 const buckets = new Map<string, Bucket>()
 
+/** Réinitialise les compteurs (tests uniquement). */
+export function clearRateLimitBuckets(): void {
+  buckets.clear()
+}
+
 /** Simple in-memory sliding-window rate limiter (per server instance). */
 export function rateLimit(
   key: string,

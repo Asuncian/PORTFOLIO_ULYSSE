@@ -1,6 +1,7 @@
 'use client'
 
 import { CONTACT_LIMITS } from '@/lib/contact'
+import Link from 'next/link'
 import { FormEvent, useRef, useState } from 'react'
 
 function PhoneIcon() {
@@ -60,8 +61,15 @@ export default function Contact() {
     const email = String(data.get('email') ?? '').trim()
     const message = String(data.get('message') ?? '').trim()
     const website = String(data.get('website') ?? '').trim()
+    const consent = data.get('consent') === 'on'
 
     if (website) return
+
+    if (!consent) {
+      setStatus('error')
+      setErrorMsg('Vous devez accepter la politique de confidentialité.')
+      return
+    }
 
     setStatus('sending')
     setErrorMsg('')
@@ -70,7 +78,7 @@ export default function Contact() {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, message, website }),
+        body: JSON.stringify({ name, email, message, website, consent: true }),
       })
 
       const payload = await res.json().catch(() => ({})) as { error?: string }
@@ -104,7 +112,7 @@ export default function Contact() {
           <p className="section-tag">Contact</p>
           <h2 className="section-title">On se <em>parle ?</em></h2>
           <p className="section-sub">
-            Un projet, une question, ou juste envie d'échanger : écrivez-moi, je réponds vite.
+            Un projet, une question, ou juste envie d&apos;échanger : écrivez-moi, je réponds vite.
           </p>
         </div>
 
@@ -193,6 +201,23 @@ export default function Contact() {
             <label htmlFor="message">Votre message</label>
             <span className="ff-line" aria-hidden />
           </div>
+
+          <label className="form-consent">
+            <input
+              type="checkbox"
+              name="consent"
+              required
+              disabled={status === 'sending'}
+            />
+            <span>
+              J&apos;accepte que mes données soient utilisées pour répondre à ma demande, conformément
+              à la{' '}
+              <Link href="/politique-confidentialite" target="_blank" rel="noopener noreferrer">
+                politique de confidentialité
+              </Link>
+              .
+            </span>
+          </label>
 
           {status === 'error' && (
             <p className="form-feedback form-feedback-error" role="alert">{errorMsg}</p>

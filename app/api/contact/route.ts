@@ -1,24 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { parseContactBody, CONTACT_LIMITS } from '@/lib/contact'
+import { parseContactBody, CONTACT_LIMITS, CONTACT_RATE } from '@/lib/contact'
 import { buildContactNotificationEmail } from '@/lib/contact-email'
 import { getFromAddress, getToAddress, getTransporter, formatEmailAddress, resetTransporter } from '@/lib/mail'
-import { getClientIp } from '@/lib/request'
+import { getClientIp, isSameSiteRequest } from '@/lib/request'
 import { rateLimit } from '@/lib/rate-limit'
+import { SITE_URL } from '@/lib/site'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
-const LIMIT = 5
-const WINDOW_MS = 60_000
-
 export async function POST(req: NextRequest) {
-  const ip = getClientIp(req)
-  const rl = rateLimit(`contact:${ip}`, LIMIT, WINDOW_MS)
+  if (!isSameSiteRequest(req, SITE_URL)) {
+    return NextResponse.json({ error: 'Requête non autorisée.' }, { status: 403 })
+  }
 
-  if (!rl.ok) {
+  const ip = getClientIp(req)
+  const rlIp = rateLimit(`contact:ip:${ip}`, CONTACT_RATE.ipLimit, CONTACT_RATE.ipWindowMs)
+
+  if (!rlIp.ok) {
     return NextResponse.json(
       { error: 'Trop de requêtes. Réessayez dans quelques instants.' },
-      { status: 429, headers: { 'Retry-After': String(rl.retryAfter) } },
+      { status: 429, headers: { 'Retry-After': String(rlIp.retryAfter) } },
     )
   }
 
@@ -42,7 +44,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Requête invalide.' }, { status: 400 })
   }
 
-  const parsed = parseContactBody(body as Record<string, unknown>)
+  const record = body as Record<string, unknown>
+  const parsed = parseContactBody(record)
   if (!parsed.ok) {
     return NextResponse.json({ error: parsed.error }, { status: parsed.status })
   }
@@ -51,6 +54,18 @@ export async function POST(req: NextRequest) {
   }
 
   const { name, email, message } = parsed.data
+
+  const rlEmail = rateLimit(
+    `contact:email:${email}`,
+    CONTACT_RATE.emailLimit,
+    CONTACT_RATE.emailWindowMs,
+  )
+  if (!rlEmail.ok) {
+    return NextResponse.json(
+      { error: 'Trop de messages envoyés avec cette adresse. Réessayez plus tard.' },
+      { status: 429, headers: { 'Retry-After': String(rlEmail.retryAfter) } },
+    )
+  }
 
   const transporter = getTransporter()
   if (!transporter) {
