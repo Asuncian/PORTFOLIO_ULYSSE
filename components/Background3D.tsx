@@ -132,7 +132,7 @@ export default function Background3D() {
     scene.add(new THREE.Points(nebGeo, nebMat))
 
     // ═══════════════════════════════════════════════════
-    //  3 · MOTIFS MÉTIER  -  5 piliers, répartis dans la scène
+    //  3 · MOTIFS MÉTIER  -  fil de fer, sans silhouettes carrées
     // ═══════════════════════════════════════════════════
     const geos: THREE.BufferGeometry[] = []
     const mats: THREE.Material[] = []
