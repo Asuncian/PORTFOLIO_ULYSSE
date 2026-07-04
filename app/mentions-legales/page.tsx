@@ -9,7 +9,6 @@ import {
   LEGAL_PHONE,
   LEGAL_PUBLISHER,
   LEGAL_REGION,
-  LEGAL_ROLE,
   LEGAL_SITE_URL,
 } from '@/lib/legal'
 
@@ -30,12 +29,13 @@ export default function MentionsLegalesPage() {
       >
         <LegalBlock title="Qui est derrière ce site ?">
           <p>
-            Je suis {LEGAL_PUBLISHER}, {LEGAL_ROLE.toLowerCase()} en {LEGAL_REGION}.
+            Je suis {LEGAL_PUBLISHER}, développeur IA et automatisation, basé à {LEGAL_REGION}.
           </p>
           <p>
-            Vous pouvez me joindre par email à{' '}
-            <a href={`mailto:${LEGAL_EMAIL}`}>{LEGAL_EMAIL}</a> ou au{' '}
-            <a href="tel:+33645003007">{LEGAL_PHONE}</a>.
+            Pour me contacter :{' '}
+            <a href={`mailto:${LEGAL_EMAIL}`}>{LEGAL_EMAIL}</a>
+            {' · '}
+            <a href="tel:+33645003007">{LEGAL_PHONE}</a>
           </p>
         </LegalBlock>
 
