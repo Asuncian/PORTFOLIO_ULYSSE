@@ -101,17 +101,17 @@ export const SITE_FAQ = [
   {
     question: 'Comment vous enchaînez workflows et code sur un projet client ?',
     answer:
-      'n8n ou Make pour livrer vite côté métier, React ou Django quand il faut une app ou une API. Le but : fluidifier l\'organisation, pas empiler des outils.',
+      'n8n ou Make pour aller vite côté métier : relances CRM, emails planifiés, synchro Supabase ou Airtable. React, Next.js ou une API (Hono, Prisma, Supabase/Neon) pour vitrines, CRM et outils internes déjà en prod. Je ne suis pas limité à une stack : j\'adapte selon l\'application et ses contraintes. Le but : fluidifier l\'organisation, pas empiler des outils.',
   },
   {
     question: 'Vous avez déjà branché des LLM ou des agents sur des processus réels ?',
     answer:
-      'Oui : appels API, agents sur tâches répétitives, garde-fous simples en prod. Je vise des gains concrets pour les équipes, pas des démos qui restent au tiroir.',
+      'Oui. Chaînes d\'agents n8n pour posts et visuels (GPT Image, Airtable, Drive), plus des workflows métiers en prod : relances CRM, rapports Gmail, rappels automatiques. Garde-fous simples, objectif : que ça tourne vraiment.',
   },
   {
     question: 'Quel type de mission vous intéresse dans une agence IA ?',
     answer:
-      'Automatisations pour simplifier le quotidien des entreprises, intégrations entre leurs outils, et le dev qui prolonge ce que le no-code ne couvre pas.',
+      'Pipelines n8n multi-étapes (contenu, visuels, publication), automatisations CRM et relances, intégrations Gmail/Supabase/Airtable, et le dev qui complète le no-code : CRM React, vitrines Next.js, dashboards ou paiement Stripe selon le besoin.',
   },
   {
     question: 'Remote, hybride ou sur site ?',
