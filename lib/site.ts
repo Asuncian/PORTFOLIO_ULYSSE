@@ -99,27 +99,27 @@ export const SITE_SERVICES = [
 /** FAQ visible + schéma JSON-LD. */
 export const SITE_FAQ = [
   {
-    question: 'Comment vous enchaînez workflows et code sur un projet client ?',
+    question: 'Comment vous enchaînez workflows et code sur un projet ?',
     answer:
-      'n8n ou Make pour aller vite côté métier : relances CRM, emails planifiés, synchro Supabase ou Airtable. React, Next.js ou une API (Hono, Prisma, Supabase/Neon) pour vitrines, CRM et outils internes déjà en prod. Je ne suis pas limité à une stack : j\'adapte selon l\'application et ses contraintes. Le but : fluidifier l\'organisation, pas empiler des outils.',
+      'En pratique, je commence par ce qui fait gagner du temps tout de suite : un workflow n8n ou Make pour les relances, les synchros Supabase ou Airtable, les emails planifiés. Dès qu\'il faut une vraie interface ou un outil sur mesure, je bascule sur React, Next.js ou une petite API (Hono, Prisma…). Je m\'adapte à la stack du projet — l\'objectif est de fluidifier l\'organisation, sans empiler d\'outils inutiles.',
   },
   {
     question: 'Vous avez déjà branché des LLM ou des agents sur des processus réels ?',
     answer:
-      'Oui. Chaînes d\'agents n8n pour posts et visuels (GPT Image, Airtable, Drive), plus des workflows métiers en prod : relances CRM, rapports Gmail, rappels automatiques. Garde-fous simples, objectif : que ça tourne vraiment.',
+      'Oui, en production. Des chaînes d\'agents n8n pour générer posts et visuels (GPT Image, Airtable, Drive), des relances CRM, des rapports Gmail automatisés… J\'utilise aussi Claude au quotidien : automatisation de tâches, création de skills, production d\'artefacts utiles au projet. Je mets des garde-fous simples pour garantir la fiabilité en conditions réelles.',
   },
   {
     question: 'Quel type de mission vous intéresse dans une agence IA ?',
     answer:
-      'Pipelines n8n multi-étapes (contenu, visuels, publication), automatisations CRM et relances, intégrations Gmail/Supabase/Airtable, et le dev qui complète le no-code : CRM React, vitrines Next.js, dashboards ou paiement Stripe selon le besoin.',
+      'Les pipelines d\'automatisation, les sites vitrine, les dashboards, les CRM sur mesure — et tout ce qui touche à Claude : workflows, skills, création d\'artefacts, intégration dans le quotidien de développement. Ce qui m\'attire, c\'est de construire des solutions concrètes et opérationnelles, avec ou sans IA selon le besoin.',
   },
   {
     question: 'Remote, hybride ou sur site ?',
     answer:
-      'Remote en priorité, hybride si l\'équipe le demande. Basé sur Reims, je me déplace sur Paris et alentours quand c\'est utile.',
+      'Le full remote est ma préférence. Hybride si l\'équipe le souhaite. Basé à Reims, je peux me déplacer sur Paris lorsque le contexte le justifie.',
   },
   {
     question: 'Quand êtes-vous disponible ?',
-    answer: 'Fin octobre 2026.',
+    answer: 'À partir de fin octobre 2026.',
   },
 ] as const
