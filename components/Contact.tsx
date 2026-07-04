@@ -139,8 +139,8 @@ export default function Contact() {
 
         <p className="contact-status">
           <span className="contact-status-dot" aria-hidden="true" />
-          <span className="contact-status-full">Disponible à partir de {SITE_AVAILABILITY}. Full remote.</span>
-          <span className="contact-status-short">Dispo. {SITE_AVAILABILITY} · remote</span>
+          <span className="contact-status-full">Disponible à partir de {SITE_AVAILABILITY}. Remote, basé sur Reims.</span>
+          <span className="contact-status-short">Dispo. {SITE_AVAILABILITY} · Reims</span>
         </p>
 
         <div className="contact-form-block">

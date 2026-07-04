@@ -67,7 +67,8 @@ const schema = {
       ],
       areaServed: [
         { '@type': 'Country', name: 'France' },
-        { '@type': 'AdministrativeArea', name: SITE_REGION },
+        { '@type': 'City', name: SITE_REGION },
+        { '@type': 'City', name: 'Paris' },
       ],
     },
     {

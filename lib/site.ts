@@ -12,8 +12,8 @@ export const SITE_PHONE = '+33645003007'
 export const SITE_PHONE_DISPLAY = '06 45 00 30 07'
 export const SITE_LINKEDIN = 'https://linkedin.com/in/ulysse-goming-jobert-256251254'
 
-export const SITE_REGION = 'Occitanie'
-export const SITE_GEO_REGION = 'FR-OCC'
+export const SITE_REGION = 'Reims'
+export const SITE_GEO_REGION = 'FR-GES'
 
 /** Disponibilité affichée une fois sur le site (contact, FAQ, stats). */
 export const SITE_AVAILABILITY = 'fin octobre 2026'
@@ -53,7 +53,9 @@ export const SEO_KEYWORDS = [
   'CRM sur mesure',
   'outil métier',
   'application web',
-  'Occitanie',
+  'Reims',
+  'Paris',
+  'Grand Est',
   'développeur React',
   'développeur Python',
   'LLM',
@@ -97,27 +99,27 @@ export const SITE_SERVICES = [
 /** FAQ visible + schéma JSON-LD. */
 export const SITE_FAQ = [
   {
-    question: 'Quel type de poste vous intéresse ?',
+    question: 'Comment vous enchaînez workflows et code sur un projet client ?',
     answer:
-      'Un CDI full remote, sur de l\'automatisation, du dev web ou de l\'IA appliquée. Je préfère les équipes où je peux aller du workflow à la prod.',
+      'n8n ou Make pour livrer vite côté métier, React ou Django quand il faut une app ou une API. Le but : fluidifier l\'organisation, pas empiler des outils.',
   },
   {
-    question: 'Quelle est votre stack principale ?',
+    question: 'Vous avez déjà branché des LLM ou des agents sur des processus réels ?',
     answer:
-      'n8n, Make, React, Python/Django, TypeScript, Docker. Je m\'adapte vite à la stack de l\'équipe si la mission est claire.',
+      'Oui : appels API, agents sur tâches répétitives, garde-fous simples en prod. Je vise des gains concrets pour les équipes, pas des démos qui restent au tiroir.',
   },
   {
-    question: 'Travaillez-vous en remote ?',
+    question: 'Quel type de mission vous intéresse dans une agence IA ?',
     answer:
-      'Oui, full remote. Basé en Occitanie, habitué au travail async et aux outils collaboratifs.',
+      'Automatisations pour simplifier le quotidien des entreprises, intégrations entre leurs outils, et le dev qui prolonge ce que le no-code ne couvre pas.',
   },
   {
-    question: 'Quand seriez-vous disponible ?',
+    question: 'Remote, hybride ou sur site ?',
+    answer:
+      'Remote en priorité, hybride si l\'équipe le demande. Basé sur Reims, je me déplace sur Paris et alentours quand c\'est utile.',
+  },
+  {
+    question: 'Quand êtes-vous disponible ?',
     answer: 'Fin octobre 2026.',
-  },
-  {
-    question: 'Où voir vos réalisations ?',
-    answer:
-      'La section Projets de ce site : sites vitrines, CRM et outils internes déjà en production.',
   },
 ] as const
