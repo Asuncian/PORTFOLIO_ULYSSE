@@ -692,6 +692,7 @@ section { position: relative; z-index: 4; }
   margin-bottom: .5rem;
 }
 .stat-val { white-space: nowrap; display: inline-block; }
+.stat-val--text { font-size: clamp(1.35rem, 3.2vw, 2.75rem); letter-spacing: -.02em; }
 .stat-suffix { font-size: .6em; }
 .stat-label { font-size: .75rem; color: var(--text-dim); letter-spacing: 1px; }
 

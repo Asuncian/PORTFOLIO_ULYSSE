@@ -6,14 +6,14 @@ import { useCanRender3D } from './useCanRender3D'
 const ServicesFlow3D = lazy(() => import('./ServicesFlow3D'))
 
 const items = [
-  { title: 'Automatisation des réservations', desc: 'Un calendrier unique, synchronisé entre Booking, le site et les demandes directes.' },
-  { title: 'Centralisation des données clients', desc: 'Toutes les infos au même endroit, sans fichiers éparpillés.' },
-  { title: "Envoi automatique d'emails", desc: 'Confirmations, rappels et relances qui partent tout seuls.' },
-  { title: 'CRM sur mesure', desc: 'Un CRM léger, pensé pour une activité précise.' },
-  { title: 'Sites vitrines modernes', desc: 'Rapides, propres, lisibles sur mobile. Juste ce qu\'il faut pour donner envie.' },
-  { title: 'Formulaires personnalisés', desc: 'Devis, contact, prise de rendez-vous, reliés directement aux bons outils.' },
-  { title: 'Réponses sur le site', desc: 'Les visiteurs posent leurs questions courantes et prennent rendez-vous sans vous déranger.' },
-  { title: 'Tableaux de bord', desc: 'Les indicateurs utiles d\'un coup d\'œil, directement exploitables.' },
+  { title: 'Workflows n8n/Make', desc: 'Synchronisation entre outils, déclencheurs et scénarios automatisés.' },
+  { title: 'Centralisation de données', desc: 'API, bases et fichiers rassemblés au même endroit.' },
+  { title: "Emails automatiques", desc: 'Confirmations, rappels et relances sans intervention manuelle.' },
+  { title: 'CRM et outils métier', desc: 'Apps internes adaptées au fonctionnement de l\'équipe.' },
+  { title: 'Sites et apps React/Next.js', desc: 'Interfaces claires, performantes et responsive.' },
+  { title: 'Formulaires et webhooks', desc: 'Collecte de données et connexion aux services tiers.' },
+  { title: 'Intégrations LLM / agents IA', desc: 'Automatisation de tâches répétitives via LLM et API.' },
+  { title: 'Déploiement Docker, VPS', desc: 'Mise en production, HTTPS et monitoring basique.' },
 ]
 
 export default function Services() {
@@ -57,9 +57,9 @@ export default function Services() {
     <section id="services">
       <div className="section-header reveal">
         <p className="section-tag">Compétences</p>
-        <h2 className="section-title">Ce que je <em>construis</em></h2>
+        <h2 className="section-title">Ce que je <em>maîtrise</em></h2>
         <p className="section-sub">
-          Du site vitrine à l'outil métier : ce que je fais au quotidien, de A à Z.
+          Automatisation, dev web, intégrations et mise en prod : ce que je fais au quotidien.
         </p>
       </div>
 

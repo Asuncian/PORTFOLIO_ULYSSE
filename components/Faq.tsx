@@ -5,9 +5,9 @@ export default function Faq() {
     <section id="faq">
       <div className="section-header">
         <p className="section-tag">Questions fréquentes</p>
-        <h2 className="section-title">Vous vous <em>reconnaissez ?</em></h2>
+        <h2 className="section-title">Questions <em>fréquentes</em></h2>
         <p className="section-sub">
-          Artisans et PME : les questions qu&apos;on me pose avant un site ou une automatisation.
+          Ce qu&apos;on me demande souvent avant un premier échange.
         </p>
       </div>
 

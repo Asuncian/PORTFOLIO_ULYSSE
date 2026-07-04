@@ -4,27 +4,27 @@ const targets: { icon: ForWhoIconVariant; title: string; desc: string }[] = [
   {
     icon: 'wellness',
     title: 'Luxe & bien-être',
-    desc: 'Vitrines soignées pour instituts et marques exigeantes. Identité claire, carte interactive, parcours fluide.',
+    desc: 'Sites vitrines multi-activités, parcours clair entre plusieurs offres.',
   },
   {
     icon: 'artisan',
     title: 'Artisans & terrain',
-    desc: 'Un site qui montre le travail sur le terrain. SEO local, pages par zone et contact simple pour les pros de votre secteur.',
+    desc: 'Sites avec pages locales, formulaires de contact, visibilité Google.',
   },
   {
     icon: 'local',
     title: 'Services locaux',
-    desc: 'Site pour un service du quotidien : devis, zones d\'intervention et crédibilité en ligne.',
+    desc: 'Vitrines orientées demande rapide, zones d\'intervention, contact direct.',
   },
   {
     icon: 'saas',
     title: 'Produits web & SaaS',
-    desc: 'Outils en ligne qui tournent : abonnements, exports PDF, parcours clair. Du prototype à la prod.',
+    desc: 'Apps en ligne, abonnements, exports, parcours utilisateur.',
   },
   {
     icon: 'sport',
     title: 'Clubs & associations',
-    desc: 'CRM et outils internes pour suivre partenaires, relances et facturation. Tout au même endroit.',
+    desc: 'CRM interne, suivi partenaires, relances et facturation centralisés.',
   },
 ]
 
@@ -32,10 +32,10 @@ export default function ForWho() {
   return (
     <section id="pour-qui">
       <div className="section-header reveal">
-        <p className="section-tag">Univers</p>
+        <p className="section-tag">Contextes</p>
         <h2 className="section-title">Les secteurs de <em>mes projets</em></h2>
         <p className="section-sub">
-          Bien-être, artisans, services locaux, SaaS, sport : les secteurs où j&apos;ai déjà livré.
+          Bien-être, artisans, services locaux, SaaS, sport : des contextes variés, des problèmes concrets.
         </p>
       </div>
 

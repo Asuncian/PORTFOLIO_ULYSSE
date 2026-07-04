@@ -60,9 +60,8 @@ export default function MentionsLegalesPage() {
 
         <LegalBlock title="Logos et projets affichés">
           <p>
-            Les logos dans la section Projets appartiennent à mes clients (sites que j&apos;ai
-            réalisés pour eux). Le code, les textes et la charte graphique de ce portfolio sont mon
-            travail.
+            Les logos affichés appartiennent aux organisations concernées. Ce portfolio présente
+            des projets sur lesquels j&apos;ai travaillé.
           </p>
         </LegalBlock>
 

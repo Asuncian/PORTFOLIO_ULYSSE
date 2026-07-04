@@ -124,9 +124,9 @@ export default function Projects() {
     <section id="projets">
       <div className="section-header reveal">
         <p className="section-tag">Projets</p>
-        <h2 className="section-title">Ce que j'ai <em>livré</em></h2>
+        <h2 className="section-title">Projets <em>réalisés</em></h2>
         <p className="section-sub">
-          Des projets partis d'un besoin réel, utilisés au quotidien par ceux qui les ont commandés.
+          Des apps et sites déjà en production, dans des contextes variés.
         </p>
       </div>
 
@@ -189,7 +189,7 @@ export default function Projects() {
 
       <div className="proj-more reveal">
         <p className="proj-more-text">
-          D'autres sites et outils internes tournent déjà en prod, dont certains en accès réservé.
+          D&apos;autres outils internes tournent en prod, certains en accès restreint.
         </p>
       </div>
     </section>

@@ -54,30 +54,30 @@ const cols = [
     Icon: AutoIcon,
     title: 'Automatisation',
     items: [
-      'Workflows n8n ou Make sur mesure',
-      'Emails automatiques : confirmations, rappels, relances',
-      'Synchronisation réservations et suivi clients',
-      'Réponses automatiques aux questions courantes et prise de RDV',
+      'Workflows n8n et Make',
+      'Emails et relances automatisées',
+      'Sync calendriers, CRM, bases',
+      'Agents IA et tâches répétitives',
     ],
   },
   {
     Icon: CodeIcon,
     title: 'Développement web',
     items: [
-      'Sites rapides, mobiles, qui durent',
-      'Formulaires reliés directement à vos outils',
-      'Un site qui montre clairement ce que vous faites',
-      'Performances et accessibilité intégrées dès le départ',
+      'React, Next.js, TypeScript',
+      'Backends Python/Django, API REST',
+      'Formulaires, auth, intégrations tierces',
+      'Perf, accessibilité, responsive',
     ],
   },
   {
     Icon: ServerIcon,
     title: 'Infrastructure',
     items: [
-      'Hébergement sur VPS, déploiement Docker avec Dokploy',
-      'HTTPS, sauvegardes et surveillance des serveurs',
-      'Domaine et DNS via Infomaniak',
-      'Maintenance et correctifs de sécurité réguliers',
+      'Docker, VPS, Dokploy',
+      'HTTPS, DNS, sauvegardes',
+      'CI/CD et déploiements',
+      'Correctifs sécurité et monitoring',
     ],
   },
 ]
@@ -89,7 +89,7 @@ export default function Solutions() {
         <p className="section-tag">Expertise</p>
         <h2 className="section-title">Trois <em>domaines</em></h2>
         <p className="section-sub">
-          Trois domaines où je suis le plus à l'aise, de l'idée jusqu'au serveur.
+          Trois domaines où j&apos;interviens le plus, de l&apos;idée au serveur.
         </p>
       </div>
 

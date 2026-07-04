@@ -5,17 +5,17 @@ const steps = [
   {
     num: '01',
     title: 'Comprendre',
-    desc: "Je commence par comprendre le besoin : ce qui prend du temps, ce qui bloque, ce qui compte vraiment pour vous.",
+    desc: 'Je clarifie le besoin, les contraintes et ce qui bloque vraiment.',
   },
   {
     num: '02',
     title: 'Concevoir',
-    desc: "Je vous propose une direction claire : quoi faire, dans quel ordre, et pourquoi.",
+    desc: 'Je propose une approche simple : quoi faire, dans quel ordre, avec quels outils.',
   },
   {
     num: '03',
     title: 'Construire',
-    desc: "Je code, je déploie, j'explique. Et je reste dispo pour ajuster une fois que c'est en ligne.",
+    desc: 'Je code, je teste, je déploie, je documente. Puis j\'itère avec l\'équipe.',
   },
 ]
 
@@ -69,7 +69,7 @@ export default function Method() {
       <div className="section-header">
         <p className="section-tag">Méthode</p>
         <h2 className="section-title">Ma façon de <em>travailler</em></h2>
-        <p className="section-sub">De la première discussion à la mise en ligne, en trois étapes.</p>
+        <p className="section-sub">Comment j&apos;aborde un sujet technique, en trois étapes.</p>
       </div>
 
       <div className="method-stage motion-stagger" ref={stageRef}>

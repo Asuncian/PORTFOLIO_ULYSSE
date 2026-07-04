@@ -1,6 +1,7 @@
 'use client'
 
 import { CONTACT_LIMITS } from '@/lib/contact'
+import { SITE_AVAILABILITY } from '@/lib/site'
 import Link from 'next/link'
 import { FormEvent, useRef, useState } from 'react'
 
@@ -112,7 +113,7 @@ export default function Contact() {
           <p className="section-tag">Contact</p>
           <h2 className="section-title">On se <em>parle ?</em></h2>
           <p className="section-sub">
-            Un projet, une question, ou juste envie d&apos;échanger : écrivez-moi, je réponds vite.
+            Recruteurs, équipes tech : un message suffit. Je réponds vite.
           </p>
         </div>
 
@@ -138,15 +139,15 @@ export default function Contact() {
 
         <p className="contact-status">
           <span className="contact-status-dot" aria-hidden="true" />
-          <span className="contact-status-full">Disponible pour en discuter. Je lis tout et je réponds sous 24 h.</span>
-          <span className="contact-status-short">Disponible, réponse sous 24 h.</span>
+          <span className="contact-status-full">Disponible à partir de {SITE_AVAILABILITY}. Full remote.</span>
+          <span className="contact-status-short">Dispo. {SITE_AVAILABILITY} · remote</span>
         </p>
 
         <div className="contact-form-block">
           <div className="contact-form-header">
-            <p className="contact-form-tag">Écrivez-moi</p>
-            <h3 className="contact-form-title">Parlez-moi de votre projet</h3>
-            <p className="contact-form-sub">Quelques lignes suffisent pour démarrer.</p>
+            <p className="contact-form-tag">Contact</p>
+            <h3 className="contact-form-title">Envoyez un message</h3>
+            <p className="contact-form-sub">Présentez le poste ou posez votre question.</p>
           </div>
 
         <form ref={formRef} className="contact-form" onSubmit={onSubmit} noValidate>

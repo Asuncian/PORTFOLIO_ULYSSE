@@ -7,14 +7,12 @@ import {
   SITE_PHONE,
   SITE_REGION,
   SITE_ROLE,
-  SITE_SERVICES,
   SITE_URL,
   SEO_KEYWORDS,
 } from '@/lib/site'
 
 const personId = `${SITE_URL}/#person`
 const websiteId = `${SITE_URL}/#website`
-const businessId = `${SITE_URL}/#business`
 const faqId = `${SITE_URL}/#faq`
 
 const schema = {
@@ -52,54 +50,25 @@ const schema = {
       telephone: SITE_PHONE,
       sameAs: [SITE_LINKEDIN],
       knowsAbout: [
-        'Développement web',
-        'Sites vitrines pour artisans et PME',
-        'Référencement local',
-        'Génération de leads pour artisans',
-        'Automatisation n8n',
-        'CRM sur mesure',
-        'Formulaires de devis en ligne',
-        'Next.js',
+        'Automatisation',
+        'n8n',
+        'Make',
+        'agents IA',
         'React',
-        'SEO local',
+        'Django',
+        'Python',
+        'TypeScript',
+        'Next.js',
+        'Intégration API',
         'Docker',
         'Déploiement VPS',
+        'CRM sur mesure',
+        'Développement web full-stack',
       ],
       areaServed: [
         { '@type': 'Country', name: 'France' },
         { '@type': 'AdministrativeArea', name: SITE_REGION },
       ],
-    },
-    {
-      '@type': 'ProfessionalService',
-      '@id': businessId,
-      name: `${SITE_NAME} | Développement web & automatisation`,
-      url: SITE_URL,
-      description: SITE_DESCRIPTION,
-      email: SITE_EMAIL,
-      telephone: SITE_PHONE,
-      priceRange: '€€',
-      founder: { '@id': personId },
-      areaServed: [
-        { '@type': 'Country', name: 'France' },
-        { '@type': 'AdministrativeArea', name: SITE_REGION },
-      ],
-      serviceType: SITE_SERVICES.map((s) => s.name),
-      hasOfferCatalog: {
-        '@type': 'OfferCatalog',
-        name: 'Services web & automatisation pour artisans et PME',
-        itemListElement: SITE_SERVICES.map((service, i) => ({
-          '@type': 'Offer',
-          position: i + 1,
-          itemOffered: {
-            '@type': 'Service',
-            name: service.name,
-            description: service.description,
-            provider: { '@id': businessId },
-            areaServed: { '@type': 'Country', name: 'France' },
-          },
-        })),
-      },
     },
     {
       '@type': 'FAQPage',

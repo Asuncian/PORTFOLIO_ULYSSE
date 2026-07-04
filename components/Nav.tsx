@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState, type MouseEvent } from 'react'
 
 const links = [
-  { href: '#pour-qui', label: 'Terrain', id: 'pour-qui' },
+  { href: '#pour-qui', label: 'Contextes', id: 'pour-qui' },
   { href: '#services', label: 'Compétences', id: 'services' },
   { href: '#projets', label: 'Projets', id: 'projets' },
   { href: '#methode', label: 'Méthode', id: 'methode' },
