@@ -674,8 +674,11 @@ section { position: relative; z-index: 4; }
   overflow: hidden; background: var(--border);
 }
 .stat-block {
-  padding: 2.8rem 2rem; text-align: center; background: var(--bg);
+  padding: 2.5rem 1.1rem 2.15rem;
+  text-align: center; background: var(--bg);
   position: relative; overflow: hidden;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: .7rem;
   transition: background .3s;
 }
 .stat-block::before {
@@ -686,21 +689,27 @@ section { position: relative; z-index: 4; }
 .stat-block:hover { background: var(--surface); }
 .stat-block:hover::before { opacity: 1; }
 .stat-num {
-  font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; line-height: 1;
+  font-size: clamp(1.85rem, 3.4vw, 3.05rem); font-weight: 900; line-height: 1.05;
   background: linear-gradient(135deg, var(--blue-mid) 0%, var(--blue-bright) 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  margin-bottom: .5rem;
-  max-width: 100%;
-  overflow: visible;
+  margin-bottom: 0;
+  width: 100%;
+  min-height: 1.15em;
+  display: flex; align-items: center; justify-content: center;
 }
-.stat-val { white-space: nowrap; display: inline-block; max-width: 100%; }
-.stat-val--text {
-  font-size: clamp(1.05rem, 2.2vw, 1.85rem);
-  letter-spacing: -.03em;
-  line-height: 1.15;
+.stat-val {
+  white-space: nowrap; display: inline-block;
+  font-size: 1em; letter-spacing: -.02em;
 }
+.stat-val--text { font-size: 1em; }
 .stat-suffix { font-size: .6em; }
-.stat-label { font-size: .75rem; color: var(--text-dim); letter-spacing: 1px; }
+.stat-label {
+  font-size: .7rem;
+  color: var(--text-dim);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  line-height: 1.35;
+}
 
 /* ──────────────────────── FOR WHO ──────────────────────── */
 #pour-qui { padding: 8rem 2rem; background: var(--bg-2); }
@@ -1889,13 +1898,12 @@ footer {
 
   /* Stats */
   .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 1px; border-radius: 14px; }
-  .stat-block { padding: 1.25rem .65rem; text-align: center; }
-  .stat-num { font-size: 2rem; }
-  .stat-val--text { font-size: 1.05rem; letter-spacing: -.04em; }
+  .stat-block { padding: 1.45rem .7rem 1.3rem; gap: .55rem; }
+  .stat-num { font-size: 1.7rem; }
   .stat-label {
-    font-size: .58rem; letter-spacing: 0; line-height: 1.25;
+    font-size: .58rem; letter-spacing: .06em; line-height: 1.3;
     white-space: normal;
-    max-width: 8.5rem; margin-inline: auto;
+    max-width: 9rem; margin-inline: auto;
   }
 
   /* Univers */
