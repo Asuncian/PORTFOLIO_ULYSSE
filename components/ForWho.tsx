@@ -4,27 +4,27 @@ const targets: { icon: ForWhoIconVariant; title: string; desc: string }[] = [
   {
     icon: 'wellness',
     title: 'Luxe & bien-être',
-    desc: 'Sites vitrines multi-activités, parcours clair entre plusieurs offres.',
+    desc: 'Des vitrines qui présentent plusieurs activités sans perdre le visiteur en route.',
   },
   {
     icon: 'artisan',
     title: 'Artisans & terrain',
-    desc: 'Sites avec pages locales, formulaires de contact, visibilité Google.',
+    desc: 'Un site clair, des pages locales, un formulaire pour être contacté facilement, et surtout de la visibilité sur Google.',
   },
   {
     icon: 'local',
     title: 'Services locaux',
-    desc: 'Vitrines orientées demande rapide, zones d\'intervention, contact direct.',
+    desc: 'Des vitrines faites pour être trouvées rapidement par optimisation du référencement, avec prise de contact facile et optimale.',
   },
   {
     icon: 'saas',
     title: 'Produits web & SaaS',
-    desc: 'Apps en ligne, abonnements, exports, parcours utilisateur.',
+    desc: 'Des apps en ligne avec abonnements, exports, fonctionnalités adaptées et un parcours utilisateur intuitif pour simplifier les process.',
   },
   {
     icon: 'sport',
     title: 'Clubs & associations',
-    desc: 'CRM interne, suivi partenaires, relances et facturation centralisés.',
+    desc: 'Des CRM internes pour suivre les partenaires, relancer et facturer, tout dans un seul outil.',
   },
 ]
 
@@ -32,10 +32,10 @@ export default function ForWho() {
   return (
     <section id="pour-qui">
       <div className="section-header reveal">
-        <p className="section-tag">Contextes</p>
-        <h2 className="section-title">Les secteurs de <em>mes projets</em></h2>
+        <p className="section-tag">Secteurs</p>
+        <h2 className="section-title">Mes secteurs d&apos;<em>intervention</em></h2>
         <p className="section-sub">
-          Bien-être, artisans, services locaux, SaaS, sport : des contextes variés, des problèmes concrets.
+          Du bien-être aux artisans, du site vitrine au SaaS avec automatisations de process. Mon objectif reste le même, développer des outils simples qui libèrent du temps au quotidien.
         </p>
       </div>
 

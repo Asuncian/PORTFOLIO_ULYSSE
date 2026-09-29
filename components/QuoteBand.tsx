@@ -28,7 +28,7 @@ export default function QuoteBand() {
     <section id="quote-band" ref={ref}>
       <p className="bridge-lead">Une agence IA qui recrute ?</p>
       <p className="bridge-text">
-        Dev assisté IA, workflows, orga client : si c&apos;est votre quotidien, écrivez-moi ou passez par LinkedIn. Je réponds dès que je peux.
+        Si votre quotidien, c&apos;est le dev assisté par l&apos;IA, les workflows et l&apos;orga client, écrivez-moi, appelez-moi ou passez par LinkedIn. Je réponds dès que je peux.
       </p>
       <div className="bridge-cta">
         <SectionLink sectionId="contact" className="btn-primary">

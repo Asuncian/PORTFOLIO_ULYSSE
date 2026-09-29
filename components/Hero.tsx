@@ -78,7 +78,7 @@ export default function Hero() {
       <p className="hero-role h-role">{SITE_ROLE}</p>
 
       <p className="hero-sub h-sub">
-        Je construis des automatisations, des apps web et des intégrations IA. n8n, Make, React, Python - du script au déploiement.
+        Je construis des automatisations, des apps et des intégrations IA. L&apos;idée, c&apos;est de faire des outils concrets qui allègent vraiment le quotidien.
       </p>
 
       <div className="hero-actions">

@@ -6,14 +6,38 @@ import { useCanRender3D } from './useCanRender3D'
 const ServicesFlow3D = lazy(() => import('./ServicesFlow3D'))
 
 const items = [
-  { title: 'Workflows n8n/Make', desc: 'Synchronisation entre outils, déclencheurs et scénarios automatisés.' },
-  { title: 'Centralisation de données', desc: 'API, bases et fichiers rassemblés au même endroit.' },
-  { title: "Emails automatiques", desc: 'Confirmations, rappels et relances sans intervention manuelle.' },
-  { title: 'CRM et outils métier', desc: 'Apps internes adaptées au fonctionnement de l\'équipe.' },
-  { title: 'Sites et apps React/Next.js', desc: 'Interfaces claires, performantes et responsive.' },
-  { title: 'Formulaires et webhooks', desc: 'Collecte de données et connexion aux services tiers.' },
-  { title: 'Intégrations LLM / agents IA', desc: 'Automatisation de tâches répétitives via LLM et API.' },
-  { title: 'Déploiement Docker, VPS', desc: 'Mise en production, HTTPS et monitoring basique.' },
+  {
+    title: 'Workflows n8n/Make',
+    desc: 'Synchronisation, génération de posts et de visuels sur les réseaux. Des scénarios en production, sans devoir y toucher tous les jours.',
+  },
+  {
+    title: 'Centralisation de données',
+    desc: 'Airtable, Supabase, Drive, CRM. Pour tout centraliser au même endroit, et ne plus perdre d\'information.',
+  },
+  {
+    title: 'Emails et relances',
+    desc: 'Bienvenue, rappels, relances prospects, mails adhérents. Des séquences qui partent en autonomie, au bon moment.',
+  },
+  {
+    title: 'CRM et outils métier',
+    desc: 'Apps internes pour suivre les partenaires, facturer et notifier. Pensées et organisées pour le quotidien des équipes.',
+  },
+  {
+    title: 'Sites vitrines et apps web',
+    desc: 'React, Next.js, Vite, Node.js, Django... Des vitrines claires pour convertir, et des applis fonctionnelles, le tout en production.',
+  },
+  {
+    title: 'Formulaires et webhooks',
+    desc: 'Collecte des infos et envoi automatique vers les bons outils. Une demande arrive, le process démarre.',
+  },
+  {
+    title: 'Agents IA et LLM',
+    desc: 'Posts, visuels, skills Claude, chaînes d\'agents. L\'IA branchée sur les process qui en ont besoin, avec des garde-fous simples pour garder la main.',
+  },
+  {
+    title: 'Déploiement Docker et VPS',
+    desc: 'Mise en production, HTTPS, monitoring basique. Du code sécurisé qui tourne proprement.',
+  },
 ]
 
 export default function Services() {
@@ -59,7 +83,7 @@ export default function Services() {
         <p className="section-tag">Compétences</p>
         <h2 className="section-title">Ce que je <em>maîtrise</em></h2>
         <p className="section-sub">
-          Automatisation, dev web, intégrations et mise en prod : ce que je fais au quotidien.
+          Automatisations, sites vitrines, apps fonctionnelles, intégrations et mise en production : ce que je fais au quotidien.
         </p>
       </div>
 

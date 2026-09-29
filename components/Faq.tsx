@@ -7,7 +7,7 @@ export default function Faq() {
         <p className="section-tag">Questions fréquentes</p>
         <h2 className="section-title">Questions <em>fréquentes</em></h2>
         <p className="section-sub">
-          Stack, choix techniques, IA en prod : ce qu&apos;on me demande avant un premier échange.
+          Avant qu&apos;on échange, voilà les questions qui reviennent le plus.
         </p>
       </div>
 

@@ -16,7 +16,7 @@ export const SITE_REGION = 'Reims'
 export const SITE_GEO_REGION = 'FR-GES'
 
 /** Disponibilité affichée une fois sur le site (contact, FAQ, stats). */
-export const SITE_AVAILABILITY = 'fin octobre 2026'
+export const SITE_AVAILABILITY = 'début novembre 2026'
 
 /** Google Search Console : balise meta de vérification du domaine. */
 export const GOOGLE_SITE_VERIFICATION =
@@ -101,25 +101,25 @@ export const SITE_FAQ = [
   {
     question: 'Comment vous enchaînez workflows et code sur un projet ?',
     answer:
-      'En pratique, je commence par ce qui fait gagner du temps tout de suite : un workflow n8n ou Make pour les relances, les synchros Supabase ou Airtable, les emails planifiés. Dès qu\'il faut une vraie interface ou un outil sur mesure, je bascule sur React, Next.js ou une petite API (Hono, Prisma…). Je m\'adapte à la stack du projet — l\'objectif est de fluidifier l\'organisation, sans empiler d\'outils inutiles.',
+      'Je commence toujours par identifier le besoin. Ensuite je travaille par lots, je découpe en user stories pour repérer les quick wins et ce qui prendra plus de temps. Les workflows servent à automatiser les process répétitifs, les sites et apps à donner une interface claire. L\'idée, c\'est de comprendre le besoin et d\'adapter la solution, automatiser ce qui peut l\'être et doit l\'être.',
   },
   {
-    question: 'Vous avez déjà branché des LLM ou des agents sur des processus réels ?',
+    question: 'Vous avez déjà mis de l\'IA en production ?',
     answer:
-      'Oui, en production. Des chaînes d\'agents n8n pour générer posts et visuels (GPT Image, Airtable, Drive), des relances CRM, des rapports Gmail automatisés… J\'utilise aussi Claude au quotidien : automatisation de tâches, création de skills, production d\'artefacts utiles au projet. Je mets des garde-fous simples pour garantir la fiabilité en conditions réelles.',
+      'Oui, à parts égales entre les chaînes n8n et Claude au quotidien. Côté n8n, je branche l\'IA dans des CRM pour garder la main sur l\'activation et les paramètres. Côté Claude, skills et planifications de tâches, avec une approbation humaine pour les actions dangereuses. L\'idée, c\'est que ça tourne tout en gardant le contrôle.',
   },
   {
-    question: 'Quel type de mission vous intéresse dans une agence IA ?',
+    question: 'Qu\'est-ce que vous livrez concrètement ?',
     answer:
-      'Les pipelines d\'automatisation, les sites vitrine, les dashboards, les CRM sur mesure — et tout ce qui touche à Claude : workflows, skills, création d\'artefacts, intégration dans le quotidien de développement. Ce qui m\'attire, c\'est de construire des solutions concrètes et opérationnelles, avec ou sans IA selon le besoin.',
+      'Des pipelines d\'automatisation, des sites vitrine, des dashboards, des CRM, et aussi du Claude (skills, artefacts) quand ça a du sens. Des outils concrets qui tournent, avec ou sans IA selon le besoin.',
   },
   {
-    question: 'Remote, hybride ou sur site ?',
+    question: 'Vous travaillez en remote ?',
     answer:
-      'Le full remote est ma préférence. Hybride si l\'équipe le souhaite. Basé à Reims, je peux me déplacer sur Paris lorsque le contexte le justifie.',
+      'Full remote de préférence, hybride sur Reims, Paris et alentours. Je suis basé à Reims et ouvert aux déplacements ponctuels partout en France.',
   },
   {
     question: 'Quand êtes-vous disponible ?',
-    answer: 'À partir de fin octobre 2026.',
+    answer: 'À partir de début novembre 2026.',
   },
 ] as const

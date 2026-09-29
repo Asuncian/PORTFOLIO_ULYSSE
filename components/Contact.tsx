@@ -113,7 +113,7 @@ export default function Contact() {
           <p className="section-tag">Contact</p>
           <h2 className="section-title">On se <em>parle ?</em></h2>
           <p className="section-sub">
-            Recruteurs, équipes tech : un message suffit. Je réponds vite.
+            Un message, un appel ou LinkedIn. Je réponds dès que je peux.
           </p>
         </div>
 
@@ -139,15 +139,15 @@ export default function Contact() {
 
         <p className="contact-status">
           <span className="contact-status-dot" aria-hidden="true" />
-          <span className="contact-status-full">Disponible à partir de {SITE_AVAILABILITY}. Remote, basé sur Reims.</span>
-          <span className="contact-status-short">Dispo. {SITE_AVAILABILITY} · Reims</span>
+          <span className="contact-status-full">Disponible à partir de {SITE_AVAILABILITY}. Full remote de préférence, hybride sur Reims, Paris et alentours. Ouvert aux déplacements ponctuels partout en France.</span>
+          <span className="contact-status-short">Dispo. {SITE_AVAILABILITY} · Reims / Paris</span>
         </p>
 
         <div className="contact-form-block">
           <div className="contact-form-header">
             <p className="contact-form-tag">Contact</p>
-            <h3 className="contact-form-title">Envoyez un message</h3>
-            <p className="contact-form-sub">Présentez le poste ou posez votre question.</p>
+            <h3 className="contact-form-title">Écrivez-moi</h3>
+            <p className="contact-form-sub">Dites-moi qui vous êtes et ce dont vous avez besoin.</p>
           </div>
 
         <form ref={formRef} className="contact-form" onSubmit={onSubmit} noValidate>
@@ -211,8 +211,7 @@ export default function Contact() {
               disabled={status === 'sending'}
             />
             <span>
-              Vous acceptez que votre nom, votre email et votre message soient utilisés pour que
-              je puisse vous répondre. C&apos;est expliqué sur la{' '}
+              Je peux utiliser votre nom, votre email et votre message pour vous répondre. Les détails sont sur la{' '}
               <Link href="/politique-confidentialite" target="_blank" rel="noopener noreferrer">
                 page confidentialité
               </Link>
@@ -225,7 +224,7 @@ export default function Contact() {
           )}
           {status === 'sent' && (
             <p className="form-feedback form-feedback-ok" role="status">
-              Message envoyé. Je vous réponds dès que je peux.
+              Message reçu. Je vous réponds dès que je peux.
             </p>
           )}
 

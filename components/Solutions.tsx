@@ -55,29 +55,29 @@ const cols = [
     title: 'Automatisation',
     items: [
       'Workflows n8n et Make',
-      'Emails et relances automatisées',
-      'Sync calendriers, CRM, bases',
-      'Agents IA et tâches répétitives',
+      'Synchronisation CRM, Drive et bases',
+      'Emails, relances et publications',
+      'Agents IA sur les tâches répétitives',
     ],
   },
   {
     Icon: CodeIcon,
     title: 'Développement web',
     items: [
-      'React, Next.js, TypeScript',
-      'Backends Python/Django, API REST',
-      'Formulaires, auth, intégrations tierces',
-      'Perf, accessibilité, responsive',
+      'Sites vitrines et apps React / Next.js',
+      'Backends Python, Django et API',
+      'Formulaires, auth et connexions outils',
+      'Interfaces claires, responsive, en prod',
     ],
   },
   {
     Icon: ServerIcon,
     title: 'Infrastructure',
     items: [
-      'Docker, VPS, Dokploy',
-      'HTTPS, DNS, sauvegardes',
-      'CI/CD et déploiements',
-      'Correctifs sécurité et monitoring',
+      'Docker, VPS et Dokploy',
+      'HTTPS, DNS et sauvegardes',
+      'Déploiements et CI/CD',
+      'Sécurité et monitoring au quotidien',
     ],
   },
 ]
@@ -89,7 +89,7 @@ export default function Solutions() {
         <p className="section-tag">Expertise</p>
         <h2 className="section-title">Trois <em>domaines</em></h2>
         <p className="section-sub">
-          Trois domaines où j&apos;interviens le plus, de l&apos;idée au serveur.
+          Trois domaines où j&apos;interviens le plus, de l&apos;idée jusqu&apos;au serveur.
         </p>
       </div>
 

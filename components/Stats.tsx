@@ -7,10 +7,10 @@ type TextStat = { kind: 'text'; text: string; label: string }
 type Stat = CounterStat | TextStat
 
 const STATS: Stat[] = [
-  { kind: 'counter', value: 100, suffix: '%', label: 'Projets en prod' },
+  { kind: 'counter', value: 100, suffix: '%', label: 'Adaptable' },
   { kind: 'counter', value: 15, suffix: '+', label: 'Technologies' },
   { kind: 'counter', value: 2, suffix: ' ans+', label: 'Expérience terrain' },
-  { kind: 'text', text: 'Oct. 2026', label: 'Disponibilité' },
+  { kind: 'text', text: 'Nov. 2026', label: 'Disponibilité' },
 ]
 
 export default function Stats() {
