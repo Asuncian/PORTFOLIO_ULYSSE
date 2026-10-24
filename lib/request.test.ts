@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { isSameSiteRequest } from '@/lib/request'
+import { getClientIp, isSameSiteRequest } from '@/lib/request'
 
 function mockRequest(headers: Record<string, string>) {
   return {
@@ -8,6 +8,19 @@ function mockRequest(headers: Record<string, string>) {
     },
   } as Parameters<typeof isSameSiteRequest>[0]
 }
+
+describe('getClientIp', () => {
+  it("ignore les IP ajoutées par le client et garde celle du proxy", () => {
+    expect(
+      getClientIp(mockRequest({ 'x-forwarded-for': '1.2.3.4, 203.0.113.9' }) as never),
+    ).toBe('203.0.113.9')
+  })
+
+  it('se rabat sur X-Real-IP puis sur unknown', () => {
+    expect(getClientIp(mockRequest({ 'x-real-ip': '198.51.100.7' }) as never)).toBe('198.51.100.7')
+    expect(getClientIp(mockRequest({}) as never)).toBe('unknown')
+  })
+})
 
 describe('isSameSiteRequest', () => {
   const siteUrl = 'https://ulysse-goming-jobert.dev'

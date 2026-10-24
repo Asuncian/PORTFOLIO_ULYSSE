@@ -1,4 +1,3 @@
-import dynamic from 'next/dynamic'
 import Nav        from '@/components/Nav'
 import Hero       from '@/components/Hero'
 import Stats      from '@/components/Stats'
@@ -12,11 +11,7 @@ import Faq        from '@/components/Faq'
 import Contact    from '@/components/Contact'
 import Footer     from '@/components/Footer'
 import ScrollAnimator from '@/components/ScrollAnimator'
-
-// Three.js loads only after browser idle - avoids blocking first paint
-const DeferredBackground = dynamic(() => import('@/components/DeferredBackground'), { ssr: false })
-const Cursor             = dynamic(() => import('@/components/Cursor'),          { ssr: false })
-const TechCarousel       = dynamic(() => import('@/components/TechCarousel'),    { ssr: false })
+import { Cursor, DeferredBackground, TechCarousel } from '@/components/ClientOnly'
 
 export default function Home() {
   return (

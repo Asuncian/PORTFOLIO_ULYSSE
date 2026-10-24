@@ -1,4 +1,4 @@
-import nodemailer, { type Transporter } from 'nodemailer'
+import nodemailer, { type Transporter, type TransportOptions } from 'nodemailer'
 import { isValidEmail } from '@/lib/sanitize'
 
 let cachedTransporter: Transporter | null | undefined
@@ -63,7 +63,7 @@ function buildTransporter(): Transporter | null {
       greetingTimeout: 10000,
       socketTimeout: 20000,
       pool: false,
-    } as nodemailer.TransportOptions)
+    } as TransportOptions)
   }
 
   const isSecure = portRaw === '465'
@@ -78,7 +78,7 @@ function buildTransporter(): Transporter | null {
     greetingTimeout: 10000,
     socketTimeout: 15000,
     pool: false,
-  } as nodemailer.TransportOptions)
+  } as TransportOptions)
 }
 
 export function getTransporter(): Transporter | null {

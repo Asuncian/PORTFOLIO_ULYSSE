@@ -24,9 +24,15 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  const contentType = req.headers.get('content-type') ?? ''
-  if (!contentType.includes('application/json')) {
+  const contentType = (req.headers.get('content-type') ?? '').split(';')[0].trim().toLowerCase()
+  if (contentType !== 'application/json') {
     return NextResponse.json({ error: 'Requête invalide.' }, { status: 415 })
+  }
+
+  // Reject oversized bodies before reading them into memory.
+  const declaredLength = Number(req.headers.get('content-length') ?? 0)
+  if (declaredLength > CONTACT_LIMITS.bodyMaxBytes) {
+    return NextResponse.json({ error: 'Requête trop volumineuse.' }, { status: 413 })
   }
 
   let body: unknown

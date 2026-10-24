@@ -11,7 +11,7 @@ import { gsap, ScrollTrigger } from '@/lib/gsap'
  * The curve is built from the real on-screen positions of `.flow-node`, so the
  * line always passes exactly through the cards, and rebuilds on resize.
  */
-export default function ServicesFlow3D({ hostRef }: { hostRef: RefObject<HTMLDivElement> }) {
+export default function ServicesFlow3D({ hostRef }: { hostRef: RefObject<HTMLDivElement | null> }) {
   useEffect(() => {
     const host = hostRef.current
     if (!host) return

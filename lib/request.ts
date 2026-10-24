@@ -1,12 +1,13 @@
 import type { NextRequest } from 'next/server'
 
-/** Best-effort client IP behind reverse proxies (Netlify, Vercel, etc.). */
+/**
+ * Client IP behind the reverse proxy (Traefik). The proxy appends the real peer
+ * address at the END of X-Forwarded-For; earlier entries come from the client
+ * and can be spoofed, so only the rightmost one is trusted.
+ */
 export function getClientIp(req: NextRequest): string {
-  return (
-    req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-    req.headers.get('x-real-ip') ||
-    'unknown'
-  )
+  const forwarded = req.headers.get('x-forwarded-for')?.split(',').map(s => s.trim()).filter(Boolean)
+  return forwarded?.at(-1) || req.headers.get('x-real-ip') || 'unknown'
 }
 
 /** Bloque les requêtes cross-site lorsque Origin/Referer est présent et ne correspond pas au site. */
