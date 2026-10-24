@@ -5,6 +5,5 @@ export default function robots(): MetadataRoute.Robots {
   return {
     rules: { userAgent: '*', allow: '/' },
     sitemap: `${SITE_URL}/sitemap.xml`,
-    host: new URL(SITE_URL).host,
   }
 }

@@ -27,7 +27,7 @@ const schema = {
       inLanguage: 'fr-FR',
       isPartOf: { '@id': websiteId },
       about: { '@id': personId },
-      primaryImageOfPage: { '@type': 'ImageObject', url: `${SITE_URL}/icon-512.png` },
+      primaryImageOfPage: { '@type': 'ImageObject', url: `${SITE_URL}/og-image.png` },
     },
     {
       '@type': 'WebSite',

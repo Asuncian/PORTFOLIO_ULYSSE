@@ -10,23 +10,23 @@ export default function Hero() {
   const planeRef = useRef<HTMLDivElement>(null)
   const titleRef = useRef<HTMLHeadingElement>(null)
 
-  // Intro timeline
+  // Intro timeline - kept short, and the intro paragraph only slides (never hidden)
+  // so the server-rendered text stays visible for the first paint / LCP.
   useEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
-        delay: 0.2,
         onComplete: () => gsap.set('.h-word', { clearProps: 'clipPath,y' }),
       })
       tl.from('.h-word', {
           clipPath: 'inset(0 0 110% 0)',
           y: 42,
-          duration: 1.2,
-          stagger: 0.18,
+          duration: 0.8,
+          stagger: 0.1,
           ease: 'power4.out',
         })
-        .from('.h-role', { opacity: 0, y: 14, duration: .8, ease: 'power2.out' }, '-=0.55')
-        .from('.h-sub', { opacity: 0, y: 18, duration: .9, ease: 'power2.out' }, '-=0.5')
-        .from('.h-btn', { opacity: 0, y: 14, scale: .95, duration: .7, stagger: .12, ease: 'back.out(1.8)' }, '-=0.5')
+        .from('.h-role', { opacity: 0, y: 14, duration: .5, ease: 'power2.out' }, 0.2)
+        .from('.h-sub', { y: 12, duration: .6, ease: 'power2.out' }, 0.2)
+        .from('.h-btn', { opacity: 0, y: 12, scale: .95, duration: .5, stagger: .08, ease: 'back.out(1.8)' }, 0.35)
     }, ref)
     return () => ctx.revert()
   }, [])

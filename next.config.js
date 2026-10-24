@@ -2,6 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   compress: true,
+  poweredByHeader: false,
   output: 'standalone',
 
   // Serve next/image as WebP/AVIF automatically

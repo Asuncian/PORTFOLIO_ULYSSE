@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "icons": "node scripts/gen-favicon.mjs",
+    "og": "node scripts/gen-og.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",

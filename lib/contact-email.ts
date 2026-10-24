@@ -34,10 +34,10 @@ export function buildContactNotificationEmail({ name, email, message }: ContactF
   <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#010108;padding:32px 16px;">
     <tr>
       <td align="center">
-        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:520px;background:linear-gradient(165deg,#0a1028 0%,#040612 100%);border:1px solid rgba(77,136,255,.18);border-radius:16px;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:520px;background:linear-gradient(165deg,#0a1028 0%,#040612 100%);border:1px solid rgba(58,111,224,.18);border-radius:16px;">
           <tr>
-            <td style="padding:28px 28px 20px;border-bottom:1px solid rgba(77,136,255,.12);">
-              <p style="margin:0 0 6px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#4d88ff;font-weight:600;">Portfolio · Contact</p>
+            <td style="padding:28px 28px 20px;border-bottom:1px solid rgba(58,111,224,.12);">
+              <p style="margin:0 0 6px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#3a6fe0;font-weight:600;">Portfolio · Contact</p>
               <h1 style="margin:0;font-size:20px;font-weight:700;color:#f0f4fc;line-height:1.3;">Nouveau message</h1>
             </td>
           </tr>
@@ -46,10 +46,10 @@ export function buildContactNotificationEmail({ name, email, message }: ContactF
               <p style="margin:0 0 18px;font-size:14px;line-height:1.6;color:rgba(200,216,240,.75);">
                 <span style="color:rgba(200,216,240,.45);">De</span><br>
                 <strong style="color:#eef4ff;">${safeName}</strong><br>
-                <a href="mailto:${safeEmail}" style="color:#4d88ff;text-decoration:none;">${safeEmail}</a>
+                <a href="mailto:${safeEmail}" style="color:#3a6fe0;text-decoration:none;">${safeEmail}</a>
               </p>
               <p style="margin:0 0 8px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(147,197,253,.65);">Message</p>
-              <div style="padding:16px 18px;border-radius:12px;background:rgba(22,80,240,.06);border:1px solid rgba(77,136,255,.14);font-size:14px;line-height:1.75;color:rgba(215,225,245,.88);word-break:break-word;overflow-wrap:anywhere;">
+              <div style="padding:16px 18px;border-radius:12px;background:rgba(2,52,149,.06);border:1px solid rgba(58,111,224,.14);font-size:14px;line-height:1.75;color:rgba(215,225,245,.88);word-break:break-word;overflow-wrap:anywhere;">
                 ${safeMessage}
               </div>
             </td>

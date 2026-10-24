@@ -38,8 +38,9 @@ export default function Stats() {
 
             const target = +(numEl.dataset.target ?? 0)
             const suffix = numEl.dataset.suffix ?? ''
+            // The real value is server-rendered for crawlers; restart from 0 only for the animation.
             const counter = { v: 0 }
-            counter.v = 0
+            numEl.textContent = '0' + suffix
             gsap.to(counter, {
               v: target,
               duration: 1.8,
@@ -70,7 +71,7 @@ export default function Stats() {
                     data-target={s.value}
                     data-suffix={s.suffix}
                   >
-                    0{s.suffix}
+                    {s.value}{s.suffix}
                   </span>
                 ) : (
                   <span className="stat-val stat-val--text" data-kind="text" data-text={s.text}>

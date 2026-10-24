@@ -124,7 +124,7 @@ export default function Background3D() {
     const nebGeo = new THREE.BufferGeometry()
     nebGeo.setAttribute('position', new THREE.BufferAttribute(nebPos, 3))
     const nebMat = new THREE.PointsMaterial({
-      size: 22, color: 0x0a30cc,
+      size: 22, color: 0x023495,
       transparent: true, opacity: 0.025,
       sizeAttenuation: true,
       depthWrite: false, blending: THREE.AdditiveBlending,

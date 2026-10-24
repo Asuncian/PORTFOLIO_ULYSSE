@@ -38,8 +38,8 @@ export default function ServicesFlow3D({ hostRef }: { hostRef: RefObject<HTMLDiv
         uDraw:  { value: 0 },
         uAlpha: { value: alpha },
         uTime:  { value: 0 },
-        uColA:  { value: new THREE.Color(0x0a2eb8) },
-        uColB:  { value: new THREE.Color(0x4d88ff) },
+        uColA:  { value: new THREE.Color(0x01246b) },
+        uColB:  { value: new THREE.Color(0x3a6fe0) },
       },
       vertexShader: `
         varying vec2 vUv;
@@ -104,7 +104,7 @@ export default function ServicesFlow3D({ hostRef }: { hostRef: RefObject<HTMLDiv
     const glowMat = makeMat(0.5)
     // Faint full-length track so the path ahead is hinted at
     const trackMat = new THREE.MeshBasicMaterial({
-      color: 0x4d88ff, transparent: true, opacity: 0.08, side: THREE.DoubleSide,
+      color: 0x3a6fe0, transparent: true, opacity: 0.08, side: THREE.DoubleSide,
       depthWrite: false, blending: THREE.AdditiveBlending,
     })
 
@@ -135,8 +135,8 @@ export default function ServicesFlow3D({ hostRef }: { hostRef: RefObject<HTMLDiv
       grad.addColorStop(0, 'rgba(255,255,255,1)')
       grad.addColorStop(0.15, 'rgba(240,248,255,0.95)')
       grad.addColorStop(0.35, 'rgba(147,197,253,0.55)')
-      grad.addColorStop(0.6, 'rgba(77,136,255,0.18)')
-      grad.addColorStop(1, 'rgba(22,80,240,0)')
+      grad.addColorStop(0.6, 'rgba(58,111,224,0.18)')
+      grad.addColorStop(1, 'rgba(2,52,149,0)')
       hg.globalCompositeOperation = 'source-over'
       hg.fillStyle = grad
       hg.fillRect(0, 0, SIZE, SIZE)
@@ -181,8 +181,8 @@ export default function ServicesFlow3D({ hostRef }: { hostRef: RefObject<HTMLDiv
       const grad = g.createRadialGradient(cx, cx, 0, cx, cx, cx * 0.85)
       grad.addColorStop(0, 'rgba(255,255,255,0.75)')
       grad.addColorStop(0.25, 'rgba(200,225,255,0.45)')
-      grad.addColorStop(0.55, 'rgba(77,136,255,0.15)')
-      grad.addColorStop(1, 'rgba(22,80,240,0)')
+      grad.addColorStop(0.55, 'rgba(58,111,224,0.15)')
+      grad.addColorStop(1, 'rgba(2,52,149,0)')
       g.fillStyle = grad
       g.fillRect(0, 0, SIZE, SIZE)
       const tex = new THREE.CanvasTexture(c)
